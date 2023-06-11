@@ -6,24 +6,16 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 import axios from 'axios';
 
-import { SafeUser } from '@/src/types';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 import Button from '../Button';
 import validateDNI from '@/src/helpers/validateDNI';
 
-interface SignupFormProps {
-  currentUser: SafeUser | null;
-}
-
-const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
+const SignupForm = () => {
   const router = useRouter();
-
-  if (currentUser) {
-    router.replace('/');
-  }
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -75,7 +67,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <Heading title="Bienvenido" subtitle="Crea una cuenta para continuar" />
       <Input
         id="name"
@@ -117,12 +109,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
       />
       <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
         <div>¿Ya tienes una cuenta?</div>
-        <div
-          onClick={() => router.push('/login')}
+        <Link
+          href="/login"
           className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
         >
           Inicia sesión
-        </div>
+        </Link>
       </div>
     </div>
   );

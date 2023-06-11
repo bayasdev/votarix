@@ -7,22 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
-import { SafeUser } from '@/src/types';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 import Button from '../Button';
 
-interface LoginFormProps {
-  currentUser: SafeUser | null;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
+const LoginForm = () => {
   const router = useRouter();
-
-  if (currentUser) {
-    router.replace('/');
-  }
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <Heading title="Bienvenido de nuevo" subtitle="Ingresa en tu cuenta" />
       <Input
         id="email"
@@ -94,12 +86,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
       />
       <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
         <div>¿No tienes una cuenta?</div>
-        <div
-          onClick={() => router.push('/signup')}
+        <Link
+          href="/signup"
           className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
         >
           Regístrate
-        </div>
+        </Link>
       </div>
     </div>
   );
