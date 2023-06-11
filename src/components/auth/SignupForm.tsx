@@ -68,23 +68,26 @@ const SignupForm = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <Heading title="Bienvenido" subtitle="Crea una cuenta para continuar" />
-      <Input
-        id="name"
-        label="Nombre"
-        placeholder="Juan Pérez"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-      />
-      <Input
-        id="document"
-        label="Número de cédula"
-        placeholder="1700000000"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-      />
+      <Heading title="Empezemos" subtitle="Crea una cuenta para continuar" />
+      <div className="grid gap-2 md:grid-cols-2">
+        <Input
+          id="name"
+          label="Nombre"
+          placeholder="Juan Pérez"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          id="document"
+          label="Número de cédula"
+          placeholder="1700000000"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+      </div>
+
       <Input
         id="email"
         label="Correo electrónico"
