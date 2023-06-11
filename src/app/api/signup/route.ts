@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 
 import prisma from '@/src/lib/prisma';
+import validateDNI from '@/src/helpers/validateDNI';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -10,6 +11,13 @@ export async function POST(request: Request) {
   if (!email || !name || !document || !password) {
     return NextResponse.json(
       { error: 'Complete todos los campos' },
+      { status: 400 },
+    );
+  }
+
+  if (!validateDNI(document)) {
+    return NextResponse.json(
+      { error: 'El número de cédula ingresado no es válido' },
       { status: 400 },
     );
   }
@@ -33,5 +41,5 @@ export async function POST(request: Request) {
     data: { email, name, document, hashedPassword },
   });
 
-  return NextResponse.json(user);
+  return NextResponse.json({ msg: 'Cuenta creada correctamente' });
 }
