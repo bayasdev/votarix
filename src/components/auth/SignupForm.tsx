@@ -60,7 +60,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
       .post('/api/signup', data)
       .then((response) => {
         toast.success(response?.data?.msg);
-        router.push('/auth/login');
+        router.push('/login');
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);
@@ -118,7 +118,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
       <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
         <div>¿Ya tienes una cuenta?</div>
         <div
-          onClick={() => router.push('/auth/login')}
+          onClick={() => router.push('/login')}
           className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
         >
           Inicia sesión

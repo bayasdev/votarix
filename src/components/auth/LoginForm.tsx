@@ -95,7 +95,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
       <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
         <div>¿No tienes una cuenta?</div>
         <div
-          onClick={() => router.push('/auth/signup')}
+          onClick={() => router.push('/signup')}
           className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
         >
           Regístrate
