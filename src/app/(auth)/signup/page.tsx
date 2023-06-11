@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 
 import SignupForm from '@/src/components/auth/SignupForm';
 import getCurrentUser from '../../actions/getCurrentUser';
-import EmptyState from '@/src/components/EmptyState';
 import Heading from '@/src/components/Heading';
 import Link from 'next/link';
 
