@@ -52,7 +52,7 @@ const SignupForm = () => {
       .post('/api/signup', data)
       .then((response) => {
         toast.success(response?.data?.msg);
-        router.replace('/');
+        router.replace('/login');
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);
