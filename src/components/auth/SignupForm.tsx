@@ -60,7 +60,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ currentUser }) => {
       .post('/api/signup', data)
       .then((response) => {
         toast.success(response?.data?.msg);
-        router.push('/login');
+        router.replace('/');
       })
       .catch((error) => {
         toast.error(error?.response?.data?.error);

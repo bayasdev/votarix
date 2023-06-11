@@ -1,12 +1,12 @@
-'use client';
+import Home from '../components/home/Home';
+import getCurrentUser from './actions/getCurrentUser';
 
-import { signOut } from 'next-auth/react';
-
-const HomePage = () => {
+const HomePage = async () => {
+  const currentUser = await getCurrentUser();
   return (
     <div>
       <div>HomePage</div>
-      <button onClick={() => signOut()}>Signout</button>
+      <Home currentUser={currentUser} />
     </div>
   );
 };
