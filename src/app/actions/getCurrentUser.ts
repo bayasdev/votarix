@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { SafeUser } from '../../types';
 import { authOptions } from '../../lib/auth';
 import prisma from '@/src/lib/prisma';
+import { never } from 'zod';
 
 export default async function getCurrentUser(): Promise<SafeUser | null> {
   try {
@@ -26,6 +27,8 @@ export default async function getCurrentUser(): Promise<SafeUser | null> {
       ...currentUser,
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
+      emailVerified: currentUser.emailVerified?.toISOString() || null,
+      hashedPassword: null,
     };
   } catch (error: any) {
     return null;
