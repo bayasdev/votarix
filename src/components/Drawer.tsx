@@ -1,13 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { IoMdClose } from 'react-icons/io';
-import { TbHome2 } from 'react-icons/tb';
 import Image from 'next/image';
+import { IoMdClose, IoMdHome } from 'react-icons/io';
+import { FaUsers, FaUsersCog } from 'react-icons/fa';
+import { MdHowToVote, MdPerson } from 'react-icons/md';
+import { BsFilePerson, BsGearFill } from 'react-icons/bs';
 
-import logo from '@/public/img/logo.svg';
 import Navbar from './Navbar';
 import { SafeUser } from '../types';
+import logo from '@/public/img/logo.svg';
 
 interface DrawerProps {
   currentUser: SafeUser | null;
@@ -29,70 +31,77 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         checked={isOpen}
         readOnly
       />
-      <div className="drawer-content flex min-h-screen flex-col bg-slate-200">
+      {/* content */}
+      <div className="drawer-content flex min-h-screen flex-col bg-gray-100">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
-        <div className="p-4">{children}</div>
+        <div className="p-8">{children}</div>
       </div>
+      {/* sidebar */}
       <div className="drawer-side">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu h-full w-80 gap-2 bg-base-100 py-4">
-          <a
-            className="btn-ghost btn-circle btn ml-auto lg:hidden"
-            onClick={toggleOpen}
-          >
-            <IoMdClose size={20} />
-          </a>
+        <ul className="menu h-full w-80 gap-4 bg-base-100 p-4">
+          {/* logo */}
+          <div className="mb-4 flex justify-between">
+            <Image src={logo} width={100} alt="logo" priority />
+            <a
+              className="btn-ghost btn-circle btn lg:hidden"
+              onClick={toggleOpen}
+            >
+              <IoMdClose size={20} />
+            </a>
+          </div>
+          {/* links */}
           <li>
-            <a>
-              <TbHome2 size={20} />
+            <a className="active">
+              <IoMdHome size={20} />
               Inicio
             </a>
           </li>
           <li>
-            <h2 className="menu-title">Inicio</h2>
+            <h2 className="menu-title">Elecciones</h2>
             <ul>
               <li>
                 <a>
-                  <TbHome2 size={20} />
-                  Item 1
+                  <MdHowToVote size={20} />
+                  Procesos Electorales
                 </a>
               </li>
               <li>
-                <a>Item 2</a>
+                <a>
+                  <FaUsers size={20} />
+                  Partidos Políticos
+                </a>
               </li>
               <li>
-                <a>Item 3</a>
+                <a>
+                  <BsFilePerson size={20} />
+                  Candidatos
+                </a>
+              </li>
+              <li>
+                <a>
+                  <MdPerson size={20} />
+                  Votantes
+                </a>
               </li>
             </ul>
           </li>
           <li>
-            <details open>
-              <summary>Parent</summary>
-              <ul>
-                <li>
-                  <a>level 2 item 1</a>
-                </li>
-                <li>
-                  <a>level 2 item 2</a>
-                </li>
-                <li>
-                  <details open>
-                    <summary>Parent</summary>
-                    <ul>
-                      <li>
-                        <a>level 3 item 1</a>
-                      </li>
-                      <li>
-                        <a>level 3 item 2</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <a>Item 3</a>
+            <h2 className="menu-title">Administración</h2>
+            <ul>
+              <li>
+                <a>
+                  <FaUsersCog size={20} />
+                  Usuarios
+                </a>
+              </li>
+              <li>
+                <a>
+                  <BsGearFill size={20} />
+                  Configuración
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
