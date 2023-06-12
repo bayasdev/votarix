@@ -10,8 +10,8 @@ import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 
 import Input from '../inputs/Input';
-import Heading from '../Heading';
-import Button from '../Button';
+import Heading from '../ui/Heading';
+import Button from '../ui/Button';
 
 const LoginForm = () => {
   const router = useRouter();

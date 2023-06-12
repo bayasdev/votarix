@@ -1,5 +1,5 @@
 import getCurrentUser from '../actions/getCurrentUser';
-import Drawer from '@/src/components/Drawer';
+import Drawer from '@/src/components/dashboard/Drawer';
 
 export default async function DashboardLayout({
   children,

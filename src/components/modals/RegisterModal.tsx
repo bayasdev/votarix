@@ -9,7 +9,7 @@ import axios from 'axios';
 import useRegisterModal from '../../hooks/useRegisterModal';
 
 import Modal from './Modal';
-import Heading from '../Heading';
+import Heading from '../ui/Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';

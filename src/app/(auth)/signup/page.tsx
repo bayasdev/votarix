@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import SignupForm from '@/src/components/auth/SignupForm';
 import getCurrentUser from '../../actions/getCurrentUser';
-import Heading from '@/src/components/Heading';
+import Heading from '@/src/components/ui/Heading';
 import Link from 'next/link';
 
 const SignupPage = async () => {

@@ -10,8 +10,8 @@ import Link from 'next/link';
 import axios from 'axios';
 
 import Input from '../inputs/Input';
-import Heading from '../Heading';
-import Button from '../Button';
+import Heading from '../ui/Heading';
+import Button from '../ui/Button';
 import validateDNI from '@/src/helpers/validateDNI';
 
 const SignupForm = () => {

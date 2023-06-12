@@ -8,7 +8,7 @@ import { MdHowToVote, MdPerson } from 'react-icons/md';
 import { BsFilePerson, BsGearFill } from 'react-icons/bs';
 
 import Navbar from './Navbar';
-import { SafeUser } from '../types';
+import { SafeUser } from '../../types';
 import logo from '@/public/img/logo.svg';
 
 interface DrawerProps {
@@ -24,7 +24,7 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
   };
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer min-h-screen lg:drawer-open">
       <input
         type="checkbox"
         className="drawer-toggle"
@@ -32,21 +32,18 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         readOnly
       />
       {/* content */}
-      <div className="drawer-content flex min-h-screen flex-col bg-gray-100">
+      <div className="drawer-content flex flex-col bg-gray-50">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
         <div className="p-8">{children}</div>
       </div>
       {/* sidebar */}
-      <div className="drawer-side">
+      <div className="drawer-side lg:border-r-[1px]">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu min-h-screen w-80 gap-4 bg-base-100 p-4">
+        <ul className="menu min-h-full w-80 gap-4 bg-base-100 p-4">
           {/* logo */}
           <div className="mb-4 flex justify-between">
             <Image src={logo} width={100} alt="logo" priority />
-            <a
-              className="btn-ghost btn-circle btn lg:hidden"
-              onClick={toggleOpen}
-            >
+            <a className="btn-circle btn lg:hidden" onClick={toggleOpen}>
               <IoMdClose size={20} />
             </a>
           </div>

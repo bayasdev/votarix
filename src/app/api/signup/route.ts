@@ -5,7 +5,7 @@ import prisma from '@/src/lib/prisma';
 import validateDNI from '@/src/helpers/validateDNI';
 
 export async function POST(request: Request) {
-  if(process.env.SIGNUP_ALLOWED !== 'true'){
+  if (process.env.SIGNUP_ALLOWED !== 'true') {
     return NextResponse.json(
       { error: 'Opción deshabilitada' },
       { status: 400 },
