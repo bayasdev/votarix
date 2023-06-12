@@ -2,64 +2,55 @@
 
 import Image from 'next/image';
 import { FaUserCircle } from 'react-icons/fa';
-import logo from '@/public/img/logo.svg';
-import useLoginModal from '../hooks/useLoginModal';
-import useRegisterModal from '../hooks/useRegisterModal';
+import { BiMenuAltLeft } from 'react-icons/bi';
+import { signOut } from 'next-auth/react';
 
-const Navbar = () => {
-  const loginModal = useLoginModal();
-  const registerModal = useRegisterModal();
+import logo from '@/public/img/logo.svg';
+import { SafeUser } from '../types';
+
+interface NavbarProps {
+  currentUser: SafeUser | null;
+  toggleDrawer?: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ currentUser, toggleDrawer }) => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="flex-1">
-        <a className="btn-ghost btn">
-          <Image src={logo} width={120} alt="logo" priority />
-        </a>
+    <div className="navbar bg-base-100 px-4 shadow">
+      <div className="flex-1 gap-2">
+        {toggleDrawer && (
+          <a className="btn-ghost btn lg:hidden">
+            <BiMenuAltLeft size={30} onClick={toggleDrawer} />
+          </a>
+        )}
+        <Image src={logo} width={100} alt="logo" priority />
       </div>
-      <div className="flex-none px-1">
-        <ul className="menu menu-horizontal">
-          <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="bg-base-100 p-2">
+      <div className="flex-none">
+        {currentUser && (
+          <div className="flex items-center gap-2">
+            <div className="hidden normal-case text-neutral-500 md:block">
+              Hola,{' '}
+              <span className="font-semibold text-neutral-800">
+                {currentUser.name}
+              </span>
+            </div>
+            <div className="dropdown-end dropdown">
+              <label tabIndex={0} className="btn-ghost btn-circle btn">
+                <FaUserCircle size={30} />
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu rounded-box menu-sm mt-3 w-52 bg-base-100 p-2 shadow"
+              >
                 <li>
-                  <a>Link 1</a>
+                  <a>Mi Cuenta</a>
                 </li>
                 <li>
-                  <a>Link 2</a>
+                  <a onClick={() => signOut()}>Cerrar sesión</a>
                 </li>
               </ul>
-            </details>
-          </li>
-          <li>
-            <a onClick={() => loginModal.onOpen()}>Login</a>
-          </li>
-          <li>
-            <a onClick={() => registerModal.onOpen()}>Register</a>
-          </li>
-        </ul>
-        <div className="dropdown-end dropdown">
-          <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-            <FaUserCircle size={30} className="text-slate-600" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu rounded-box menu-sm mt-3 w-52 bg-base-100 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
