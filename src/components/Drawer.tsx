@@ -39,7 +39,7 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
       {/* sidebar */}
       <div className="drawer-side">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu h-full w-80 gap-4 bg-base-100 p-4">
+        <ul className="menu min-h-screen w-80 gap-4 bg-base-100 p-4">
           {/* logo */}
           <div className="mb-4 flex justify-between">
             <Image src={logo} width={100} alt="logo" priority />
