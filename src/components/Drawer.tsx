@@ -29,13 +29,13 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         checked={isOpen}
         readOnly
       />
-      <div className="drawer-content flex flex-col">
+      <div className="drawer-content flex min-h-screen flex-col bg-slate-200">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
-        <div className="h-full bg-slate-200 p-4">{children}</div>
+        <div className="p-4">{children}</div>
       </div>
       <div className="drawer-side">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu h-full w-80 gap-4 bg-base-100 py-4">
+        <ul className="menu h-full w-80 gap-2 bg-base-100 py-4">
           <a
             className="btn-ghost btn-circle btn ml-auto lg:hidden"
             onClick={toggleOpen}

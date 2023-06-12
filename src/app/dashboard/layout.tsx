@@ -8,9 +8,5 @@ export default async function DashboardLayout({
 }) {
   const currentUser = await getCurrentUser();
 
-  return (
-    <div>
-      <Drawer currentUser={currentUser}>{children}</Drawer>
-    </div>
-  );
+  return <Drawer currentUser={currentUser}>{children}</Drawer>;
 }
