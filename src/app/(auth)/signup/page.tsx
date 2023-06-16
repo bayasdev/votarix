@@ -1,14 +1,9 @@
-import { redirect } from 'next/navigation';
-
-import SignupForm from '@/src/components/auth/SignupForm';
-import getCurrentUser from '../../actions/getCurrentUser';
-import Heading from '@/src/components/ui/Heading';
 import Link from 'next/link';
 
-const SignupPage = async () => {
-  const currentUser = await getCurrentUser();
-  if (currentUser) redirect('/');
+import SignupForm from '@/src/components/auth/SignupForm';
+import Heading from '@/src/components/ui/Heading';
 
+const SignupPage = () => {
   if (process.env.SIGNUP_ALLOWED !== 'true') {
     return (
       <div className="flex flex-col gap-6">

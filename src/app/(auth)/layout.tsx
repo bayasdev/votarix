@@ -1,12 +1,18 @@
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+
 import logo from '@/public/img/logo.svg';
 import voting from '@/public/img/voting.svg';
+import getCurrentUser from '../actions/getCurrentUser';
 
-interface AuthLayoutProps {
+export default async function AuthLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
+}) {
+  const currentUser = await getCurrentUser();
+  if (currentUser) return redirect('/');
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
     <div className="grid min-h-screen grid-cols-3">
       {/* left */}
@@ -19,12 +25,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         </p>
       </div>
       {/* right */}
-      <div className="col-span-3 flex flex-col justify-center gap-8 bg-base-100 p-10 xl:col-span-1 2xl:px-20">
+      <div className="col-span-3 flex flex-col justify-center gap-8 bg-base-100 p-10 xl:col-span-1 xl:border-l-[1px] 2xl:px-20">
         <Image src={logo} width={120} alt="logo" priority />
         {children}
       </div>
     </div>
   );
-};
-
-export default AuthLayout;
+}
