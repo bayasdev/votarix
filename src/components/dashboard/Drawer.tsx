@@ -37,18 +37,21 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         readOnly
       />
       {/* content */}
-      <div className="drawer-content flex flex-col bg-gray-100">
+      <div className="drawer-content flex flex-col bg-gray-200">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
         <div className="p-8">{children}</div>
       </div>
       {/* sidebar */}
       <div className="drawer-side">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu min-h-full w-80 gap-2 bg-base-100 p-4 lg:p-6">
+        <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4 lg:py-4">
           {/* logo */}
           <div className="mb-4 flex justify-between">
             <Image src={logo} width={100} alt="logo" priority />
-            <a className="btn-circle btn lg:hidden" onClick={toggleOpen}>
+            <a
+              className="btn-ghost btn-circle btn lg:hidden"
+              onClick={toggleOpen}
+            >
               <MdOutlineClose size={20} />
             </a>
           </div>

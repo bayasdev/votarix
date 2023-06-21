@@ -11,9 +11,9 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentUser, toggleDrawer }) => {
   return (
     <div className="navbar bg-base-100 px-4">
-      <div className="flex-1 gap-2">
+      <div className="flex-1">
         {toggleDrawer && (
-          <a className="btn-circle btn lg:hidden">
+          <a className="btn-ghost btn-circle btn lg:hidden">
             <BiMenuAltLeft size={30} onClick={toggleDrawer} />
           </a>
         )}
