@@ -10,7 +10,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser, toggleDrawer }) => {
   return (
-    <div className="navbar px-4">
+    <div className="navbar bg-base-100 px-4">
       <div className="flex-1 gap-2">
         {toggleDrawer && (
           <a className="btn-circle btn lg:hidden">
