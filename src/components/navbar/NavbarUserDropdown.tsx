@@ -4,11 +4,13 @@ import { IoMdLogOut } from 'react-icons/io';
 
 import { SafeUser } from '@/src/types';
 
-interface UserDropdownProps {
+interface NavbarUserDropdownProps {
   currentUser: SafeUser | null;
 }
 
-const UserDropdown: React.FC<UserDropdownProps> = ({ currentUser }) => {
+const NavbarUserDropdown: React.FC<NavbarUserDropdownProps> = ({
+  currentUser,
+}) => {
   return (
     <div className="dropdown-end dropdown">
       <label tabIndex={0} className="placeholder btn-circle avatar btn">
@@ -42,4 +44,4 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ currentUser }) => {
   );
 };
 
-export default UserDropdown;
+export default NavbarUserDropdown;

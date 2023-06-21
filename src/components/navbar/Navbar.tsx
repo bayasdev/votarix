@@ -1,7 +1,7 @@
 import { BiMenuAltLeft } from 'react-icons/bi';
 
 import { SafeUser } from '../../types';
-import UserDropdown from '../ui/UserDropdown';
+import NavbarUserDropdown from './NavbarUserDropdown';
 
 interface NavbarProps {
   currentUser: SafeUser | null;
@@ -19,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, toggleDrawer }) => {
         )}
       </div>
       <div className="flex-none">
-        {currentUser && <UserDropdown currentUser={currentUser} />}
+        {currentUser && <NavbarUserDropdown currentUser={currentUser} />}
       </div>
     </div>
   );
