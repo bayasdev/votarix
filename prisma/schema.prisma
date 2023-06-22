@@ -31,11 +31,11 @@ model Account {
 
 model User {
   id             String    @id @default(cuid())
-  name           String
-  document       String    @unique
-  email          String    @unique
+  name           String?
+  document       String?   @unique
+  email          String?   @unique
   emailVerified  DateTime?
-  hashedPassword String
+  hashedPassword String?
   role           Role      @default(VOTER)
   accounts       Account[]
 

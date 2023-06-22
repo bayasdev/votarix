@@ -84,11 +84,11 @@ const LoginForm = () => {
         label="Iniciar Sesión"
         onClick={handleSubmit(onSubmit)}
       />
-      <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
+      <div className="flex flex-row items-center justify-center gap-2 font-light">
         <div>¿No tienes una cuenta?</div>
         <Link
           href="/signup"
-          className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
+          className="cursor-pointer font-medium decoration-dotted hover:underline"
         >
           Regístrate
         </Link>

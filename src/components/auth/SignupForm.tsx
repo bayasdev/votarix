@@ -110,11 +110,11 @@ const SignupForm = () => {
         label="Crear Cuenta"
         onClick={handleSubmit(onSubmit)}
       />
-      <div className="flex flex-row items-center justify-center gap-2 font-light text-neutral-500">
+      <div className="flex flex-row items-center justify-center gap-2 font-light">
         <div>¿Ya tienes una cuenta?</div>
         <Link
           href="/login"
-          className="cursor-pointer text-neutral-800 decoration-dotted hover:underline"
+          className="cursor-pointer font-medium decoration-dotted hover:underline"
         >
           Inicia sesión
         </Link>

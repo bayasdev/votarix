@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState, Fragment } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import {
   MdOutlineHowToVote,
@@ -12,8 +13,8 @@ import {
   MdOutlineClose,
 } from 'react-icons/md';
 
-import { SafeUser } from '../../types';
 import logo from '@/public/img/logo.svg';
+import { SafeUser } from '../../types';
 import Navbar from '../navbar/Navbar';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerMenuTitle from './DrawerMenuTitle';
@@ -86,22 +87,24 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         readOnly
       />
       {/* content */}
-      <div className="drawer-content flex flex-col bg-gray-200">
+      <div className="drawer-content flex flex-col bg-base-200">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
         <div className="p-8">{children}</div>
       </div>
       {/* sidebar */}
-      <div className="drawer-side">
+      <div className="drawer-side z-20">
         <label className="drawer-overlay" onClick={toggleOpen}></label>
-        <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4 lg:py-4">
+        <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4">
           {/* logo */}
           <div className="mb-4 flex justify-between">
-            <Image src={logo} className="w-28" alt="logo" priority />
+            <Link href="/dashboard" className="btn-ghost btn">
+              <Image src={logo} className="w-28" alt="logo" priority />
+            </Link>
             <a
               className="btn-ghost btn-circle btn lg:hidden"
               onClick={toggleOpen}
             >
-              <MdOutlineClose size={20} />
+              <MdOutlineClose size={24} />
             </a>
           </div>
           {/* links */}

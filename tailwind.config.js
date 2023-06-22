@@ -11,6 +11,13 @@ module.exports = {
   plugins: [require('daisyui')],
   // daisyUI config
   daisyui: {
-    themes: ['light'],
+    themes: [
+      {
+        light: {
+          ...require('daisyui/src/theming/themes')['[data-theme=emerald]'],
+          '--rounded-btn': '1.9rem',
+        },
+      },
+    ],
   },
 };

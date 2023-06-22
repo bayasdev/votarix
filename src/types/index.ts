@@ -3,12 +3,11 @@ import { ValidationRule } from 'react-hook-form';
 
 export type SafeUser = Omit<
   User,
-  'createdAt' | 'updatedAt' | 'emailVerified' | 'hashedPassword'
+  'createdAt' | 'updatedAt' | 'emailVerified'
 > & {
   emailVerified: string | null;
   createdAt: string;
   updatedAt: string;
-  hashedPassword: null;
 };
 
 export type FormValidationSchema = {

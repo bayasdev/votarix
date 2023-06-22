@@ -16,9 +16,9 @@ export default async function AuthLayout({
   return (
     <div className="grid min-h-screen grid-cols-3">
       {/* left */}
-      <div className="col-span-3 hidden flex-col items-center justify-center gap-12 bg-gray-200 text-center xl:col-span-2 xl:flex">
+      <div className="col-span-3 hidden flex-col items-center justify-center gap-12 bg-base-200 text-center xl:col-span-2 xl:flex">
         <Image src={voting} alt="voting" className="w-2/6" priority />
-        <p className="w-3/6 text-lg leading-relaxed text-neutral-800">
+        <p className="w-3/6 text-lg leading-relaxed">
           El sistema de votación electrónica que garantiza{' '}
           <span className="font-semibold">resultados rápidos y confiables</span>{' '}
           en sus procesos electorales.

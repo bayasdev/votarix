@@ -19,7 +19,7 @@ const DrawerMenuItem: React.FC<DrawerMenuItemProps> = ({
   return (
     <li>
       <Link href={path} className={currentPath === path ? 'active' : undefined}>
-        <Icon size={20} />
+        <Icon size={24} />
         {label}
       </Link>
     </li>
