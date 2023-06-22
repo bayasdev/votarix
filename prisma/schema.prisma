@@ -30,14 +30,16 @@ model Account {
 }
 
 model User {
-  id             String    @id @default(cuid())
+  id             String        @id @default(cuid())
   name           String?
-  document       String?   @unique
-  email          String?   @unique
+  document       String?       @unique
+  email          String?       @unique
   emailVerified  DateTime?
   hashedPassword String?
-  role           Role      @default(VOTER)
+  role           Role          @default(VOTER)
   accounts       Account[]
+  ballots        Ballot[]
+  certificates   Certificate[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,4 +48,97 @@ model User {
 enum Role {
   ADMIN
   VOTER
+}
+
+model Election {
+  id           String        @id @default(cuid())
+  name         String
+  description  String
+  startTime    DateTime
+  endTime      DateTime
+  positions    Position[]
+  ballots      Ballot[]
+  certificates Certificate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Position {
+  id         String      @id @default(cuid())
+  name       String
+  election   Election    @relation(fields: [electionId], references: [id])
+  electionId String
+  candidates Candidate[]
+  Ballot     Ballot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Party {
+  id         String      @id @default(cuid())
+  name       String
+  photo      String?
+  candidates Candidate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Candidate {
+  id         String     @id @default(cuid())
+  name       String
+  email      String?
+  document   String?
+  bio        String?
+  photo      String?
+  party      Party      @relation(fields: [partyId], references: [id])
+  partyId    String
+  position   Position   @relation(fields: [positionId], references: [id])
+  positionId String
+  proposals  Proposal[]
+  ballots    Ballot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Proposal {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ballot {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId String
+  position    Position  @relation(fields: [positionId], references: [id])
+  positionId  String
+  election    Election  @relation(fields: [electionId], references: [id])
+  electionId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, positionId, electionId])
+}
+
+model Certificate {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  election   Election @relation(fields: [electionId], references: [id])
+  electionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
