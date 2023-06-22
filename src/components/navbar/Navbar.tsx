@@ -28,7 +28,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, toggleDrawer }) => {
         </Link>
       </div>
       <div className="flex-none gap-1">
-        {currentUser && <NavbarUserDropdown currentUser={currentUser} />}
+        {currentUser && (
+          <NavbarUserDropdown initial={currentUser?.name?.[0] || ''} />
+        )}
       </div>
     </div>
   );
