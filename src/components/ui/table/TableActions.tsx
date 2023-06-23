@@ -1,22 +1,21 @@
-import Link from 'next/link';
 import {
   MdOutlineModeEditOutline,
   MdOutlineDeleteOutline,
 } from 'react-icons/md';
 
 interface TableActionsProps {
-  id: string;
-  model: string;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const TableActions: React.FC<TableActionsProps> = ({ id, model }) => {
+const TableActions: React.FC<TableActionsProps> = ({ onEdit, onDelete }) => {
   return (
     <div className="flex flex-col gap-2 lg:flex-row">
-      <Link href={`/dashboard/${model}/${id}`} className="btn-neutral btn">
+      <button className="btn-neutral btn" onClick={onEdit}>
         <MdOutlineModeEditOutline size={20} />
         Editar
-      </Link>
-      <button className="btn-error btn" onClick={() => {}}>
+      </button>
+      <button className="btn-error btn" onClick={onDelete}>
         <MdOutlineDeleteOutline size={20} />
         Eliminar
       </button>
