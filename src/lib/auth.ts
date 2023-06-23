@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user) {
+        if (!user || !user?.hashedPassword) {
           throw new Error('Credenciales incorrectas');
         }
 
