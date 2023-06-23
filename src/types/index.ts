@@ -1,5 +1,4 @@
-import { User } from '@prisma/client';
-import { ValidationRule } from 'react-hook-form';
+import { Candidate, User } from '@prisma/client';
 
 export type SafeUser = Omit<
   User,
@@ -10,15 +9,7 @@ export type SafeUser = Omit<
   updatedAt: string;
 };
 
-export type FormValidationSchema = {
-  required?: string;
-  minLength?: {
-    value: number;
-    message?: string;
-  };
-  maxLength?: {
-    value: number;
-    message?: string;
-  };
-  pattern?: ValidationRule<RegExp>;
+export type SafeCandidate = Omit<Candidate, 'createdAt' | 'updatedAt'> & {
+  createdAt: string;
+  updatedAt: string;
 };

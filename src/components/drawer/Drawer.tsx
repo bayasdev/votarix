@@ -87,9 +87,9 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         readOnly
       />
       {/* content */}
-      <div className="drawer-content flex flex-col bg-base-200">
+      <div className="drawer-content overflow-x-auto bg-base-200">
         <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
-        <div className="p-8">{children}</div>
+        <div className="px-4 py-8 lg:px-8">{children}</div>
       </div>
       {/* sidebar */}
       <div className="drawer-side z-20">

@@ -16,6 +16,15 @@ async function main() {
   });
 
   console.log({ admin });
+
+  const candidate = await prisma.candidate.create({
+    data: {
+      name: 'Juan Pérez',
+      document: '1799999999',
+      email: 'jperez@ejemplo.com',
+      bio: 'Mi nombre es Juan Pérez y soy tu mejor opción',
+    },
+  });
 }
 main()
   .then(async () => {

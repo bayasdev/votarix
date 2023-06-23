@@ -8,6 +8,7 @@ interface ButtonProps {
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
+  full?: boolean;
   icon?: IconType;
 }
 
@@ -17,6 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   outline,
   small,
+  full,
   icon: Icon,
 }) => {
   return (
@@ -26,12 +28,12 @@ const Button: React.FC<ButtonProps> = ({
       className={`
         btn-primary
         btn
-        w-full
+        ${full ? 'w-full' : undefined}
         ${outline ? 'btn-outline' : undefined}
         ${small ? 'btn-sm' : undefined}
       `}
     >
-      {Icon && <Icon size={24} />}
+      {Icon && <Icon size={20} />}
       {label}
     </button>
   );
