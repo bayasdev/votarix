@@ -27,13 +27,21 @@ const Button: React.FC<ButtonProps> = ({
   circle,
   icon: Icon,
 }) => {
+  const colorVariants = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    neutral: 'btn-neutral',
+    ghost: 'btn-ghost',
+    error: 'btn-error',
+  };
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={`
         btn
-        btn-${color}
+        ${colorVariants[color]}
         ${full ? 'w-full' : undefined}
         ${outline ? 'btn-outline' : undefined}
         ${small ? 'btn-sm' : undefined}
