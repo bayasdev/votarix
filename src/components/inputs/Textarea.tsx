@@ -1,6 +1,7 @@
 'use client';
 
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import clsx from 'clsx';
 
 interface TextareaProps {
   id: string;
@@ -23,6 +24,10 @@ const Textarea: React.FC<TextareaProps> = ({
   required,
   errors,
 }) => {
+  const textareaClasses = clsx('textarea-bordered', 'textarea', {
+    'textarea-error': errors[id],
+  });
+
   return (
     <div className="form-control w-full">
       <label className="label">{label}</label>
@@ -31,11 +36,7 @@ const Textarea: React.FC<TextareaProps> = ({
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
-        className={`
-          textarea-bordered
-          textarea
-          ${errors[id] ? 'textarea-error' : undefined}
-        `}
+        className={textareaClasses}
       />
       {errors[id] && (
         <label className="label">

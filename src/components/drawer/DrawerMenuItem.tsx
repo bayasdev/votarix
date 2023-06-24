@@ -1,8 +1,7 @@
-'use client';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IconType } from 'react-icons';
+import clsx from 'clsx';
 
 interface DrawerMenuItemProps {
   icon: IconType;
@@ -16,9 +15,12 @@ const DrawerMenuItem: React.FC<DrawerMenuItemProps> = ({
   path,
 }) => {
   const currentPath = usePathname();
+
+  const linkClasses = clsx({ active: currentPath === path });
+
   return (
     <li>
-      <Link href={path} className={currentPath === path ? 'active' : undefined}>
+      <Link href={path} className={linkClasses}>
         <Icon size={24} />
         {label}
       </Link>

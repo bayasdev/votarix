@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import { MdOutlineAdd } from 'react-icons/md';
 
 import Card from '../../ui/Card';
 import Input from '../../inputs/Input';
@@ -15,7 +16,7 @@ import MarkdownEditor from '../../inputs/MarkdownEditor';
 import validateDni from '@/src/lib/validateDni';
 import Select from '../../inputs/Select';
 
-const NewCandidate = () => {
+const CreateCandidate = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -130,6 +131,7 @@ const NewCandidate = () => {
   const actionsContent = (
     <Button
       label="Crear candidato"
+      icon={MdOutlineAdd}
       onClick={handleSubmit(onSubmit)}
       disabled={isLoading}
     />
@@ -138,4 +140,4 @@ const NewCandidate = () => {
   return <Card bodyContent={bodyContent} actionsContent={actionsContent} />;
 };
 
-export default NewCandidate;
+export default CreateCandidate;

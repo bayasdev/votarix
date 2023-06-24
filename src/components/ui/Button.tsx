@@ -1,10 +1,12 @@
 'use client';
 
 import { IconType } from 'react-icons';
+import clsx from 'clsx';
 
 interface ButtonProps {
   label?: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
@@ -13,11 +15,13 @@ interface ButtonProps {
   color?: 'primary' | 'secondary' | 'neutral' | 'ghost' | 'error';
   circle?: boolean;
   icon?: IconType;
+  iconSize?: number;
 }
 
 const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
+  className,
   disabled,
   outline,
   small,
@@ -26,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   color = 'primary',
   circle,
   icon: Icon,
+  iconSize = 20,
 }) => {
   const colorVariants = {
     primary: 'btn-primary',
@@ -35,21 +40,20 @@ const Button: React.FC<ButtonProps> = ({
     error: 'btn-error',
   };
 
+  const buttonClasses = clsx(
+    'btn',
+    colorVariants[color],
+    { 'w-full': full },
+    { 'btn-outline': outline },
+    { 'btn-sm': small },
+    { 'btn-circle': circle },
+    { 'flex-row-reverse': reverse },
+    className,
+  );
+
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-        btn
-        ${colorVariants[color]}
-        ${full ? 'w-full' : undefined}
-        ${outline ? 'btn-outline' : undefined}
-        ${small ? 'btn-sm' : undefined}
-        ${circle ? 'btn-circle' : undefined}
-        ${reverse ? 'flex-row-reverse' : undefined}
-      `}
-    >
-      {Icon && <Icon size={20} />}
+    <button onClick={onClick} disabled={disabled} className={buttonClasses}>
+      {Icon && <Icon size={iconSize} />}
       {label}
     </button>
   );

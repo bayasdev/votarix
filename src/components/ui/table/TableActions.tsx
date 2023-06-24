@@ -22,7 +22,7 @@ const TableActions: React.FC<TableActionsProps> = ({ onEdit, onDelete }) => {
         onClick={onEdit}
       />
       <Button
-        label="Editar"
+        label="Eliminar"
         icon={MdOutlineDeleteOutline}
         color="error"
         onClick={onDelete}
