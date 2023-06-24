@@ -4,7 +4,7 @@ import { Role } from '@prisma/client';
 import getCurrentUser from '@/src/app/actions/getCurrentUser';
 import prisma from '@/src/lib/prisma';
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser || currentUser.role !== Role.ADMIN) {
@@ -13,7 +13,7 @@ export async function PUT(request: Request) {
 
   const body = await request.json();
 
-  const { name, email, document, bio, photo } = body;
+  const { name, email, document, bio, proposals, photo } = body;
 
   if (!name) {
     return NextResponse.error();
@@ -25,6 +25,7 @@ export async function PUT(request: Request) {
       email,
       document,
       bio,
+      proposals,
       photo,
     },
   });

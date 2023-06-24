@@ -6,12 +6,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 import Card from '../../ui/Card';
 import Input from '../../inputs/Input';
 import Button from '../../ui/Button';
 import MarkdownEditor from '../../inputs/MarkdownEditor';
 import validateDNI from '@/src/helpers/validateDNI';
+import Select from '../../inputs/Select';
 
 const NewCandidate = () => {
   const router = useRouter();
@@ -41,8 +43,29 @@ const NewCandidate = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const resetFields = () => {
+    resetField('name');
+    resetField('email');
+    resetField('document');
+    resetField('bio');
+    resetField('proposals');
+  };
+
   const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
     setIsLoading(true);
+    axios
+      .post('/api/candidates', data)
+      .then(() => {
+        toast.success('Candidato creado!');
+        resetFields();
+        router.push('/dashboard/candidates');
+      })
+      .catch(() => {
+        toast.error('Algo salió mal!');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const bodyContent = (
@@ -74,11 +97,10 @@ const NewCandidate = () => {
           register={register}
           errors={errors}
         />
-        {/* TODO: party select */}
-        <Input
+        <Select
           id="partyId"
           label="Partido político"
-          placeholder="Juan Pérez"
+          placeholder="Seleccione uno"
           disabled={isLoading}
           register={register}
           errors={errors}
