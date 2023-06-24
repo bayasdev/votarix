@@ -3,12 +3,15 @@
 import { IconType } from 'react-icons';
 
 interface ButtonProps {
-  label: string;
+  label?: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
   full?: boolean;
+  reverse?: boolean;
+  color?: 'primary' | 'secondary' | 'neutral' | 'ghost' | 'error';
+  circle?: boolean;
   icon?: IconType;
 }
 
@@ -19,6 +22,9 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   full,
+  reverse,
+  color = 'primary',
+  circle,
   icon: Icon,
 }) => {
   return (
@@ -26,11 +32,13 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={`
-        btn-primary
         btn
+        btn-${color}
         ${full ? 'w-full' : undefined}
         ${outline ? 'btn-outline' : undefined}
         ${small ? 'btn-sm' : undefined}
+        ${circle ? 'btn-circle' : undefined}
+        ${reverse ? 'flex-row-reverse' : undefined}
       `}
     >
       {Icon && <Icon size={20} />}

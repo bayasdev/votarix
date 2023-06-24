@@ -1,7 +1,11 @@
+'use client';
+
 import {
   MdOutlineModeEditOutline,
   MdOutlineDeleteOutline,
 } from 'react-icons/md';
+
+import Button from '../Button';
 
 interface TableActionsProps {
   onEdit: () => void;
@@ -11,14 +15,18 @@ interface TableActionsProps {
 const TableActions: React.FC<TableActionsProps> = ({ onEdit, onDelete }) => {
   return (
     <div className="flex flex-col gap-2 lg:flex-row">
-      <button className="btn-neutral btn" onClick={onEdit}>
-        <MdOutlineModeEditOutline size={20} />
-        Editar
-      </button>
-      <button className="btn-error btn" onClick={onDelete}>
-        <MdOutlineDeleteOutline size={20} />
-        Eliminar
-      </button>
+      <Button
+        label="Editar"
+        icon={MdOutlineModeEditOutline}
+        color="neutral"
+        onClick={onEdit}
+      />
+      <Button
+        label="Editar"
+        icon={MdOutlineDeleteOutline}
+        color="error"
+        onClick={onDelete}
+      />
     </div>
   );
 };
