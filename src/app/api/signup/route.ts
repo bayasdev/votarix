@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 
 import prisma from '@/src/lib/prisma';
-import validateDNI from '@/src/helpers/validateDNI';
+import validateDni from '@/src/lib/validateDni';
 
 export async function POST(request: Request) {
   if (process.env.SIGNUP_ALLOWED !== 'true') {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!validateDNI(document)) {
+  if (!validateDni(document)) {
     return NextResponse.json(
       { error: 'El número de cédula ingresado no es válido' },
       { status: 400 },

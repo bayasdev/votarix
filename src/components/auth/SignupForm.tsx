@@ -12,7 +12,7 @@ import axios from 'axios';
 import Input from '../inputs/Input';
 import Heading from '../ui/Heading';
 import Button from '../ui/Button';
-import validateDNI from '@/src/helpers/validateDNI';
+import validateDni from '@/src/lib/validateDni';
 
 const SignupForm = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const SignupForm = () => {
   const formSchema = z.object({
     name: z.string().min(1, 'Ingrese su nombre'),
     document: z.custom(
-      (value) => validateDNI((value as string) || ''),
+      (value) => validateDni((value as string) || ''),
       'El número de cédula ingresado no es válido',
     ),
     email: z

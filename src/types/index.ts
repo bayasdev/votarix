@@ -1,10 +1,15 @@
-import { Candidate, User } from '@prisma/client';
+import { Candidate, Party, User } from '@prisma/client';
 
 export type SafeUser = Omit<
   User,
   'createdAt' | 'updatedAt' | 'emailVerified'
 > & {
   emailVerified: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SafeParty = Omit<Party, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };

@@ -12,7 +12,7 @@ import Card from '../../ui/Card';
 import Input from '../../inputs/Input';
 import Button from '../../ui/Button';
 import MarkdownEditor from '../../inputs/MarkdownEditor';
-import validateDNI from '@/src/helpers/validateDNI';
+import validateDni from '@/src/lib/validateDni';
 import Select from '../../inputs/Select';
 
 const NewCandidate = () => {
@@ -24,7 +24,7 @@ const NewCandidate = () => {
     name: z.string().min(1, 'El campo es requerido'),
     email: z.string().email('El correo electrónico ingresado no es válido'),
     document: z.custom(
-      (value) => validateDNI((value as string) || ''),
+      (value) => validateDni((value as string) || ''),
       'El número de cédula ingresado no es válido',
     ),
     bio: z.string().optional(),

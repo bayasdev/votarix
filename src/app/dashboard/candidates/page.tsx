@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { MdOutlineAdd } from 'react-icons/md';
 
 import getCandidates from '../../actions/getCandidates';
-import Heading from '@/src/components/ui/Heading';
 import CandidatesClient from '@/src/components/dashboard/candidates/CandidatesClient';
+import Heading from '@/src/components/ui/Heading';
 import EmptyState from '@/src/components/EmptyState';
 
 const CandidatesPage = async () => {
