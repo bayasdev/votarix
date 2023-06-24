@@ -6,7 +6,7 @@ interface TextareaProps {
   id: string;
   label: string;
   placeholder?: string;
-  type?: string;
+  prose?: boolean;
   disabled?: boolean;
   required?: boolean;
   register: UseFormRegister<any>;
@@ -17,7 +17,7 @@ const Textarea: React.FC<TextareaProps> = ({
   id,
   label,
   placeholder,
-  type = 'text',
+  prose,
   disabled,
   register,
   required,

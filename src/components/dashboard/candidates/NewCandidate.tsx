@@ -10,7 +10,8 @@ import { toast } from 'react-hot-toast';
 import Card from '../../ui/Card';
 import Input from '../../inputs/Input';
 import Button from '../../ui/Button';
-import Textarea from '../../inputs/Textarea';
+import MarkdownEditor from '../../inputs/MarkdownEditor';
+import validateDNI from '@/src/helpers/validateDNI';
 
 const NewCandidate = () => {
   const router = useRouter();
@@ -19,13 +20,20 @@ const NewCandidate = () => {
 
   const formSchema = z.object({
     name: z.string().min(1, 'El campo es requerido'),
-    password: z.string().min(1, 'Ingrese una contraseña'),
+    email: z.string().email('El correo electrónico ingresado no es válido'),
+    document: z.custom(
+      (value) => validateDNI((value as string) || ''),
+      'El número de cédula ingresado no es válido',
+    ),
+    bio: z.string().optional(),
+    proposals: z.string().optional(),
   });
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     resetField,
@@ -76,13 +84,23 @@ const NewCandidate = () => {
           errors={errors}
         />
       </div>
-      {/* TODO: should be markdown */}
-      <Textarea
-        id="proposals"
-        label="Propuestas"
+      <MarkdownEditor
+        name="bio"
+        label="Biografía"
+        placeholder="Mi nombre es Juan Pérez..."
         disabled={isLoading}
-        register={register}
+        control={control}
         errors={errors}
+        light
+      />
+      <MarkdownEditor
+        name="proposals"
+        label="Propuestas"
+        placeholder="Ofrezco trabajar en..."
+        disabled={isLoading}
+        control={control}
+        errors={errors}
+        light
       />
     </div>
   );
