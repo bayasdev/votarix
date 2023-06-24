@@ -5,7 +5,7 @@ import {
   MdOutlineDeleteOutline,
 } from 'react-icons/md';
 
-import Button from '../Button';
+import Button from '../ui/Button';
 
 interface TableActionsProps {
   onEdit: () => void;

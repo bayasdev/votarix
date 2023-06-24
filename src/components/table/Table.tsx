@@ -11,7 +11,9 @@ import {
 } from '@tanstack/react-table';
 import { MdSearch, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 
-import Button from '../Button';
+import Button from '../ui/Button';
+import TableSearch from './TableSearch';
+import TablePagination from './TablePagination';
 
 type TableProps<T> = {
   columns: ColumnDef<T, any>[];
@@ -35,26 +37,9 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
 
   return (
     <div className="flex flex-col gap-8">
-      {/* search */}
-      <div className="flex justify-end">
-        <div className="form-control">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Buscar..."
-              className="input-bordered input"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            />
-            <span>
-              <MdSearch size={20} />
-            </span>
-          </div>
-        </div>
-      </div>
+      <TableSearch value={filter} onChange={setFilter} />
       <div className="overflow-x-auto">
         <table className="table bg-base-100">
-          {/* head */}
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -71,7 +56,6 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
               </tr>
             ))}
           </thead>
-          {/* body */}
           <tbody>
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
@@ -85,33 +69,14 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
           </tbody>
         </table>
       </div>
-      {/* pagination */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-light">
-          Página{' '}
-          <span className="font-semibold">
-            {table.getState().pagination.pageIndex + 1}
-          </span>{' '}
-          de {table.getPageCount()}
-        </span>
-        <div className="flex gap-2">
-          <Button
-            label="Anterior"
-            icon={MdArrowBackIos}
-            onClick={table.previousPage}
-            color="ghost"
-            disabled={!table.getCanPreviousPage()}
-          />
-          <Button
-            label="Siguiente"
-            icon={MdArrowForwardIos}
-            onClick={table.nextPage}
-            color="ghost"
-            reverse
-            disabled={!table.getCanNextPage()}
-          />
-        </div>
-      </div>
+      <TablePagination
+        pageIndex={table.getState().pagination.pageIndex}
+        pageCount={table.getPageCount()}
+        onPreviousPage={table.previousPage}
+        onNextPage={table.nextPage}
+        canPreviousPage={table.getCanPreviousPage()}
+        canNextPage={table.getCanNextPage()}
+      />
     </div>
   );
 }

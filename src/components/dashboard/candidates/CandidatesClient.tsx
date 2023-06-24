@@ -7,8 +7,8 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 import { SafeCandidate } from '@/src/types';
-import Table from '../../ui/table/Table';
-import TableActions from '../../ui/table/TableActions';
+import Table from '../../table/Table';
+import TableActions from '../../table/TableActions';
 
 interface CandidatesClientProps {
   candidates: SafeCandidate[] | null;
