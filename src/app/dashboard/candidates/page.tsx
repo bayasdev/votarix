@@ -13,9 +13,9 @@ const CandidatesPage = async () => {
     <div className="flex flex-col gap-8">
       <div className="flex justify-between">
         <Heading title="Candidatos" subtitle="Administrar candidatos" />
-        <Link href="/dashboard/candidates/new" className="btn-primary btn">
+        <Link href="/dashboard/candidates/create" className="btn-primary btn">
           <MdOutlineAdd size={20} />
-          Agregar
+          Crear
         </Link>
       </div>
       {candidates && candidates.length > 0 ? (

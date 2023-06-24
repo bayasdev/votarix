@@ -74,7 +74,7 @@ const menuItems = [
 const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleOpen = useCallback(() => {
+  const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
@@ -88,12 +88,12 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
       />
       {/* content */}
       <div className="drawer-content overflow-x-auto bg-base-200">
-        <Navbar currentUser={currentUser} toggleDrawer={toggleOpen} />
+        <Navbar currentUser={currentUser} onToggle={handleToggle} />
         <div className="px-4 py-8 lg:px-8">{children}</div>
       </div>
       {/* sidebar */}
-      <div className="drawer-side z-20">
-        <label className="drawer-overlay" onClick={toggleOpen}></label>
+      <div className="drawer-side">
+        <label className="drawer-overlay" onClick={handleToggle}></label>
         <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4">
           {/* logo */}
           <div className="mb-4 flex justify-between">
@@ -102,7 +102,7 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
             </Link>
             <a
               className="btn-ghost btn-circle btn lg:hidden"
-              onClick={toggleOpen}
+              onClick={handleToggle}
             >
               <MdOutlineClose size={24} />
             </a>

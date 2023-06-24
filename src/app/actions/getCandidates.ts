@@ -1,17 +1,8 @@
-import { Candidate, Role } from '@prisma/client';
-
 import prisma from '@/src/lib/prisma';
-import getCurrentUser from './getCurrentUser';
 import { SafeCandidate } from '@/src/types';
 
 export default async function getCandidates(): Promise<SafeCandidate[] | null> {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser || currentUser.role !== Role.ADMIN) {
-      return null;
-    }
-
     const candidates = await prisma.candidate.findMany({
       orderBy: {
         createdAt: 'desc',
