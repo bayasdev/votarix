@@ -9,9 +9,7 @@ import {
   getPaginationRowModel,
   getFilteredRowModel,
 } from '@tanstack/react-table';
-import { MdSearch, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 
-import Button from '../ui/Button';
 import TableSearch from './TableSearch';
 import TablePagination from './TablePagination';
 
