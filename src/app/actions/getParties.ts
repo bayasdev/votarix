@@ -1,4 +1,4 @@
-import prisma from '@/src/lib/prisma';
+import prisma from '@/src/lib/db';
 import { SafeParty } from '@/src/types';
 
 export default async function getParties(): Promise<SafeParty[] | null> {

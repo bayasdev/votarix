@@ -7,8 +7,8 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 import { SafeCandidate } from '@/src/types';
-import Table from '../../table/Table';
-import TableActions from '../../table/TableActions';
+import Table from '../../common/Table';
+import Actions from '../common/Actions';
 
 interface CandidatesClientProps {
   candidates: SafeCandidate[] | null;
@@ -32,7 +32,7 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
           toast.success('Candidato eliminado!');
           router.refresh();
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error('Algo salió mal!');
         });
     },
@@ -55,7 +55,7 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
       id: 'actions',
       header: () => 'Acciones',
       cell: (props) => (
-        <TableActions
+        <Actions
           onEdit={() => handleEdit(props.getValue())}
           onDelete={() => handleDelete(props.getValue())}
         />

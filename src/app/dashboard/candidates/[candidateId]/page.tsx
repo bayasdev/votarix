@@ -1,7 +1,7 @@
 import getCandidateById from '@/src/app/actions/getCandidateById';
-import EmptyState from '@/src/components/EmptyState';
+import EmptyState from '@/src/components/common/EmptyState';
 import EditCandidate from '@/src/components/dashboard/candidates/EditCandidate';
-import Heading from '@/src/components/ui/Heading';
+import Heading from '@/src/components/common/Heading';
 
 interface EditCandidatePageProps {
   params: {

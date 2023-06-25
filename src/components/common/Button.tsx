@@ -1,11 +1,9 @@
-'use client';
-
 import { IconType } from 'react-icons';
 import clsx from 'clsx';
 
 interface ButtonProps {
   label?: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: () => void;
   className?: string;
   disabled?: boolean;
   outline?: boolean;

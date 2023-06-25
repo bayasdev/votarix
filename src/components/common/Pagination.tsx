@@ -1,10 +1,8 @@
-'use client';
-
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 
-import Button from '../ui/Button';
+import Button from './Button';
 
-type TablePaginationProps = {
+type PaginationProps = {
   pageIndex: number;
   pageCount: number;
   onPreviousPage: () => void;
@@ -13,7 +11,7 @@ type TablePaginationProps = {
   canNextPage: boolean;
 };
 
-const TablePagination: React.FC<TablePaginationProps> = ({
+const Pagination: React.FC<PaginationProps> = ({
   pageIndex,
   pageCount,
   onPreviousPage,
@@ -48,4 +46,4 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   );
 };
 
-export default TablePagination;
+export default Pagination;

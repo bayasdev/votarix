@@ -1,12 +1,11 @@
-'use client';
-
 import { MdSearch } from 'react-icons/md';
 
-type TableSearchProps = {
+type SearchProps = {
   value: string;
-  onChange: (value: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-const TableSearch: React.FC<TableSearchProps> = ({ value, onChange }) => {
+const Search: React.FC<SearchProps> = ({ value, onChange }) => {
   return (
     <div className="form-control">
       <div className="input-group">
@@ -15,7 +14,7 @@ const TableSearch: React.FC<TableSearchProps> = ({ value, onChange }) => {
           placeholder="Buscar..."
           className="input-bordered input"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
         />
         <span>
           <MdSearch size={20} />
@@ -25,4 +24,4 @@ const TableSearch: React.FC<TableSearchProps> = ({ value, onChange }) => {
   );
 };
 
-export default TableSearch;
+export default Search;

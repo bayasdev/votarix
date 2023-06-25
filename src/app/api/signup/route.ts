@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 
-import prisma from '@/src/lib/prisma';
+import prisma from '@/src/lib/db';
 import validateDni from '@/src/lib/validateDni';
 
 export async function POST(request: Request) {
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
   const hashedPassword = await hash(password, 12);
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: { email, name, document, hashedPassword },
   });
 

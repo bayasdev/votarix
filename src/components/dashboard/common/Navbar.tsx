@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { BiMenuAltLeft } from 'react-icons/bi';
 
-import logo from '@/public/img/logo.svg';
-import { SafeUser } from '../../types';
-import NavbarUserDropdown from './NavbarUserDropdown';
-import Button from '../ui/Button';
+import { SafeUser } from '../../../types';
+import UserDropdown from '../../common/UserDropdown';
+import Button from '../../common/Button';
+import Logo from '../../common/Logo';
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
@@ -27,13 +26,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, onToggle }) => {
           />
         )}
         <Link href="/dashboard" className="btn-ghost btn lg:hidden">
-          <Image src={logo} className="w-28" alt="logo" priority />
+          <Logo className="w-28" />
         </Link>
       </div>
       <div className="flex-none">
-        {currentUser && (
-          <NavbarUserDropdown initial={currentUser?.name?.[0] || ''} />
-        )}
+        {currentUser && <UserDropdown initial={currentUser?.name?.[0] || ''} />}
       </div>
     </div>
   );

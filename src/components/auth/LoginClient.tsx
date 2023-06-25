@@ -9,11 +9,11 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 
-import Input from '../inputs/Input';
-import Heading from '../ui/Heading';
-import Button from '../ui/Button';
+import Input from '../common/Input';
+import Heading from '../common/Heading';
+import Button from '../common/Button';
 
-const LoginForm = () => {
+const LoginClient = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -97,4 +97,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginClient;

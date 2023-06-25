@@ -13,23 +13,18 @@ export async function POST(request: Request) {
 
   const body = await request.json();
 
-  const { name, email, document, bio, proposals, photo, partyId } = body;
+  const { name, photo } = body;
 
   if (!name) {
     return NextResponse.error();
   }
 
-  const candidate = await prisma.candidate.create({
+  const party = await prisma.party.create({
     data: {
       name,
-      email,
-      document,
-      bio,
-      proposals,
       photo,
-      partyId,
     },
   });
 
-  return NextResponse.json(candidate);
+  return NextResponse.json(party);
 }

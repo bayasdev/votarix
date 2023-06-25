@@ -3,17 +3,13 @@ import { usePathname } from 'next/navigation';
 import { IconType } from 'react-icons';
 import clsx from 'clsx';
 
-interface DrawerMenuItemProps {
+interface MenuItemProps {
   icon: IconType;
   label: string;
   path: string;
 }
 
-const DrawerMenuItem: React.FC<DrawerMenuItemProps> = ({
-  icon: Icon,
-  label,
-  path,
-}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ icon: Icon, label, path }) => {
   const currentPath = usePathname();
 
   const linkClasses = clsx({ active: currentPath === path });
@@ -28,4 +24,4 @@ const DrawerMenuItem: React.FC<DrawerMenuItemProps> = ({
   );
 };
 
-export default DrawerMenuItem;
+export default MenuItem;

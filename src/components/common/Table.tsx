@@ -10,8 +10,8 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table';
 
-import TableSearch from './TableSearch';
-import TablePagination from './TablePagination';
+import Search from './Search';
+import TablePagination from './Pagination';
 
 type TableProps<T> = {
   columns: ColumnDef<T, any>[];
@@ -20,6 +20,10 @@ type TableProps<T> = {
 
 export default function Table<T>({ columns, data }: TableProps<T>) {
   const [filter, setFilter] = useState('');
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+  };
 
   const table = useReactTable({
     data: data || [],
@@ -35,7 +39,7 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
 
   return (
     <div className="flex flex-col gap-8">
-      <TableSearch value={filter} onChange={setFilter} />
+      <Search value={filter} onChange={handleFilterChange} />
       <div className="overflow-x-auto">
         <table className="table bg-base-100">
           <thead>

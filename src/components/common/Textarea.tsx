@@ -1,43 +1,38 @@
-'use client';
-
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import clsx from 'clsx';
 
-interface InputProps {
+interface TextareaProps {
   id: string;
   label: string;
   placeholder?: string;
-  type?: string;
   disabled?: boolean;
   required?: boolean;
   register: UseFormRegister<any>;
   errors: FieldErrors;
 }
 
-const Input: React.FC<InputProps> = ({
+const Textarea: React.FC<TextareaProps> = ({
   id,
   label,
   placeholder,
-  type = 'text',
   disabled,
   register,
   required,
   errors,
 }) => {
-  const inputClasses = clsx('input-bordered', 'input', {
-    'input-error': errors[id],
+  const textareaClasses = clsx('textarea-bordered', 'textarea', {
+    'textarea-error': errors[id],
   });
 
   return (
     <div className="form-control w-full">
       <label className="label">{label}</label>
-      <input
+      <textarea
         id={id}
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
-        type={type}
-        className={inputClasses}
+        className={textareaClasses}
       />
       {errors[id] && (
         <label className="label">
@@ -50,4 +45,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default Textarea;

@@ -15,16 +15,30 @@ async function main() {
     },
   });
 
-  console.log({ admin });
+  const party1 = await prisma.party.create({
+    data: {
+      name: 'Partido 1',
+    },
+  });
+
+  const party2 = await prisma.party.create({
+    data: {
+      name: 'Partido 2',
+    },
+  });
 
   const candidate = await prisma.candidate.create({
     data: {
       name: 'Juan Pérez',
       document: '1799999999',
       email: 'jperez@ejemplo.com',
-      bio: 'Mi nombre es Juan Pérez y soy tu mejor opción',
+      bio: '## Biografia Mi nombre es Juan Pérez y soy tu mejor opción',
+      proposals: '## Economía Generaré 10000 nuevos empleos en el área de STEM',
+      partyId: party1.id,
     },
   });
+
+  console.log({ admin, party1, party2, candidate });
 }
 main()
   .then(async () => {

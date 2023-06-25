@@ -3,8 +3,8 @@ import { MdOutlineAdd } from 'react-icons/md';
 
 import getParties from '../../actions/getParties';
 import PartiesClient from '@/src/components/dashboard/parties/PartiesClient';
-import Heading from '@/src/components/ui/Heading';
-import EmptyState from '@/src/components/EmptyState';
+import Heading from '@/src/components/common/Heading';
+import EmptyState from '@/src/components/common/EmptyState';
 
 const PartiesPage = async () => {
   const parties = await getParties();

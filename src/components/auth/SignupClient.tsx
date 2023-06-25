@@ -9,12 +9,12 @@ import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import axios from 'axios';
 
-import Input from '../inputs/Input';
-import Heading from '../ui/Heading';
-import Button from '../ui/Button';
+import Input from '../common/Input';
+import Heading from '../common/Heading';
+import Button from '../common/Button';
 import validateDni from '@/src/lib/validateDni';
 
-const SignupForm = () => {
+const SignupClient = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -123,4 +123,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignupClient;

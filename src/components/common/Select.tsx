@@ -1,43 +1,57 @@
-'use client';
-
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import clsx from 'clsx';
 
-interface TextareaProps {
+type SelectOption = {
+  label?: string;
+  value?: string | number;
+};
+
+interface SelectProps {
   id: string;
   label: string;
   placeholder?: string;
-  prose?: boolean;
+  options?: SelectOption[];
   disabled?: boolean;
   required?: boolean;
   register: UseFormRegister<any>;
   errors: FieldErrors;
 }
 
-const Textarea: React.FC<TextareaProps> = ({
+const Select: React.FC<SelectProps> = ({
   id,
   label,
   placeholder,
-  prose,
+  options,
   disabled,
   register,
   required,
   errors,
 }) => {
-  const textareaClasses = clsx('textarea-bordered', 'textarea', {
-    'textarea-error': errors[id],
+  const selectClasses = clsx('select-bordered', 'select', {
+    'select-error': errors[id],
   });
 
   return (
     <div className="form-control w-full">
       <label className="label">{label}</label>
-      <textarea
+      <select
         id={id}
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
-        className={textareaClasses}
-      />
+        className={selectClasses}
+      >
+        {placeholder && (
+          <option disabled value="">
+            {placeholder}
+          </option>
+        )}
+        {options?.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       {errors[id] && (
         <label className="label">
           <span className="label-text-alt text-error">
@@ -49,4 +63,4 @@ const Textarea: React.FC<TextareaProps> = ({
   );
 };
 
-export default Textarea;
+export default Select;

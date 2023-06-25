@@ -1,5 +1,5 @@
 import CreateParty from '@/src/components/dashboard/parties/CreateParty';
-import Heading from '@/src/components/ui/Heading';
+import Heading from '@/src/components/common/Heading';
 
 const CreatePartyPage = () => {
   return (

@@ -1,4 +1,4 @@
-import prisma from '@/src/lib/prisma';
+import prisma from '@/src/lib/db';
 import { SafeCandidate } from '@/src/types';
 
 interface IParams {

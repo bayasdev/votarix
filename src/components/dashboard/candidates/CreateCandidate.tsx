@@ -9,25 +9,36 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineAdd } from 'react-icons/md';
 
-import Card from '../../ui/Card';
-import Input from '../../inputs/Input';
-import Button from '../../ui/Button';
+import Card from '../../common/Card';
+import Input from '../../common/Input';
+import Button from '../../common/Button';
 import MarkdownEditor from '../../inputs/MarkdownEditor';
 import validateDni from '@/src/lib/validateDni';
 import Select from '../../inputs/Select';
+import { SafeParty } from '@/src/types';
 
-const CreateCandidate = () => {
+interface CreateCandidateProps {
+  parties: SafeParty[] | null;
+}
+
+const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
     name: z.string().min(1, 'El campo es requerido'),
-    email: z.string().email('El correo electrónico ingresado no es válido'),
-    document: z.custom(
-      (value) => validateDni((value as string) || ''),
-      'El número de cédula ingresado no es válido',
-    ),
+    email: z
+      .string()
+      .email('El correo electrónico ingresado no es válido')
+      .optional(),
+    document: z
+      .custom(
+        (value) => validateDni((value as string) || ''),
+        'El número de cédula ingresado no es válido',
+      )
+      .optional(),
+    partyId: z.string(),
     bio: z.string().optional(),
     proposals: z.string().optional(),
   });
@@ -69,6 +80,11 @@ const CreateCandidate = () => {
       });
   };
 
+  const partiesOptions = parties?.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
+
   const bodyContent = (
     <div className="flex flex-col gap-8">
       <div className="grid gap-2 md:grid-cols-2">
@@ -102,6 +118,7 @@ const CreateCandidate = () => {
           id="partyId"
           label="Partido político"
           placeholder="Seleccione uno"
+          options={partiesOptions}
           disabled={isLoading}
           register={register}
           errors={errors}

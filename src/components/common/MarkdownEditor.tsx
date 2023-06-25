@@ -2,7 +2,8 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import rehypeSanitize from 'rehype-sanitize';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import MDEditorWrapper from '../MDEditorWrapper';
+
+import MDEditorWrapper from '../utils/MDEditorWrapper';
 
 interface MarkdownEditorProps {
   name: string;

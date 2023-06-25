@@ -2,7 +2,6 @@
 
 import { useCallback, useState, Fragment } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   MdOutlineHowToVote,
   MdOutlineHome,
@@ -13,11 +12,11 @@ import {
   MdOutlineClose,
 } from 'react-icons/md';
 
-import logo from '@/public/img/logo.svg';
-import { SafeUser } from '../../types';
-import Navbar from '../navbar/Navbar';
-import DrawerMenuItem from './DrawerMenuItem';
-import DrawerMenuTitle from './DrawerMenuTitle';
+import { SafeUser } from '../../../types';
+import Navbar from './Navbar';
+import MenuItem from './MenuItem';
+import MenuTitle from './MenuTitle';
+import Logo from '../../common/Logo';
 
 interface DrawerProps {
   currentUser: SafeUser | null;
@@ -86,19 +85,16 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         checked={isOpen}
         readOnly
       />
-      {/* content */}
       <div className="drawer-content overflow-x-auto bg-base-200">
         <Navbar currentUser={currentUser} onToggle={handleToggle} />
         <div className="px-4 py-8 lg:px-8">{children}</div>
       </div>
-      {/* sidebar */}
       <div className="drawer-side">
         <label className="drawer-overlay" onClick={handleToggle}></label>
         <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4">
-          {/* logo */}
           <div className="mb-4 flex justify-between">
             <Link href="/dashboard" className="btn-ghost btn">
-              <Image src={logo} className="w-28" alt="logo" priority />
+              <Logo className="w-28" />
             </Link>
             <a
               className="btn-ghost btn-circle btn lg:hidden"
@@ -107,12 +103,11 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
               <MdOutlineClose size={24} />
             </a>
           </div>
-          {/* links */}
           {menuItems.map((menuItem, index) => (
             <Fragment key={index}>
-              {menuItem.title && <DrawerMenuTitle label={menuItem.title} />}
+              {menuItem.title && <MenuTitle label={menuItem.title} />}
               {menuItem.children.map((link, index) => (
-                <DrawerMenuItem
+                <MenuItem
                   key={index}
                   icon={link.icon}
                   label={link.label}

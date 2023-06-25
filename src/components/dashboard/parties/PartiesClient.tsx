@@ -7,8 +7,8 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 import { SafeParty } from '@/src/types';
-import Table from '../../table/Table';
-import TableActions from '../../table/TableActions';
+import Table from '../../common/Table';
+import Actions from '../common/Actions';
 
 interface PartiesClientProps {
   parties: SafeParty[] | null;
@@ -32,7 +32,7 @@ const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
           toast.success('Partido eliminado!');
           router.refresh();
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error('Algo salió mal!');
         });
     },
@@ -49,7 +49,7 @@ const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
       id: 'actions',
       header: () => 'Acciones',
       cell: (props) => (
-        <TableActions
+        <Actions
           onEdit={() => handleEdit(props.getValue())}
           onDelete={() => handleDelete(props.getValue())}
         />

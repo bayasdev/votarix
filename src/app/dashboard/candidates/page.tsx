@@ -3,8 +3,8 @@ import { MdOutlineAdd } from 'react-icons/md';
 
 import getCandidates from '../../actions/getCandidates';
 import CandidatesClient from '@/src/components/dashboard/candidates/CandidatesClient';
-import Heading from '@/src/components/ui/Heading';
-import EmptyState from '@/src/components/EmptyState';
+import Heading from '@/src/components/common/Heading';
+import EmptyState from '@/src/components/common/EmptyState';
 
 const CandidatesPage = async () => {
   const candidates = await getCandidates();

@@ -1,5 +1,5 @@
 import getCurrentUser from '../actions/getCurrentUser';
-import EmptyState from '../../components/EmptyState';
+import EmptyState from '../../components/common/EmptyState';
 import DashboardHome from '@/src/components/dashboard/DashboardHome';
 
 const DashboardPage = async () => {

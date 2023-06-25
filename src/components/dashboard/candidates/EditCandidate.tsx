@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { SafeCandidate } from '@/src/types';
-import Card from '../../ui/Card';
+import Card from '../../common/Card';
 
 interface EditCandidateProps {
   candidate: SafeCandidate | null;

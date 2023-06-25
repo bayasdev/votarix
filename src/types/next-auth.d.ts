@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import 'next-auth';
 
 import { Role } from '@prisma/client';
