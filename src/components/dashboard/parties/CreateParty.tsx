@@ -36,12 +36,12 @@ const CreateParty = () => {
     axios
       .post('/api/parties', data)
       .then(() => {
-        toast.success('Partido político creado!');
+        toast.success('Creado correctamente');
         router.replace('/dashboard/parties');
         router.refresh();
       })
-      .catch(() => {
-        toast.error('Algo salió mal!');
+      .catch((error) => {
+        toast.error(error?.response?.data);
       })
       .finally(() => {
         setIsLoading(false);

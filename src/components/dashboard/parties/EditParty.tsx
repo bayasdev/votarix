@@ -50,12 +50,12 @@ const EditParty: React.FC<EditPartyProps> = ({ party }) => {
     axios
       .put(`/api/parties/${party?.id}`, data)
       .then(() => {
-        toast.success('Partido político actualizado!');
+        toast.success('Editado correctamente');
         router.replace('/dashboard/parties');
         router.refresh();
       })
-      .catch(() => {
-        toast.error('Algo salió mal!');
+      .catch((error) => {
+        toast.error(error?.response?.data);
       })
       .finally(() => {
         setIsLoading(false);
