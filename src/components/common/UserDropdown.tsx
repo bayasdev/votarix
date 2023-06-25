@@ -1,3 +1,5 @@
+'use client';
+
 import { signOut } from 'next-auth/react';
 import { IoMdLogOut } from 'react-icons/io';
 
