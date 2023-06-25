@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -17,6 +17,8 @@ interface CandidatesProps {
 const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleEdit = useCallback(
     (id: string) => {
       router.push(`/dashboard/candidates/${id}`);
@@ -26,6 +28,7 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
 
   const handleDelete = useCallback(
     (id: string) => {
+      setIsLoading(true);
       axios
         .delete(`/api/candidates/${id}`)
         .then(() => {
@@ -34,7 +37,8 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
         })
         .catch((error) => {
           toast.error(error?.response?.data);
-        });
+        })
+        .finally(() => setIsLoading(false));
     },
     [router],
   );

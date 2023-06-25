@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -17,6 +17,8 @@ interface PartiesProps {
 const Parties: React.FC<PartiesProps> = ({ parties }) => {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleEdit = useCallback(
     (id: string) => {
       router.push(`/dashboard/parties/${id}`);
@@ -26,6 +28,7 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
 
   const handleDelete = useCallback(
     (id: string) => {
+      setIsLoading(true);
       axios
         .delete(`/api/parties/${id}`)
         .then(() => {
@@ -34,7 +37,8 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
         })
         .catch((error) => {
           toast.error(error?.response?.data);
-        });
+        })
+        .finally(() => setIsLoading(false));
     },
     [router],
   );
@@ -52,6 +56,7 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
         <Actions
           onEdit={() => handleEdit(props.getValue())}
           onDelete={() => handleDelete(props.getValue())}
+          disabled={isLoading}
         />
       ),
     }),
