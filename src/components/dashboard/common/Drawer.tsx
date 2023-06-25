@@ -85,11 +85,11 @@ const Drawer: React.FC<DrawerProps> = ({ currentUser, children }) => {
         checked={isOpen}
         readOnly
       />
-      <div className="drawer-content overflow-x-auto bg-base-200">
+      <div className="drawer-content min-w-0 bg-base-200">
         <Navbar currentUser={currentUser} onToggle={handleToggle} />
         <div className="px-4 py-8 lg:px-8">{children}</div>
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side z-20">
         <label className="drawer-overlay" onClick={handleToggle}></label>
         <ul className="menu min-h-full w-80 gap-2 bg-base-100 px-4">
           <div className="mb-4 flex justify-between">

@@ -13,7 +13,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser, onToggle }) => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar sticky top-0 z-10 bg-base-100 bg-opacity-90 shadow-sm backdrop-blur transition-all duration-100">
       <div className="flex-1">
         {onToggle && (
           <Button
