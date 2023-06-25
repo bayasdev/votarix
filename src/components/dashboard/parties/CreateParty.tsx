@@ -43,7 +43,6 @@ const CreateParty = () => {
       .post('/api/parties', data)
       .then(() => {
         toast.success('Partido político creado!');
-        resetFields();
         router.replace('/dashboard/parties');
         router.refresh();
       })

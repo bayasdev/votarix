@@ -51,7 +51,6 @@ const EditParty: React.FC<EditPartyProps> = ({ party }) => {
       .put(`/api/parties/${party?.id}`, data)
       .then(() => {
         toast.success('Partido político actualizado!');
-        resetFields();
         router.replace('/dashboard/parties');
         router.refresh();
       })

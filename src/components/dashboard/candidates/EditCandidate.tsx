@@ -81,7 +81,6 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
       .put(`/api/candidates/${candidate?.id}`, data)
       .then(() => {
         toast.success('Candidato actualizado!');
-        resetFields();
         // fix stale data
         router.replace('/dashboard/candidates');
         router.refresh();

@@ -69,7 +69,6 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
       .post('/api/candidates', data)
       .then(() => {
         toast.success('Candidato creado!');
-        resetFields();
         router.replace('/dashboard/candidates');
         router.refresh();
       })
