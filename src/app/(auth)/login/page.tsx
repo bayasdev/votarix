@@ -1,7 +1,7 @@
-import LoginClient from '@/src/components/auth/LoginClient';
+import LoginForm from '@/src/components/auth/LoginForm';
 
 const LoginPage = () => {
-  return <LoginClient />;
+  return <LoginForm />;
 };
 
 export default LoginPage;

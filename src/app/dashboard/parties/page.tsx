@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { MdOutlineAdd } from 'react-icons/md';
 
-import getParties from '../../actions/getParties';
-import PartiesClient from '@/src/components/dashboard/parties/PartiesClient';
+import { getParties } from '../../actions/party';
+import Parties from '@/src/components/dashboard/parties/Parties';
 import Heading from '@/src/components/common/Heading';
 import EmptyState from '@/src/components/common/EmptyState';
 
@@ -22,7 +22,7 @@ const PartiesPage = async () => {
         </Link>
       </div>
       {parties && parties.length > 0 ? (
-        <PartiesClient parties={parties} />
+        <Parties parties={parties} />
       ) : (
         <EmptyState />
       )}

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import Heading from '@/src/components/common/Heading';
-import SignupClient from '@/src/components/auth/SignupClient';
+import SignupForm from '@/src/components/auth/SignupForm';
 
 const SignupPage = () => {
   if (process.env.SIGNUP_ALLOWED !== 'true') {
@@ -18,7 +18,7 @@ const SignupPage = () => {
     );
   }
 
-  return <SignupClient />;
+  return <SignupForm />;
 };
 
 export default SignupPage;

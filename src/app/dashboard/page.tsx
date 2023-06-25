@@ -1,6 +1,6 @@
 import getCurrentUser from '../actions/getCurrentUser';
 import EmptyState from '../../components/common/EmptyState';
-import DashboardHome from '@/src/components/dashboard/DashboardHome';
+import Home from '@/src/components/dashboard/Home';
 
 const DashboardPage = async () => {
   const currentUser = await getCurrentUser();
@@ -9,7 +9,7 @@ const DashboardPage = async () => {
     return <EmptyState title="Unauthorized" subtitle="Please login" />;
   }
 
-  return <DashboardHome />;
+  return <Home />;
 };
 
 export default DashboardPage;

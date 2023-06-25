@@ -1,5 +1,5 @@
-import getCandidateById from '@/src/app/actions/getCandidateById';
-import getParties from '@/src/app/actions/getParties';
+import { getCandidateById } from '@/src/app/actions/candidate';
+import { getParties } from '@/src/app/actions/party';
 import EmptyState from '@/src/components/common/EmptyState';
 import EditCandidate from '@/src/components/dashboard/candidates/EditCandidate';
 import Heading from '@/src/components/common/Heading';

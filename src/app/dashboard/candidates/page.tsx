@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { MdOutlineAdd } from 'react-icons/md';
 
-import getCandidates from '../../actions/getCandidates';
-import CandidatesClient from '@/src/components/dashboard/candidates/CandidatesClient';
+import { getCandidates } from '../../actions/candidate';
+import Candidates from '@/src/components/dashboard/candidates/Candidates';
 import Heading from '@/src/components/common/Heading';
 import EmptyState from '@/src/components/common/EmptyState';
 
@@ -19,7 +19,7 @@ const CandidatesPage = async () => {
         </Link>
       </div>
       {candidates && candidates.length > 0 ? (
-        <CandidatesClient candidates={candidates} />
+        <Candidates candidates={candidates} />
       ) : (
         <EmptyState />
       )}

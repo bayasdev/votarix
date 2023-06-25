@@ -1,4 +1,4 @@
-import getPartyById from '@/src/app/actions/getPartyById';
+import { getPartyById } from '@/src/app/actions/party';
 import EmptyState from '@/src/components/common/EmptyState';
 import Heading from '@/src/components/common/Heading';
 import EditParty from '@/src/components/dashboard/parties/EditParty';

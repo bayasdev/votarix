@@ -1,6 +1,6 @@
 import Heading from '../common/Heading';
 
-const DashboardHome = () => {
+const Home = () => {
   return (
     <div>
       <Heading title="Inicio" subtitle="subtitle" />
@@ -8,4 +8,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default Home;

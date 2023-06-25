@@ -1,4 +1,4 @@
-import getParties from '@/src/app/actions/getParties';
+import { getParties } from '@/src/app/actions/party';
 import CreateCandidate from '@/src/components/dashboard/candidates/CreateCandidate';
 import Heading from '@/src/components/common/Heading';
 

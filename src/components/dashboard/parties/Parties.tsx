@@ -6,20 +6,20 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeCandidate } from '@/src/types';
+import { SafeParty } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
-interface CandidatesClientProps {
-  candidates: SafeCandidate[] | null;
+interface PartiesProps {
+  parties: SafeParty[] | null;
 }
 
-const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
+const Parties: React.FC<PartiesProps> = ({ parties }) => {
   const router = useRouter();
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/candidates/${id}`);
+      router.push(`/dashboard/parties/${id}`);
     },
     [router],
   );
@@ -27,9 +27,9 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
   const handleDelete = useCallback(
     (id: string) => {
       axios
-        .delete(`/api/candidates/${id}`)
+        .delete(`/api/parties/${id}`)
         .then(() => {
-          toast.success('Candidato eliminado!');
+          toast.success('Partido eliminado!');
           router.refresh();
         })
         .catch(() => {
@@ -39,17 +39,11 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeCandidate>();
+  const columnHelper = createColumnHelper<SafeParty>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
-    }),
-    columnHelper.accessor('document', {
-      header: () => 'Cédula',
-    }),
-    columnHelper.accessor('email', {
-      header: () => 'Correo electrónico',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -63,7 +57,7 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
     }),
   ];
 
-  return <Table columns={columns} data={candidates} />;
+  return <Table columns={columns} data={parties} />;
 };
 
-export default CandidatesClient;
+export default Parties;

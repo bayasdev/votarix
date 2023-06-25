@@ -7,7 +7,27 @@ interface IParams {
   candidateId?: string;
 }
 
-export default async function getCandidateById(
+export async function getCandidates(): Promise<SafeCandidate[] | null> {
+  try {
+    const candidates = await prisma.candidate.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const safeCandidates = candidates.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeCandidates;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getCandidateById(
   params: IParams,
 ): Promise<SafeCandidate | null> {
   try {

@@ -6,20 +6,20 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeParty } from '@/src/types';
+import { SafeCandidate } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
-interface PartiesClientProps {
-  parties: SafeParty[] | null;
+interface CandidatesProps {
+  candidates: SafeCandidate[] | null;
 }
 
-const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
+const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
   const router = useRouter();
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/parties/${id}`);
+      router.push(`/dashboard/candidates/${id}`);
     },
     [router],
   );
@@ -27,9 +27,9 @@ const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
   const handleDelete = useCallback(
     (id: string) => {
       axios
-        .delete(`/api/parties/${id}`)
+        .delete(`/api/candidates/${id}`)
         .then(() => {
-          toast.success('Partido eliminado!');
+          toast.success('Candidato eliminado!');
           router.refresh();
         })
         .catch(() => {
@@ -39,11 +39,17 @@ const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeParty>();
+  const columnHelper = createColumnHelper<SafeCandidate>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
+    }),
+    columnHelper.accessor('document', {
+      header: () => 'Cédula',
+    }),
+    columnHelper.accessor('email', {
+      header: () => 'Correo electrónico',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -57,7 +63,7 @@ const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
     }),
   ];
 
-  return <Table columns={columns} data={parties} />;
+  return <Table columns={columns} data={candidates} />;
 };
 
-export default PartiesClient;
+export default Candidates;
