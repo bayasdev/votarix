@@ -12,10 +12,10 @@ import { MdOutlineAdd } from 'react-icons/md';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
-import MarkdownEditor from '../../inputs/MarkdownEditor';
-import validateDni from '@/src/lib/validateDni';
-import Select from '../../inputs/Select';
+import MarkdownEditor from '../../common/MarkdownEditor';
+import Select from '../../common/Select';
 import { SafeParty } from '@/src/types';
+import validateDni from '@/src/lib/validateDni';
 
 interface CreateCandidateProps {
   parties: SafeParty[] | null;
