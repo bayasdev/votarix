@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response(party.id);
+    return new Response(party.id, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });

@@ -63,13 +63,13 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
     axios
       .put(`/api/candidates/${candidate?.id}`, data)
       .then(() => {
-        toast.success('Candidato actualizado!');
+        toast.success('Editado correctamente');
         // fix stale data
         router.replace('/dashboard/candidates');
         router.refresh();
       })
-      .catch(() => {
-        toast.error('Algo salió mal!');
+      .catch((error) => {
+        toast.error(error?.response?.data);
       })
       .finally(() => {
         setIsLoading(false);

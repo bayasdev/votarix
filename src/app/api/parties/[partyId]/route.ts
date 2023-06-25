@@ -24,7 +24,7 @@ export async function PUT(request: Request, { params }: IParams) {
     const { partyId } = params;
 
     if (!partyId || typeof partyId !== 'string') {
-      return new Response('Invalid Id', { status: 400 });
+      return new Response('ID no válido', { status: 400 });
     }
 
     const body = PartyValidator.parse(await request.json());
@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: IParams) {
       },
     });
 
-    return new Response(party.id, { status: 201 });
+    return new Response(party.id);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
@@ -51,25 +51,31 @@ export async function PUT(request: Request, { params }: IParams) {
 }
 
 export async function DELETE(request: Request, { params }: IParams) {
-  const currentUser = await getCurrentUser();
+  try {
+    const currentUser = await getCurrentUser();
 
-  if (!currentUser || currentUser.role !== Role.ADMIN) {
-    return new Response('No autorizado', {
-      status: 401,
+    if (!currentUser || currentUser.role !== Role.ADMIN) {
+      return new Response('No autorizado', {
+        status: 401,
+      });
+    }
+
+    const { partyId } = params;
+
+    if (!partyId || typeof partyId !== 'string') {
+      return new Response('ID no válido', { status: 400 });
+    }
+
+    const party = await prisma.party.delete({
+      where: {
+        id: partyId,
+      },
+    });
+
+    return new Response(party.id);
+  } catch (error) {
+    return new Response('Algo salió mal', {
+      status: 500,
     });
   }
-
-  const { partyId } = params;
-
-  if (!partyId || typeof partyId !== 'string') {
-    return new Response('Invalid Id', { status: 400 });
-  }
-
-  const party = await prisma.party.delete({
-    where: {
-      id: partyId,
-    },
-  });
-
-  return new Response(party.id);
 }

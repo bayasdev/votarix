@@ -13,10 +13,9 @@ export type LoginRequest = z.infer<typeof LoginValidator>;
 
 export const SignupValidator = z.object({
   name: z.string().min(1, 'Ingrese su nombre'),
-  document: z.custom(
-    (value) => validateDni((value as string) || ''),
-    'El número de cédula ingresado no es válido',
-  ),
+  document: z.string().refine((value) => validateDni(value || ''), {
+    message: 'El número de cédula ingresado no es válido',
+  }),
   email: z
     .string()
     .email('El correo electrónico ingresado no es válido')

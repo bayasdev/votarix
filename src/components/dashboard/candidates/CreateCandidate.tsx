@@ -59,12 +59,12 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
     axios
       .post('/api/candidates', data)
       .then(() => {
-        toast.success('Candidato creado!');
+        toast.success('Creado correctamente');
         router.replace('/dashboard/candidates');
         router.refresh();
       })
-      .catch(() => {
-        toast.error('Algo salió mal!');
+      .catch((error) => {
+        toast.error(error?.response?.data);
       })
       .finally(() => {
         setIsLoading(false);
