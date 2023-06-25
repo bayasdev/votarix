@@ -16,6 +16,21 @@ export async function PUT(request: Request, { params }: IParams) {
   if (!currentUser || currentUser.role !== Role.ADMIN) {
     return NextResponse.error();
   }
+
+  const { candidateId } = params;
+
+  const body = await request.json();
+
+  const candidate = await prisma.candidate.update({
+    where: {
+      id: candidateId,
+    },
+    data: {
+      ...body,
+    },
+  });
+
+  return NextResponse.json(candidate);
 }
 
 export async function DELETE(request: Request, { params }: IParams) {
