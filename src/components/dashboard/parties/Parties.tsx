@@ -29,11 +29,11 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
       axios
         .delete(`/api/parties/${id}`)
         .then(() => {
-          toast.success('Partido eliminado!');
+          toast.success('Eliminado correctamente');
           router.refresh();
         })
-        .catch(() => {
-          toast.error('Algo salió mal!');
+        .catch((error) => {
+          toast.error(error?.response?.data);
         });
     },
     [router],

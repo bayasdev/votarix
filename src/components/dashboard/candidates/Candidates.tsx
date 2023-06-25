@@ -29,11 +29,11 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
       axios
         .delete(`/api/candidates/${id}`)
         .then(() => {
-          toast.success('Candidato eliminado!');
+          toast.success('Eliminado correctamente');
           router.refresh();
         })
-        .catch(() => {
-          toast.error('Algo salió mal!');
+        .catch((error) => {
+          toast.error(error?.response?.data);
         });
     },
     [router],
