@@ -62,6 +62,7 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
         <Actions
           onEdit={() => handleEdit(props.getValue())}
           onDelete={() => handleDelete(props.getValue())}
+          disabled={isLoading}
         />
       ),
     }),
