@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 
-import prisma from '@/src/lib/db';
-import validateDni from '@/src/lib/validateDni';
+import prisma from '@/src/lib/prisma';
+import validateDni from '@/src/lib/helpers/validateDni';
 
 export async function POST(request: Request) {
   if (process.env.SIGNUP_ALLOWED !== 'true') {

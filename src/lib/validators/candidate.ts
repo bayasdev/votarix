@@ -1,0 +1,23 @@
+import { z } from 'zod';
+import validateDni from '../helpers/validateDni';
+
+export const CandidateValidator = z.object({
+  name: z.string().min(1, 'El campo es requerido'),
+  email: z
+    .string()
+    .email('El correo electrónico ingresado no es válido')
+    .optional()
+    .or(z.literal('')),
+  document: z
+    .custom(
+      (value) => validateDni((value as string) || ''),
+      'El número de cédula ingresado no es válido',
+    )
+    .optional()
+    .or(z.literal('')),
+  partyId: z.string().min(1, 'El campo es requerido'),
+  bio: z.string().optional(),
+  proposals: z.string().optional(),
+});
+
+export type CandidateRequest = z.infer<typeof CandidateValidator>;

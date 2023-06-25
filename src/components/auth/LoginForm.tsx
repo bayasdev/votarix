@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -12,32 +11,27 @@ import Link from 'next/link';
 import Input from '../common/Input';
 import Heading from '../common/Heading';
 import Button from '../common/Button';
+import { LoginRequest, LoginValidator } from '@/src/lib/validators/auth';
 
 const LoginForm = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    email: z
-      .string()
-      .email('El correo electrónico ingresado no es válido')
-      .min(1, 'Ingrese su correo electrónico'),
-    password: z.string().min(1, 'Ingrese una contraseña'),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<LoginRequest>({
+    resolver: zodResolver(LoginValidator),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     setIsLoading(true);
 
     signIn('credentials', {

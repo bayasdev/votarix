@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
@@ -12,32 +11,27 @@ import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
+import { PartyRequest, PartyValidator } from '@/src/lib/validators/party';
 
 const CreateParty = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'El campo es requerido'),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<PartyRequest>({
+    resolver: zodResolver(PartyValidator),
   });
 
   const resetFields = () => {
     resetField('name');
   };
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<PartyRequest> = (data) => {
     setIsLoading(true);
     axios
       .post('/api/parties', data)

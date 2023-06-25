@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
@@ -12,41 +11,23 @@ import axios from 'axios';
 import Input from '../common/Input';
 import Heading from '../common/Heading';
 import Button from '../common/Button';
-import validateDni from '@/src/lib/validateDni';
+import { SignupRequest, SignupValidator } from '@/src/lib/validators/auth';
 
 const SignupForm = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'Ingrese su nombre'),
-    document: z.custom(
-      (value) => validateDni((value as string) || ''),
-      'El número de cédula ingresado no es válido',
-    ),
-    email: z
-      .string()
-      .email('El correo electrónico ingresado no es válido')
-      .min(1, 'Ingrese su correo electrónico'),
-    password: z
-      .string()
-      .min(1, 'Ingrese una contraseña')
-      .min(8, 'La contraseña debe contener al menos 8 caracteres'),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<SignupRequest>({
+    resolver: zodResolver(SignupValidator),
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<SignupRequest> = (data) => {
     setIsLoading(true);
     axios
       .post('/api/signup', data)

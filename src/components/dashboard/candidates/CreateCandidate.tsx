@@ -3,19 +3,21 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 
 import { SafeParty } from '@/src/types';
-import validateDni from '@/src/lib/validateDni';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
 import MarkdownEditor from '../../common/MarkdownEditor';
 import Select from '../../common/Select';
+import {
+  CandidateRequest,
+  CandidateValidator,
+} from '@/src/lib/validators/candidate';
 
 interface CreateCandidateProps {
   parties: SafeParty[] | null;
@@ -26,33 +28,22 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'El campo es requerido'),
-    email: z
-      .string()
-      .email('El correo electrónico ingresado no es válido')
-      .optional(),
-    document: z
-      .custom(
-        (value) => validateDni((value as string) || ''),
-        'El número de cédula ingresado no es válido',
-      )
-      .optional(),
-    partyId: z.string(),
-    bio: z.string().optional(),
-    proposals: z.string().optional(),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<CandidateRequest>({
+    resolver: zodResolver(CandidateValidator),
+    defaultValues: {
+      name: '',
+      email: '',
+      document: '',
+      partyId: '',
+      bio: '',
+      proposals: '',
+    },
   });
 
   const resetFields = () => {
@@ -63,7 +54,7 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
     resetField('proposals');
   };
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<CandidateRequest> = (data) => {
     setIsLoading(true);
     axios
       .post('/api/candidates', data)

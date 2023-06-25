@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth/next';
 
 import { SafeUser } from '../../types';
 import { authOptions } from '../../lib/auth';
-import prisma from '@/src/lib/db';
+import prisma from '@/src/lib/prisma';
 
 export default async function getCurrentUser(): Promise<SafeUser | null> {
   try {

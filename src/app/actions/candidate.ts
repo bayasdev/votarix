@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '@/src/lib/db';
+import prisma from '@/src/lib/prisma';
 import { SafeCandidate } from '@/src/types';
 
 interface IParams {
