@@ -7,13 +7,18 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
+import { MdOutlineEdit, MdOutlineRestore } from 'react-icons/md';
 
+import { SafeParty } from '@/src/types';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
 
-const CreateParty = () => {
+interface EditPartyProps {
+  party: SafeParty | null;
+}
+
+const EditParty: React.FC<EditPartyProps> = ({ party }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +36,9 @@ const CreateParty = () => {
     resetField,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: party?.name || '',
+    },
   });
 
   const resetFields = () => {
@@ -40,9 +48,9 @@ const CreateParty = () => {
   const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
     setIsLoading(true);
     axios
-      .post('/api/parties', data)
+      .put(`/api/parties/${party?.id}`, data)
       .then(() => {
-        toast.success('Partido político creado!');
+        toast.success('Partido político actualizado!');
         resetFields();
         router.replace('/dashboard/parties');
         router.refresh();
@@ -71,8 +79,8 @@ const CreateParty = () => {
   const actionsContent = (
     <div className="flex gap-2">
       <Button
-        label="Crear partido político"
-        icon={MdOutlineAdd}
+        label="Editar partido político"
+        icon={MdOutlineEdit}
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}
       />
@@ -89,4 +97,4 @@ const CreateParty = () => {
   return <Card bodyContent={bodyContent} actionsContent={actionsContent} />;
 };
 
-export default CreateParty;
+export default EditParty;

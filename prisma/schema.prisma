@@ -94,9 +94,9 @@ model Candidate {
   photo      String?
   bio        String?   @db.Text
   proposals  String?   @db.Text
-  party      Party     @relation(fields: [partyId], references: [id])
+  party      Party     @relation(fields: [partyId], references: [id], onDelete: Cascade)
   partyId    String
-  position   Position? @relation(fields: [positionId], references: [id])
+  position   Position? @relation(fields: [positionId], references: [id], onDelete: Cascade)
   positionId String?
   ballots    Ballot[]
 

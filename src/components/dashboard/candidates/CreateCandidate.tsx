@@ -70,7 +70,8 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
       .then(() => {
         toast.success('Candidato creado!');
         resetFields();
-        router.push('/dashboard/candidates');
+        router.replace('/dashboard/candidates');
+        router.refresh();
       })
       .catch(() => {
         toast.error('Algo salió mal!');
@@ -148,7 +149,7 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
   const actionsContent = (
     <div className="flex gap-2">
       <Button
-        label="Editar candidato"
+        label="Crear candidato"
         icon={MdOutlineAdd}
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}

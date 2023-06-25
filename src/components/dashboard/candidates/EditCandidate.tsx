@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
+import { MdOutlineEdit, MdOutlineRestore } from 'react-icons/md';
 
 import { SafeCandidate, SafeParty } from '@/src/types';
 import validateDni from '@/src/lib/validateDni';
@@ -82,7 +82,9 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
       .then(() => {
         toast.success('Candidato actualizado!');
         resetFields();
-        router.push('/dashboard/candidates');
+        // fix stale data
+        router.replace('/dashboard/candidates');
+        router.refresh();
       })
       .catch(() => {
         toast.error('Algo salió mal!');
@@ -161,7 +163,7 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
     <div className="flex gap-2">
       <Button
         label="Editar candidato"
-        icon={MdOutlineAdd}
+        icon={MdOutlineEdit}
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}
       />
