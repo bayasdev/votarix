@@ -7,15 +7,15 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { MdOutlineAdd } from 'react-icons/md';
+import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 
+import { SafeParty } from '@/src/types';
+import validateDni from '@/src/lib/validateDni';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
 import MarkdownEditor from '../../common/MarkdownEditor';
 import Select from '../../common/Select';
-import { SafeParty } from '@/src/types';
-import validateDni from '@/src/lib/validateDni';
 
 interface CreateCandidateProps {
   parties: SafeParty[] | null;
@@ -146,12 +146,21 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
   );
 
   const actionsContent = (
-    <Button
-      label="Crear candidato"
-      icon={MdOutlineAdd}
-      onClick={handleSubmit(onSubmit)}
-      disabled={isLoading}
-    />
+    <div className="flex gap-2">
+      <Button
+        label="Editar candidato"
+        icon={MdOutlineAdd}
+        onClick={handleSubmit(onSubmit)}
+        disabled={isLoading}
+      />
+      <Button
+        label="Restablecer"
+        icon={MdOutlineRestore}
+        onClick={resetFields}
+        disabled={isLoading}
+        color="ghost"
+      />
+    </div>
   );
 
   return <Card bodyContent={bodyContent} actionsContent={actionsContent} />;
