@@ -27,23 +27,27 @@ const SignupForm = () => {
     resolver: zodResolver(SignupValidator),
   });
 
+  const resetFields = () => {
+    resetField('name');
+    resetField('document');
+    resetField('email');
+    resetField('password');
+  };
+
   const onSubmit: SubmitHandler<SignupRequest> = (data) => {
     setIsLoading(true);
     axios
       .post('/api/signup', data)
       .then((response) => {
-        toast.success(response?.data?.msg);
+        toast.success(response?.data);
         router.replace('/login');
       })
       .catch((error) => {
-        toast.error(error?.response?.data?.error);
+        toast.error(error?.response?.data);
       })
       .finally(() => {
         setIsLoading(false);
-        resetField('name');
-        resetField('document');
-        resetField('email');
-        resetField('password');
+        resetFields();
       });
   };
 

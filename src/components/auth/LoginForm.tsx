@@ -31,6 +31,11 @@ const LoginForm = () => {
     },
   });
 
+  const resetFields = () => {
+    resetField('email');
+    resetField('password');
+  };
+
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     setIsLoading(true);
 
@@ -39,8 +44,6 @@ const LoginForm = () => {
       redirect: false,
     }).then((callback) => {
       setIsLoading(false);
-      resetField('email');
-      resetField('password');
 
       if (callback?.ok) {
         toast.success('Sesión iniciada');
@@ -49,6 +52,7 @@ const LoginForm = () => {
 
       if (callback?.error) {
         toast.error(callback.error);
+        resetFields();
       }
     });
   };
