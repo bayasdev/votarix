@@ -5,11 +5,11 @@ import logo from '@/public/img/logo.svg';
 import voting from '@/public/img/voting.svg';
 import getCurrentUser from '../actions/getCurrentUser';
 
-export default async function AuthLayout({
-  children,
-}: {
+interface AuthLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+const AuthLayout: React.FC<AuthLayoutProps> = async ({ children }) => {
   const currentUser = await getCurrentUser();
   if (currentUser) return redirect('/');
 
@@ -31,4 +31,6 @@ export default async function AuthLayout({
       </div>
     </div>
   );
-}
+};
+
+export default AuthLayout;
