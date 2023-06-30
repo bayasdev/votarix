@@ -69,7 +69,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <Heading title="Bienvenido de nuevo" subtitle="Ingresa en tu cuenta" />
       <Input
         id="email"
@@ -102,7 +102,7 @@ const LoginForm = () => {
           Regístrate
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 

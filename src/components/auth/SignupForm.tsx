@@ -52,7 +52,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <Heading title="Empezemos" subtitle="Crea una cuenta para continuar" />
       <div className="grid gap-2 md:grid-cols-2">
         <Input
@@ -104,7 +104,7 @@ const SignupForm = () => {
           Inicia sesión
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
