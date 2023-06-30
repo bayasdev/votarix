@@ -256,22 +256,22 @@
     picocolors "^1.0.0"
     tslib "^2.5.0"
 
-"@prisma/client@^4.16.1":
-  version "4.16.1"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.16.1.tgz#030bf59ee51f223bae2a8e7c49827528756cf03a"
-  integrity sha512-CoDHu7Bt+NuDo40ijoeHP79EHtECsPBTy3yte5Yo3op8TqXt/kV0OT5OrsWewKvQGKFMHhYQ+ePed3zzjYdGAw==
+"@prisma/client@^4.16.2":
+  version "4.16.2"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.16.2.tgz#3bb9ebd49b35c8236b3d468d0215192267016e2b"
+  integrity sha512-qCoEyxv1ZrQ4bKy39GnylE8Zq31IRmm8bNhNbZx7bF2cU5aiCCnSa93J2imF88MBjn7J9eUQneNxUQVJdl/rPQ==
   dependencies:
-    "@prisma/engines-version" "4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c"
+    "@prisma/engines-version" "4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81"
 
-"@prisma/engines-version@4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c":
-  version "4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c"
-  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c.tgz#54fd17f9a9080e13e2f75613fd35afb7875e3715"
-  integrity sha512-tMWAF/qF00fbUH1HB4Yjmz6bjh7fzkb7Y3NRoUfMlHu6V+O45MGvqwYxqwBjn1BIUXkl3r04W351D4qdJjrgvA==
+"@prisma/engines-version@4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81":
+  version "4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.16.1-1.4bc8b6e1b66cb932731fb1bdbbc550d1e010de81.tgz#d3b5dcf95b6d220e258cbf6ae19b06d30a7e9f14"
+  integrity sha512-q617EUWfRIDTriWADZ4YiWRZXCa/WuhNgLTVd+HqWLffjMSPzyM5uOWoauX91wvQClSKZU4pzI4JJLQ9Kl62Qg==
 
-"@prisma/engines@4.16.1":
-  version "4.16.1"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.16.1.tgz#ee487620dc5135fd175ac7494b1c60c9f12c1e4b"
-  integrity sha512-gpZG0kGGxfemgvK/LghHdBIz+crHkZjzszja94xp4oytpsXrgt/Ice82MvPsWMleVIniKuARrowtsIsim0PFJQ==
+"@prisma/engines@4.16.2":
+  version "4.16.2"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.16.2.tgz#5ec8dd672c2173d597e469194916ad4826ce2e5f"
+  integrity sha512-vx1nxVvN4QeT/cepQce68deh/Turxy5Mr+4L4zClFuK1GlxN3+ivxfuv+ej/gvidWn1cE1uAhW7ALLNlYbRUAw==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.3.1"
@@ -370,10 +370,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.3.0.tgz#719498898d5defab83c3560f45d8498f58d11938"
   integrity sha512-cumHmIAf6On83X7yP+LrsEyUOf/YlociZelmpRYaGFydoaPdxdt80MAbu6vWerQT2COCp2nPvHdsbD7tHn/YlQ==
 
-"@types/node@20.3.1":
-  version "20.3.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.3.1.tgz#e8a83f1aa8b649377bb1fb5d7bac5cb90e784dfe"
-  integrity sha512-EhcH/wvidPy1WeML3TtYFGR83UzjxeWRen9V402T8aUGYsCHOmfoisV3ZSg03gAFIbLq8TnWOJ0f4cALtnSEUg==
+"@types/node@20.3.2":
+  version "20.3.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.3.2.tgz#fa6a90f2600e052a03c18b8cb3fd83dd4e599898"
+  integrity sha512-vOBLVQeCQfIcF/2Y7eKFTqrMnizK5lRNQ7ykML/5RuwVXVWxYkgwS7xbt4B6fKCUPgbSL5FSsjHQpaGQP/dQmw==
 
 "@types/parse5@^6.0.0":
   version "6.0.3"
@@ -962,10 +962,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-daisyui@^3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-3.1.6.tgz#e6cda37eeddeb8724fc07f11c3e1b2e257cc0e40"
-  integrity sha512-P/2WUn4ZImEc2IfPSYw3qPCUnnJNju0P6ii0fUqtTURUj0oda6L0tm4EzrUmB2EbqB6grZ9nKHPTSniKaPYp1w==
+daisyui@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-3.1.7.tgz#030eea446566dfd8b18b7f7734c9f5cecf36f501"
+  integrity sha512-VQhaunQlB7Buo+AbE+S3i6H/eYknKEuKVHG67y7sbG58uEjeLK6n2rojG3YE7fwoOss6ldbUL8Oy0MyoJi0CHw==
   dependencies:
     colord "^2.9"
     css-selector-tokenizer "^0.8"
@@ -3403,12 +3403,12 @@ pretty-format@^3.8.0:
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
   integrity sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==
 
-prisma@^4.16.1:
-  version "4.16.1"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-4.16.1.tgz#c6d723a4326138a72489098a6c39a698a670fbbf"
-  integrity sha512-C2Xm7yxHxjFjjscBEW4tmoraPHH/Vyu/A0XABdbaFtoiOZARsxvOM7rwc2iZ0qVxbh0bGBGBWZUSXO/52/nHBQ==
+prisma@^4.16.2:
+  version "4.16.2"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-4.16.2.tgz#469e0a0991c6ae5bcde289401726bb012253339e"
+  integrity sha512-SYCsBvDf0/7XSJyf2cHTLjLeTLVXYfqp7pG5eEVafFLeT0u/hLFz/9W196nDRGUOo1JfPatAEb+uEnTQImQC1g==
   dependencies:
-    "@prisma/engines" "4.16.1"
+    "@prisma/engines" "4.16.2"
 
 prop-types@^15.0.0, prop-types@^15.8.1:
   version "15.8.1"
@@ -3447,10 +3447,10 @@ react-dom@18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-hook-form@^7.45.0:
-  version "7.45.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.45.0.tgz#df2bbc8cee598855a63ba446e0bb06f7c8120ccf"
-  integrity sha512-AbHeZ4ad+0dEIknSW9dBgIwcvRDfZ1O97sgj75WaMdOX0eg8TBiUf9wxzVkIjZbk76BBIE9lmFOzyD4PN80ZQg==
+react-hook-form@^7.45.1:
+  version "7.45.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.45.1.tgz#e352c7f4dbc7540f0756abbb4dcfd1122fecc9bb"
+  integrity sha512-6dWoFJwycbuFfw/iKMcl+RdAOAOHDiF11KWYhNDRN/OkUt+Di5qsZHwA0OwsVnu9y135gkHpTw9DJA+WzCeR9w==
 
 react-hot-toast@^2.4.1:
   version "2.4.1"
@@ -4149,10 +4149,10 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
-typescript@5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
-  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
+typescript@5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
+  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
