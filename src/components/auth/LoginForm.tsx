@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
@@ -12,6 +12,8 @@ import Input from '../common/Input';
 import Heading from '../common/Heading';
 import Button from '../common/Button';
 import { LoginRequest, LoginValidator } from '@/src/lib/validators/auth';
+import getCurrentUser from '@/src/app/actions/getCurrentUser';
+import { Role } from '@prisma/client';
 
 const LoginForm = () => {
   const router = useRouter();
@@ -42,12 +44,21 @@ const LoginForm = () => {
     signIn('credentials', {
       ...data,
       redirect: false,
-    }).then((callback) => {
+    }).then(async (callback) => {
       setIsLoading(false);
 
       if (callback?.ok) {
         toast.success('Sesión iniciada');
-        router.replace('/');
+
+        const user = await getCurrentUser();
+
+        if (user?.role === Role.ADMIN) {
+          router.prefetch('/dashboard');
+          router.replace('/dashboard');
+        } else {
+          router.prefetch('/');
+          router.replace('/');
+        }
       }
 
       if (callback?.error) {
