@@ -22,7 +22,7 @@ export async function getParties(): Promise<SafeParty[] | null> {
     }));
 
     return safeParties;
-  } catch (error: any) {
+  } catch () {
     return null;
   }
 }
@@ -46,7 +46,7 @@ export async function getPartyById(params: IParams): Promise<SafeParty | null> {
       createdAt: party.createdAt.toISOString(),
       updatedAt: party.updatedAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch () {
     return null;
   }
 }
