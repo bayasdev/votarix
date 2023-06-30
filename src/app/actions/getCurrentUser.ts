@@ -31,7 +31,7 @@ export default async function getCurrentUser(): Promise<SafeUser | null> {
       emailVerified: currentUser.emailVerified?.toISOString() || null,
       hashedPassword: null,
     };
-  } catch () {
+  } catch (error: any) {
     return null;
   }
 }

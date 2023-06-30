@@ -24,7 +24,7 @@ export async function getUsers(): Promise<SafeUser[] | null> {
     }));
 
     return safeUsers;
-  } catch () {
+  } catch (error: any) {
     return null;
   }
 }
@@ -50,7 +50,7 @@ export async function getUserById(params: IParams): Promise<SafeUser | null> {
       emailVerified: user.emailVerified?.toISOString() || null,
       hashedPassword: null,
     };
-  } catch () {
+  } catch (error: any) {
     return null;
   }
 }

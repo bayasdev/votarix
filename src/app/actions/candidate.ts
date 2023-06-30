@@ -22,7 +22,7 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
     }));
 
     return safeCandidates;
-  } catch () {
+  } catch (error: any) {
     return null;
   }
 }
@@ -48,7 +48,7 @@ export async function getCandidateById(
       createdAt: candidate.createdAt.toISOString(),
       updatedAt: candidate.updatedAt.toISOString(),
     };
-  } catch () {
+  } catch (error: any) {
     return null;
   }
 }
