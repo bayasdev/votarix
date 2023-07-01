@@ -34,11 +34,11 @@ const menuItems = [
     ],
   },
   {
-    title: 'Elecciones',
+    title: 'Procesos Electorales',
     children: [
       {
         icon: MdOutlineHowToVote,
-        label: 'Procesos Electorales',
+        label: 'Elecciones',
         path: '/dashboard/elections',
       },
       {
