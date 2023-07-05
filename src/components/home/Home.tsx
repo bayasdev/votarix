@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = ({ currentUser }) => {
         </button>
       ) : (
         <button className="btn" onClick={() => router.push('/login')}>
-          Login
+          Login 12
         </button>
       )}
     </>
