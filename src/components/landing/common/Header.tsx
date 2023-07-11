@@ -1,11 +1,63 @@
+"use client"
+
 import Link from "next/link";
 import Logo from "../../common/Logo";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
+/* const router = useRouter(); */
 const Header: React.FC<any> = () => {
-    //const router = useRouter();
+
+
+    const [scrollActive, setScrollActive] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener("scroll", () => {
+            setScrollActive(window.scrollY > 20);
+        });
+    }, []);
+
     return (
-        <div>
-            <header className="fixed top-0 w-full  z-30 bg-gray-200 transition-all">
+        <>
+            <header
+                className={"top-0 sticky z-30 w-full bg-white transition-all" +
+                    (scrollActive ? "shadow-md border-b pt-0" : " pt-2")
+                }
+            >
+                <nav className="max-w-screen-2xl px-6 sm:px-8 lg:px-16 mx-auto grid grid-flow-col py-3 sm:py-4">
+                    <div className="col-start-1 col-end-2 flex items-center">
+                        <Logo className="w-28" />
+                    </div>
+                    {/* <ul className="hidden lg:flex col-start-4 col-end-8 text-black-500  items-center">
+                    <Link href="/" className="hover:text-primary hover:font-semibold px-4">
+                            Inicio
+                        </Link>
+                        <li className={"/candidates" == "/candidates" ? "text-primary" : ""}>
+                            <Link href="/candidates">Candidatos</Link>
+                        </li>
+                    </ul> */}
+                    <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
+                        <ul className="col-start-8 col-end-8 text-black-500 items-center px-4">
+                            <Link href="/" className="hover:text-primary hover:font-semibold px-4">
+                                Inicio
+                            </Link>
+                            <Link href="/candidates" className="hover:text-primary hover:font-semibold px-4">
+                                Candidatos
+                            </Link>
+                            <Link href="/results" className="hover:text-primary hover:font-semibold px-4">
+                                Resultados
+                            </Link>
+                        </ul>
+                        {/* <Link href="/">
+                            Sign In
+                            {/* <a className="text-black-600 mx-2 sm:mx-4 capitalize tracking-wide hover:text-orange-500 transition-all">
+                            </a> 
+                        </Link> */}
+                        {/* <ButtonOutline>Sign Up</ButtonOutline> */}
+                    </div>
+                </nav>
+            </header>
+            {/* <header className="fixed top-0 w-full  z-30 bg-gray-200 transition-all">
                 <nav className="max-w-screen-xl px-6 sm:px-8 lg:px-16 mx-auto grid grid-flow-col py-3 sm:py-4">
                     <Link href="/" className="col-start-1 col-end-2 flex items-center">
                         <Logo className="w-28" />
@@ -22,62 +74,11 @@ const Header: React.FC<any> = () => {
                         </Link>
                     </ul>
                     <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
-                        <Link href="/">
-                            Sign In
-                            {/* <a className="text-black-600 mx-2 sm:mx-4 capitalize tracking-wide hover:text-orange-500 transition-all">
-                                    Sign In
-                                </a> */}
-                        </Link>
-                        {/* <ButtonOutline>Sign Up</ButtonOutline> */}
+                        
                     </div>
                 </nav>
-            </header>
-
-            <div className="navbar bg-base-100 px-20">
-                <div className="navbar-start">
-
-                    {/* <a className="btn btn-ghost normal-case text-xl">daisyUI</a> */}
-                    <Link href="/">
-                        <Logo className="w-28" />
-                    </Link>
-                    <div className="dropdown">
-                        {/* <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </label> */}
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li tabIndex={0}>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li><a>Item 3</a></li>
-                    </ul>
-                </div>
-                <div className="navbar-end">
-                    <a className="btn">Button</a>
-                </div>
-            </div>
-        </div>
+            </header> */}
+        </>
 
     );
 };
