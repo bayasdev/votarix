@@ -3,6 +3,8 @@ import ContainerLanding from '@/src/components/landing/common/Container';
 
 const Candidate1Page = () => {
 
+  const image = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+
   return (
     <>
       <ContainerLanding >
@@ -16,7 +18,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -26,7 +28,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -36,7 +38,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -46,7 +48,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -56,7 +58,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -73,7 +75,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -83,7 +85,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -93,7 +95,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -103,7 +105,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -113,7 +115,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -130,7 +132,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -140,7 +142,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -150,7 +152,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -160,7 +162,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
@@ -170,7 +172,7 @@ const Candidate1Page = () => {
               <div className="flex items-center pb-2">
                 <img
                   className="w-16 h-16 mr-4 rounded-full border-primary border-2"
-                  src="https://dina.concytec.gob.pe/appDirectorioCTI/UploadFotoPath.do?tipo=visualizar_archivo&id_investigador=27472&ruta=/documents/docInvestigadores/27472/imagenes/FOTO%20FIORELLA.jpg&content_type=image/jpeg"
+                  src={image}
                   alt="Card cover image" />
                 <div className="flex flex-col min-w-0">
                   <div className="font-bold">ISRAEL MATIAS PILA FONSECA</div>
