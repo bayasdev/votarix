@@ -11,6 +11,7 @@ import {
   MdOutlineSettings,
   MdOutlineClose,
 } from 'react-icons/md';
+import { PiIdentificationBadgeBold } from 'react-icons/pi';
 
 import { SafeUser } from '../../../types';
 import Navbar from './Navbar';
@@ -40,6 +41,11 @@ const menuItems = [
         icon: MdOutlineHowToVote,
         label: 'Elecciones',
         path: '/dashboard/elections',
+      },
+      {
+        icon: PiIdentificationBadgeBold,
+        label: 'Puestos Electivos',
+        path: '/dashboard/positions',
       },
       {
         icon: MdOutlineGroups,

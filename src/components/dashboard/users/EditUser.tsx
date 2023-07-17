@@ -64,16 +64,11 @@ const EditUser: React.FC<EditUserProps> = ({ user }) => {
       });
   };
 
-  const roleOptions = [
-    {
-      label: 'Administrador',
-      value: Role.ADMIN,
-    },
-    {
-      label: 'Votante',
-      value: Role.VOTER,
-    },
-  ];
+  // generate roleOptions from Role enum
+  const roleOptions = Object.keys(Role).map((key) => ({
+    label: key,
+    value: key,
+  }));
 
   const bodyContent = (
     <div className="flex flex-col gap-8">

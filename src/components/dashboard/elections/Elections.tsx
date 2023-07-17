@@ -6,22 +6,22 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeUser } from '@/src/types';
+import { SafeElection } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
-interface UsersProps {
-  users: SafeUser[] | null;
+interface ElectionsProps {
+  elections: SafeElection[] | null;
 }
 
-const Users: React.FC<UsersProps> = ({ users }) => {
+const Elections: React.FC<ElectionsProps> = ({ elections }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/users/${id}`);
+      router.push(`/dashboard/elections/${id}`);
     },
     [router],
   );
@@ -30,7 +30,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     (id: string) => {
       setIsLoading(true);
       axios
-        .delete(`/api/users/${id}`)
+        .delete(`/api/elections/${id}`)
         .then(() => {
           toast.success('Eliminado correctamente');
           router.refresh();
@@ -43,20 +43,17 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeUser>();
+  const columnHelper = createColumnHelper<SafeElection>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
     }),
-    columnHelper.accessor('document', {
-      header: () => 'Cédula',
+    columnHelper.accessor('startTime', {
+      header: () => 'Inicio',
     }),
-    columnHelper.accessor('email', {
-      header: () => 'Correo electrónico',
-    }),
-    columnHelper.accessor('role', {
-      header: () => 'Rol',
+    columnHelper.accessor('endTime', {
+      header: () => 'Finalización',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -71,7 +68,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     }),
   ];
 
-  return <Table columns={columns} data={users} />;
+  return <Table columns={columns} data={elections} />;
 };
 
-export default Users;
+export default Elections;

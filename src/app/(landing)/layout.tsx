@@ -12,12 +12,12 @@ interface LandingLayoutProps {
 
 const LandingLayout: React.FC<LandingLayoutProps> = async ({ children }) => {
   const currentUser = await getCurrentUser();
-  if (currentUser) return redirect('/');
+  // if (currentUser) return redirect('/');
 
   return (
     <>
       <Header />
-        {children}
+      {children}
       <Footer />
     </>
   );
