@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { SafeCandidate } from '@/src/types';
 import Card from '../../common/Card';
@@ -19,6 +19,7 @@ import {
   ElectionValidator,
 } from '@/src/lib/validators/election';
 import Textarea from '../../common/Textarea';
+import DateInput from '../../common/DateInput';
 
 interface CreateElectionProps {
   candidates: SafeCandidate[] | null;
@@ -29,11 +30,12 @@ const CreateElection: React.FC<CreateElectionProps> = ({ candidates }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const defaultStartTime = moment().format('YYYY-MM-DDTHH:mm');
-  const defaultEndTime = moment().add(2, 'hours').format('YYYY-MM-DDTHH:mm');
+  const defaultStartTime = new Date();
+  const defaultEndTime = dayjs(defaultStartTime).add(2, 'hour').toDate();
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     resetField,
@@ -96,20 +98,18 @@ const CreateElection: React.FC<CreateElectionProps> = ({ candidates }) => {
         errors={errors}
       />
       <div className="grid gap-2 md:grid-cols-2">
-        <Input
+        <DateInput
           id="startTime"
           label="Fecha de inicio"
-          type="datetime-local"
           disabled={isLoading}
-          register={register}
+          control={control}
           errors={errors}
         />
-        <Input
+        <DateInput
           id="endTime"
           label="Fecha de finalización"
-          type="datetime-local"
           disabled={isLoading}
-          register={register}
+          control={control}
           errors={errors}
         />
       </div>

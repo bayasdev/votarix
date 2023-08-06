@@ -1,30 +1,20 @@
 import { z } from 'zod';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export const ElectionValidator = z
   .object({
     name: z.string().min(1, 'El campo es requerido'),
     description: z.string().optional().or(z.literal('')),
-    startTime: z.string().refine((value) => isValidDateTime(value), {
-      message: 'Fecha de inicio inválida',
-    }),
-    endTime: z.string().refine((value) => isValidDateTime(value), {
-      message: 'Fecha de finalización inválida',
-    }),
+    startTime: z.date(),
+    endTime: z.date(),
   })
-  .refine((data) => isEndAfterStart(data.startTime, data.endTime), {
-    message: 'La fecha de finalización debe ser posterior a la de inicio',
+  .refine((data) => dayjs(data.startTime).isBefore(dayjs(data.endTime)), {
+    message: 'La fecha de inicio debe ser antes de la fecha de finalización',
+    path: ['startTime'],
+  })
+  .refine((data) => dayjs(data.endTime).isAfter(dayjs(data.startTime)), {
+    message: 'La fecha de finalización debe ser después de la fecha de inicio',
     path: ['endTime'],
   });
 
 export type ElectionRequest = z.infer<typeof ElectionValidator>;
-
-function isValidDateTime(value: string): boolean {
-  return moment(value, 'YYYY-MM-DDTHH:mm', true).isValid();
-}
-
-function isEndAfterStart(start: string, end: string): boolean {
-  return moment(start, 'YYYY-MM-DDTHH:mm').isBefore(
-    moment(end, 'YYYY-MM-DDTHH:mm'),
-  );
-}
