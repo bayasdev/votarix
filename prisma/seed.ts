@@ -32,7 +32,6 @@ async function main() {
       name: 'Juan Pérez',
       document: '1799999999',
       email: 'jperez@ejemplo.com',
-      bio: 'Mi nombre es Juan Pérez y soy tu mejor opción',
       proposals: 'Generaré 10000 nuevos empleos en el área de STEM',
       partyId: party1.id,
     },

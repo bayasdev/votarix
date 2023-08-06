@@ -41,7 +41,6 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
       email: '',
       document: '',
       partyId: '',
-      bio: '',
       proposals: '',
     },
   });
@@ -50,7 +49,6 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
     resetField('name');
     resetField('email');
     resetField('document');
-    resetField('bio');
     resetField('proposals');
   };
 
@@ -115,15 +113,6 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
           errors={errors}
         />
       </div>
-      <MarkdownEditor
-        name="bio"
-        label="Biografía"
-        placeholder="Mi nombre es Juan Pérez..."
-        disabled={isLoading}
-        control={control}
-        errors={errors}
-        light
-      />
       <MarkdownEditor
         name="proposals"
         label="Propuestas"

@@ -45,7 +45,6 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
       email: candidate?.email || '',
       document: candidate?.document || '',
       partyId: candidate?.partyId || '',
-      bio: candidate?.bio || '',
       proposals: candidate?.proposals || '',
     },
   });
@@ -54,7 +53,6 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
     resetField('name');
     resetField('email');
     resetField('document');
-    resetField('bio');
     resetField('proposals');
   };
 
@@ -120,15 +118,6 @@ const EditCandidate: React.FC<EditCandidateProps> = ({
           errors={errors}
         />
       </div>
-      <MarkdownEditor
-        name="bio"
-        label="Biografía"
-        placeholder="Mi nombre es Juan Pérez..."
-        disabled={isLoading}
-        control={control}
-        errors={errors}
-        light
-      />
       <MarkdownEditor
         name="proposals"
         label="Propuestas"

@@ -92,7 +92,6 @@ model Candidate {
   email      String?
   document   String?
   photo      String?
-  bio        String?   @db.Text
   proposals  String?   @db.Text
   party      Party     @relation(fields: [partyId], references: [id], onDelete: Cascade)
   partyId    String
