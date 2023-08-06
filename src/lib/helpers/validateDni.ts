@@ -1,4 +1,4 @@
-export default function validateDni(dni: string) {
+export default function validateDni(dni: string): boolean {
   //Validamos que la cédula solo contenga 10 dígitos
   if (dni.length === 10) {
     //Definimos el último dígito o tambien llamado dígito verificador

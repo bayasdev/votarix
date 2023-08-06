@@ -5,6 +5,8 @@ interface TextareaProps {
   id: string;
   label: string;
   placeholder?: string;
+  rows?: number;
+  resize?: boolean;
   disabled?: boolean;
   required?: boolean;
   register: UseFormRegister<any>;
@@ -15,14 +17,21 @@ const Textarea: React.FC<TextareaProps> = ({
   id,
   label,
   placeholder,
+  rows = 3,
+  resize = false,
   disabled,
   register,
   required,
   errors,
 }) => {
-  const textareaClasses = clsx('textarea-bordered', 'textarea', {
-    'textarea-error': errors[id],
-  });
+  const textareaClasses = clsx(
+    'textarea-bordered',
+    'textarea',
+    {
+      'textarea-error': errors[id],
+    },
+    { 'resize-none': !resize },
+  );
 
   return (
     <div className="form-control w-full">
@@ -32,6 +41,7 @@ const Textarea: React.FC<TextareaProps> = ({
         disabled={disabled}
         {...register(id, { required })}
         placeholder={placeholder}
+        rows={rows}
         className={textareaClasses}
       />
       {errors[id] && (

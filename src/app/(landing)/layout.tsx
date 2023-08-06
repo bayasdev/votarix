@@ -5,7 +5,7 @@ interface LandingLayoutProps {
   children: React.ReactNode;
 }
 
-const LandingLayout: React.FC<LandingLayoutProps> = async ({ children }) => {
+const LandingLayout: React.FC<LandingLayoutProps> = ({ children }) => {
   return (
     <>
       <Header />
