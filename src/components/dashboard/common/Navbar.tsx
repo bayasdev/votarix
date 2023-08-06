@@ -25,17 +25,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, onToggle }) => {
             className="lg:hidden"
           />
         )}
-        <Link href="/dashboard" className="btn-ghost btn lg:hidden">
+        <Link href="/dashboard" className="btn btn-ghost lg:hidden">
           <Logo className="w-28" />
         </Link>
       </div>
-      <div className="flex-none gap-2">
-        {currentUser && (
-          <>
-            <span className="hidden lg:block">{currentUser?.name}</span>
-            <UserDropdown initial={currentUser?.name?.[0] || ''} />
-          </>
-        )}
+      <div className="flex-none">
+        {currentUser && <UserDropdown currentUser={currentUser} />}
       </div>
     </div>
   );
