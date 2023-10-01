@@ -1,9 +1,8 @@
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
+import dynamic from 'next/dynamic';
 import rehypeSanitize from 'rehype-sanitize';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-
-import MDEditorWrapper from '../utils/MDEditorWrapper';
 
 interface MarkdownEditorProps {
   name: string;
@@ -15,6 +14,8 @@ interface MarkdownEditorProps {
   control: Control<any>;
   errors: FieldErrors;
 }
+
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   name,
@@ -33,7 +34,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         name={name}
         control={control}
         render={({ field: { onChange, value } }) => (
-          <MDEditorWrapper
+          <MDEditor
             value={value}
             onChange={onChange}
             previewOptions={{
