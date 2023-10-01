@@ -1,14 +1,13 @@
 import CreateElection from '@/src/components/dashboard/elections/CreateElection';
 import Heading from '@/src/components/common/Heading';
-import { getCandidates } from '@/src/app/actions/candidate';
+import GoBack from '@/src/components/dashboard/common/GoBack';
 
-const CreateElectionPage = async () => {
-  const candidates = await getCandidates();
-
+const CreateElectionPage = () => {
   return (
     <div className="flex flex-col gap-8">
+      <GoBack />
       <Heading title="Crear elección" />
-      <CreateElection candidates={candidates} />
+      <CreateElection />
     </div>
   );
 };
