@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 interface InputProps {
   id: string;
@@ -10,6 +10,7 @@ interface InputProps {
   required?: boolean;
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  className?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,10 +22,16 @@ const Input: React.FC<InputProps> = ({
   register,
   required,
   errors,
+  className,
 }) => {
-  const inputClasses = clsx('input-bordered', 'input', {
-    'input-error': errors[id],
-  });
+  const inputClasses = cn(
+    'input-bordered',
+    'input',
+    {
+      'input-error': errors[id],
+    },
+    className,
+  );
 
   return (
     <div className="form-control w-full">

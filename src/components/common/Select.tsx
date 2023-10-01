@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 type SelectOption = {
   label?: string;
@@ -15,6 +15,7 @@ interface SelectProps {
   required?: boolean;
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  className?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -26,10 +27,16 @@ const Select: React.FC<SelectProps> = ({
   register,
   required,
   errors,
+  className,
 }) => {
-  const selectClasses = clsx('select-bordered', 'select', {
-    'select-error': errors[id],
-  });
+  const selectClasses = cn(
+    'select-bordered',
+    'select',
+    {
+      'select-error': errors[id],
+    },
+    className,
+  );
 
   return (
     <div className="form-control w-full">

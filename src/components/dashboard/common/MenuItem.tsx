@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IconType } from 'react-icons';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 interface MenuItemProps {
   icon: IconType;
@@ -12,7 +12,7 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({ icon: Icon, label, path }) => {
   const currentPath = usePathname();
 
-  const linkClasses = clsx({ active: currentPath === path });
+  const linkClasses = cn({ active: currentPath === path });
 
   return (
     <li>

@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 interface TextareaProps {
   id: string;
@@ -11,6 +11,7 @@ interface TextareaProps {
   required?: boolean;
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  className?: string;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -23,14 +24,16 @@ const Textarea: React.FC<TextareaProps> = ({
   register,
   required,
   errors,
+  className,
 }) => {
-  const textareaClasses = clsx(
+  const textareaClasses = cn(
     'textarea-bordered',
     'textarea',
     {
       'textarea-error': errors[id],
     },
     { 'resize-none': !resize },
+    className,
   );
 
   return (

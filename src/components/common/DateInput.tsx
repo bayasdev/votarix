@@ -1,7 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 interface DateInputProps {
   id: string;
@@ -10,6 +10,7 @@ interface DateInputProps {
   required?: boolean;
   control: Control<any>;
   errors: FieldErrors;
+  className?: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -19,10 +20,17 @@ const DateInput: React.FC<DateInputProps> = ({
   control,
   required,
   errors,
+  className,
 }) => {
-  const inputClasses = clsx('input-bordered', 'input', 'w-full', {
-    'input-error': errors[id],
-  });
+  const inputClasses = cn(
+    'input-bordered',
+    'input',
+    'w-full',
+    {
+      'input-error': errors[id],
+    },
+    className,
+  );
 
   return (
     <Controller

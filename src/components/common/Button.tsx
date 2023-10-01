@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons';
-import clsx from 'clsx';
+import { cn } from '@/src/lib/utils';
 
 interface ButtonProps {
   label?: string;
@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
     error: 'btn-error',
   };
 
-  const buttonClasses = clsx(
+  const buttonClasses = cn(
     'btn',
     colorVariants[color],
     { 'w-full': full },
