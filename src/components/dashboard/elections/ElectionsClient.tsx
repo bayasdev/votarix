@@ -5,6 +5,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import dayjs from 'dayjs';
 
 import { SafeElection } from '@/src/types';
 import Table from '../../common/Table';
@@ -51,9 +52,11 @@ const ElectionsClient: React.FC<ElectionsClientProps> = ({ elections }) => {
     }),
     columnHelper.accessor('startTime', {
       header: () => 'Inicio',
+      cell: (props) => dayjs(props.getValue()).format('DD/MM/YYYY HH:mm'),
     }),
     columnHelper.accessor('endTime', {
       header: () => 'Finalización',
+      cell: (props) => dayjs(props.getValue()).format('DD/MM/YYYY HH:mm'),
     }),
     columnHelper.accessor('id', {
       id: 'actions',

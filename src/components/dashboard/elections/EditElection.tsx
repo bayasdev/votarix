@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
+import { MdOutlineEdit, MdOutlineRestore } from 'react-icons/md';
 import dayjs from 'dayjs';
 
 import Card from '../../common/Card';
@@ -18,8 +18,13 @@ import {
 } from '@/src/lib/validators/election';
 import Textarea from '../../common/Textarea';
 import DateInput from '../../common/DateInput';
+import { SafeElection } from '@/src/types';
 
-const CreateElection = () => {
+interface EditElectionProps {
+  election: SafeElection | null;
+}
+
+const EditElection: React.FC<EditElectionProps> = ({ election }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -36,10 +41,12 @@ const CreateElection = () => {
   } = useForm<ElectionRequest>({
     resolver: zodResolver(ElectionValidator),
     defaultValues: {
-      name: '',
-      description: '',
-      startTime: defaultStartTime,
-      endTime: defaultEndTime,
+      name: election?.name || '',
+      description: election?.description || '',
+      startTime: election?.startTime
+        ? new Date(election.startTime)
+        : defaultStartTime,
+      endTime: election?.endTime ? new Date(election.endTime) : defaultEndTime,
     },
   });
 
@@ -54,9 +61,9 @@ const CreateElection = () => {
     setIsLoading(true);
 
     axios
-      .post('/api/elections', data)
+      .put(`/api/elections/${election?.id}`, data)
       .then(() => {
-        toast.success('Creado correctamente');
+        toast.success('Editado correctamente');
         router.replace('/dashboard/elections');
         router.refresh();
       })
@@ -108,8 +115,8 @@ const CreateElection = () => {
   const actionsContent = (
     <div className="flex gap-2">
       <Button
-        label="Crear elección"
-        icon={MdOutlineAdd}
+        label="Editar elección"
+        icon={MdOutlineEdit}
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}
       />
@@ -126,4 +133,4 @@ const CreateElection = () => {
   return <Card bodyContent={bodyContent} actionsContent={actionsContent} />;
 };
 
-export default CreateElection;
+export default EditElection;

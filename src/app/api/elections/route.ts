@@ -17,7 +17,8 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name, description, startTime, endTime, positions } = ElectionValidator.parse(body);
+    const { name, description, startTime, endTime } =
+      ElectionValidator.parse(body);
 
     const election = await prisma.election.create({
       data: {
@@ -25,7 +26,6 @@ export async function POST(request: Request) {
         description,
         startTime,
         endTime,
-        positions,
       },
     });
 
