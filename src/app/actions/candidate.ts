@@ -52,3 +52,59 @@ export async function getCandidateById(
     return null;
   }
 }
+
+export async function getCandidatesByPartyId(params: {
+  partyId?: string;
+}): Promise<SafeCandidate[] | null> {
+  try {
+    const { partyId } = params;
+
+    const candidates = await prisma.candidate.findMany({
+      where: {
+        partyId,
+      },
+    });
+
+    if (!candidates) {
+      return null;
+    }
+
+    const safeCandidates = candidates.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeCandidates;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getCandidatesByPositionId(params: {
+  positionId?: string;
+}): Promise<SafeCandidate[] | null> {
+  try {
+    const { positionId } = params;
+
+    const candidates = await prisma.candidate.findMany({
+      where: {
+        positionId,
+      },
+    });
+
+    if (!candidates) {
+      return null;
+    }
+
+    const safeCandidates = candidates.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeCandidates;
+  } catch (error: any) {
+    return null;
+  }
+}

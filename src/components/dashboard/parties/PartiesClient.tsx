@@ -5,23 +5,32 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { IoMdEye } from 'react-icons/io';
 
-import { SafeCandidate } from '@/src/types';
+import { SafeParty } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
+import Button from '../../common/Button';
 
-interface CandidatesProps {
-  candidates: SafeCandidate[] | null;
+interface PartiesClientProps {
+  parties: SafeParty[] | null;
 }
 
-const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
+const PartiesClient: React.FC<PartiesClientProps> = ({ parties }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleViewCandidates = useCallback(
+    (id: string) => {
+      router.push(`/dashboard/parties/${id}/candidates`);
+    },
+    [router],
+  );
+
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/candidates/${id}`);
+      router.push(`/dashboard/parties/${id}`);
     },
     [router],
   );
@@ -30,7 +39,7 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
     (id: string) => {
       setIsLoading(true);
       axios
-        .delete(`/api/candidates/${id}`)
+        .delete(`/api/parties/${id}`)
         .then(() => {
           toast.success('Eliminado correctamente');
           router.refresh();
@@ -43,17 +52,24 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeCandidate>();
+  const columnHelper = createColumnHelper<SafeParty>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
     }),
-    columnHelper.accessor('document', {
-      header: () => 'Cédula',
-    }),
-    columnHelper.accessor('email', {
-      header: () => 'Correo electrónico',
+    columnHelper.accessor('id', {
+      id: 'candidates',
+      header: () => 'Candidatos',
+      cell: (props) => (
+        <Button
+          label="Lista de candidatos"
+          icon={IoMdEye}
+          color="secondary"
+          onClick={() => handleViewCandidates(props.getValue())}
+          disabled={isLoading}
+        />
+      ),
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -68,7 +84,7 @@ const Candidates: React.FC<CandidatesProps> = ({ candidates }) => {
     }),
   ];
 
-  return <Table columns={columns} data={candidates} />;
+  return <Table columns={columns} data={parties} />;
 };
 
-export default Candidates;
+export default PartiesClient;

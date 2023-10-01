@@ -9,7 +9,7 @@ import axios from 'axios';
 import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 import dayjs from 'dayjs';
 
-import { SafeCandidate } from '@/src/types';
+import { SafeCandidate, SafePosition } from '@/src/types';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
@@ -23,6 +23,7 @@ import DateInput from '../../common/DateInput';
 
 interface CreateElectionProps {
   candidates: SafeCandidate[] | null;
+  positions: SafePosition[] | null;
 }
 
 const CreateElection: React.FC<CreateElectionProps> = ({ candidates }) => {
@@ -113,6 +114,7 @@ const CreateElection: React.FC<CreateElectionProps> = ({ candidates }) => {
           errors={errors}
         />
       </div>
+      <div>Dignidades de elección popular</div>
     </div>
   );
 

@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 
-import { SafeParty } from '@/src/types';
+import { SafeParty, SafePosition } from '@/src/types';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
@@ -21,9 +21,13 @@ import {
 
 interface CreateCandidateProps {
   parties: SafeParty[] | null;
+  positions: SafePosition[] | null;
 }
 
-const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
+const CreateCandidate: React.FC<CreateCandidateProps> = ({
+  parties,
+  positions,
+}) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +45,7 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
       email: '',
       document: '',
       partyId: '',
+      positionId: '',
       proposals: '',
     },
   });
@@ -74,6 +79,11 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
     value: item.id,
   }));
 
+  const positionsOptions = positions?.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
+
   const bodyContent = (
     <div className="flex flex-col gap-8">
       <div className="grid gap-2 md:grid-cols-2">
@@ -86,16 +96,6 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
           errors={errors}
         />
         <Input
-          id="email"
-          label="Correo Electrónico"
-          placeholder="jperez@gmail.com"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-      </div>
-      <div className="grid gap-2 md:grid-cols-2">
-        <Input
           id="document"
           label="Número de cédula"
           placeholder="1700000000"
@@ -103,11 +103,30 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({ parties }) => {
           register={register}
           errors={errors}
         />
+      </div>
+      <Input
+        id="email"
+        label="Correo Electrónico"
+        placeholder="jperez@gmail.com"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+      />
+      <div className="grid gap-2 md:grid-cols-2">
         <Select
           id="partyId"
           label="Partido político"
           placeholder="Seleccione uno"
           options={partiesOptions}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+        />
+        <Select
+          id="positionId"
+          label="Puesto electivo"
+          placeholder="Seleccione uno"
+          options={positionsOptions}
           disabled={isLoading}
           register={register}
           errors={errors}

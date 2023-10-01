@@ -67,8 +67,8 @@ model Election {
 model Position {
   id         String      @id @default(cuid())
   name       String
-  election   Election    @relation(fields: [electionId], references: [id])
-  electionId String
+  election   Election?   @relation(fields: [electionId], references: [id])
+  electionId String?
   candidates Candidate[]
   Ballot     Ballot[]
 
@@ -79,7 +79,7 @@ model Position {
 model Party {
   id         String      @id @default(cuid())
   name       String
-  photo      String?
+  imgUrl     String?
   candidates Candidate[]
 
   createdAt DateTime @default(now())
@@ -91,7 +91,7 @@ model Candidate {
   name       String
   email      String?
   document   String?
-  photo      String?
+  imgUrl     String?
   proposals  String?   @db.Text
   party      Party     @relation(fields: [partyId], references: [id], onDelete: Cascade)
   partyId    String

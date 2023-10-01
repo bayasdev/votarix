@@ -5,23 +5,32 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { IoMdEye } from 'react-icons/io';
 
-import { SafeUser } from '@/src/types';
+import { SafePosition } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
+import Button from '../../common/Button';
 
-interface UsersProps {
-  users: SafeUser[] | null;
+interface PositionsClientProps {
+  positions: SafePosition[] | null;
 }
 
-const Users: React.FC<UsersProps> = ({ users }) => {
+const PositionsClient: React.FC<PositionsClientProps> = ({ positions }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleViewCandidates = useCallback(
+    (id: string) => {
+      router.push(`/dashboard/positions/${id}/candidates`);
+    },
+    [router],
+  );
+
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/users/${id}`);
+      router.push(`/dashboard/positions/${id}`);
     },
     [router],
   );
@@ -30,7 +39,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     (id: string) => {
       setIsLoading(true);
       axios
-        .delete(`/api/users/${id}`)
+        .delete(`/api/positions/${id}`)
         .then(() => {
           toast.success('Eliminado correctamente');
           router.refresh();
@@ -43,20 +52,24 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeUser>();
+  const columnHelper = createColumnHelper<SafePosition>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
     }),
-    columnHelper.accessor('document', {
-      header: () => 'Cédula',
-    }),
-    columnHelper.accessor('email', {
-      header: () => 'Correo electrónico',
-    }),
-    columnHelper.accessor('role', {
-      header: () => 'Rol',
+    columnHelper.accessor('id', {
+      id: 'candidates',
+      header: () => 'Candidatos',
+      cell: (props) => (
+        <Button
+          label="Lista de candidatos"
+          icon={IoMdEye}
+          color="secondary"
+          onClick={() => handleViewCandidates(props.getValue())}
+          disabled={isLoading}
+        />
+      ),
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -71,7 +84,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
     }),
   ];
 
-  return <Table columns={columns} data={users} />;
+  return <Table columns={columns} data={positions} />;
 };
 
-export default Users;
+export default PositionsClient;

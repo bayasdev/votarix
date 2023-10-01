@@ -2,6 +2,7 @@ import { getUserById } from '@/src/app/actions/user';
 import EmptyState from '@/src/components/common/EmptyState';
 import EditUser from '@/src/components/dashboard/users/EditUser';
 import Heading from '@/src/components/common/Heading';
+import GoBack from '@/src/components/dashboard/common/GoBack';
 
 interface EditUserPageProps {
   params: {
@@ -17,6 +18,7 @@ const EditUserPage = async ({ params }: EditUserPageProps) => {
 
   return (
     <div className="flex flex-col gap-8">
+      <GoBack />
       <Heading title="Editar usuario" />
       <EditUser user={user} />
     </div>

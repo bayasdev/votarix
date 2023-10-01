@@ -1,6 +1,7 @@
 import { getPartyById } from '@/src/app/actions/party';
 import EmptyState from '@/src/components/common/EmptyState';
 import Heading from '@/src/components/common/Heading';
+import GoBack from '@/src/components/dashboard/common/GoBack';
 import EditParty from '@/src/components/dashboard/parties/EditParty';
 
 interface EditPartyPageProps {
@@ -17,6 +18,7 @@ const EditPartyPage = async ({ params }: EditPartyPageProps) => {
 
   return (
     <div className="flex flex-col gap-8">
+      <GoBack />
       <Heading title="Editar partido político" />
       <EditParty party={party} />
     </div>

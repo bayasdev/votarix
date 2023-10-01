@@ -6,22 +6,22 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeElection } from '@/src/types';
+import { SafeCandidate } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
-interface ElectionsProps {
-  elections: SafeElection[] | null;
+interface CandidatesClientProps {
+  candidates: SafeCandidate[] | null;
 }
 
-const Elections: React.FC<ElectionsProps> = ({ elections }) => {
+const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/elections/${id}`);
+      router.push(`/dashboard/candidates/${id}`);
     },
     [router],
   );
@@ -30,7 +30,7 @@ const Elections: React.FC<ElectionsProps> = ({ elections }) => {
     (id: string) => {
       setIsLoading(true);
       axios
-        .delete(`/api/elections/${id}`)
+        .delete(`/api/candidates/${id}`)
         .then(() => {
           toast.success('Eliminado correctamente');
           router.refresh();
@@ -43,17 +43,17 @@ const Elections: React.FC<ElectionsProps> = ({ elections }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeElection>();
+  const columnHelper = createColumnHelper<SafeCandidate>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
     }),
-    columnHelper.accessor('startTime', {
-      header: () => 'Inicio',
+    columnHelper.accessor('document', {
+      header: () => 'Cédula',
     }),
-    columnHelper.accessor('endTime', {
-      header: () => 'Finalización',
+    columnHelper.accessor('email', {
+      header: () => 'Correo electrónico',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -68,7 +68,7 @@ const Elections: React.FC<ElectionsProps> = ({ elections }) => {
     }),
   ];
 
-  return <Table columns={columns} data={elections} />;
+  return <Table columns={columns} data={candidates} />;
 };
 
-export default Elections;
+export default CandidatesClient;

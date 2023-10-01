@@ -6,22 +6,22 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeParty } from '@/src/types';
+import { SafeElection } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
-interface PartiesProps {
-  parties: SafeParty[] | null;
+interface ElectionsClientProps {
+  elections: SafeElection[] | null;
 }
 
-const Parties: React.FC<PartiesProps> = ({ parties }) => {
+const ElectionsClient: React.FC<ElectionsClientProps> = ({ elections }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = useCallback(
     (id: string) => {
-      router.push(`/dashboard/parties/${id}`);
+      router.push(`/dashboard/elections/${id}`);
     },
     [router],
   );
@@ -30,7 +30,7 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
     (id: string) => {
       setIsLoading(true);
       axios
-        .delete(`/api/parties/${id}`)
+        .delete(`/api/elections/${id}`)
         .then(() => {
           toast.success('Eliminado correctamente');
           router.refresh();
@@ -43,11 +43,17 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeParty>();
+  const columnHelper = createColumnHelper<SafeElection>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
+    }),
+    columnHelper.accessor('startTime', {
+      header: () => 'Inicio',
+    }),
+    columnHelper.accessor('endTime', {
+      header: () => 'Finalización',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -62,7 +68,7 @@ const Parties: React.FC<PartiesProps> = ({ parties }) => {
     }),
   ];
 
-  return <Table columns={columns} data={parties} />;
+  return <Table columns={columns} data={elections} />;
 };
 
-export default Parties;
+export default ElectionsClient;

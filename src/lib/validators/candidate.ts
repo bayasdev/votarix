@@ -16,6 +16,7 @@ export const CandidateValidator = z.object({
     .optional()
     .or(z.literal('')),
   partyId: z.string().min(1, 'El campo es requerido'),
+  positionId: z.string().min(1, 'El campo es requerido'),
   proposals: z.string().optional(),
 });
 
