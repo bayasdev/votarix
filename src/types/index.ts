@@ -14,12 +14,12 @@ export type SafeParty = Omit<Party, 'createdAt' | 'updatedAt'> & {
   updatedAt: string;
 };
 
-export type SafeCandidate = Omit<Candidate, 'createdAt' | 'updatedAt'> & {
+export type SafePosition = Omit<Position, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };
 
-export type SafePosition = Omit<Position, 'createdAt' | 'updatedAt'> & {
+export type SafeCandidate = Omit<Candidate, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };
