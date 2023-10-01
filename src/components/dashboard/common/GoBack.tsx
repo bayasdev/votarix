@@ -15,10 +15,10 @@ const GoBack = () => {
     <Button
       label="Volver"
       icon={MdArrowBack}
-      color="neutral"
+      color="ghost"
       small
       onClick={handleGoBack}
-      className="self-start"
+      className="self-start px-1"
     />
   );
 };
