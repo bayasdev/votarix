@@ -1,4 +1,4 @@
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import Markdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 
 interface MarkdownRendererProps {
@@ -7,9 +7,9 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ data }) => {
   return (
-    <ReactMarkdown className="prose" rehypePlugins={[rehypeSanitize]}>
+    <Markdown className="prose" rehypePlugins={[rehypeSanitize]}>
       {data}
-    </ReactMarkdown>
+    </Markdown>
   );
 };
 
