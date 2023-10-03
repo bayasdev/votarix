@@ -38,6 +38,7 @@ const CreatePosition: React.FC<CreatePositionProps> = ({ elections }) => {
 
   const resetFields = () => {
     resetField('name');
+    resetField('electionId');
   };
 
   const onSubmit: SubmitHandler<PositionRequest> = (data) => {

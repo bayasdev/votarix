@@ -3,13 +3,16 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineEdit, MdOutlineRestore } from 'react-icons/md';
 
 import { SafeElection, SafePosition } from '@/src/types';
+import {
+  PositionRequest,
+  PositionValidator,
+} from '@/src/lib/validators/position';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
@@ -25,29 +28,25 @@ const EditPosition: React.FC<EditPositionProps> = ({ position, elections }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'El campo es requerido'),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<PositionRequest>({
+    resolver: zodResolver(PositionValidator),
     defaultValues: {
       name: position?.name || '',
+      electionId: position?.electionId || '',
     },
   });
 
   const resetFields = () => {
     resetField('name');
+    resetField('electionId');
   };
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<PositionRequest> = (data) => {
     setIsLoading(true);
     axios
       .put(`/api/positions/${position?.id}`, data)

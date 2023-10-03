@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineEdit, MdOutlineRestore } from 'react-icons/md';
 
 import { SafeParty } from '@/src/types';
+import { PartyRequest, PartyValidator } from '@/src/lib/validators/party';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
@@ -23,19 +23,13 @@ const EditParty: React.FC<EditPartyProps> = ({ party }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'El campo es requerido'),
-  });
-
-  type FormSchemaType = z.infer<typeof formSchema>;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  } = useForm<PartyRequest>({
+    resolver: zodResolver(PartyValidator),
     defaultValues: {
       name: party?.name || '',
     },
@@ -45,7 +39,7 @@ const EditParty: React.FC<EditPartyProps> = ({ party }) => {
     resetField('name');
   };
 
-  const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<PartyRequest> = (data) => {
     setIsLoading(true);
     axios
       .put(`/api/parties/${party?.id}`, data)

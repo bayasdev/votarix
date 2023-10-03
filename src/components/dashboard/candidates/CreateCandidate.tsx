@@ -55,6 +55,8 @@ const CreateCandidate: React.FC<CreateCandidateProps> = ({
     resetField('email');
     resetField('document');
     resetField('proposals');
+    resetField('partyId');
+    resetField('positionId');
   };
 
   const onSubmit: SubmitHandler<CandidateRequest> = (data) => {
