@@ -113,13 +113,16 @@ export async function getCandidatesByPartyId(params: {
 
 export async function getCandidatesByPositionId(params: {
   positionId?: string;
-}): Promise<SafeCandidate[] | null> {
+}): Promise<SafeCandidateWithParty[] | null> {
   try {
     const { positionId } = params;
 
     const candidates = await prisma.candidate.findMany({
       where: {
         positionId,
+      },
+      include: {
+        party: true,
       },
     });
 
@@ -131,9 +134,14 @@ export async function getCandidatesByPositionId(params: {
       ...item,
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
+      party: {
+        ...item.party,
+        createdAt: item.party?.createdAt.toISOString(),
+        updatedAt: item.party?.updatedAt.toISOString(),
+      },
     }));
 
-    return safeCandidates;
+    return safeCandidates as SafeCandidateWithParty[];
   } catch (error: any) {
     return null;
   }

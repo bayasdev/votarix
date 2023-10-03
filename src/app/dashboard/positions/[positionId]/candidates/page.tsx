@@ -25,7 +25,7 @@ const CandidatesByPositionPage = async ({
       <GoBack />
       <Heading title={`Candidatos a ${position?.name}`} />
       {candidates && candidates.length > 0 ? (
-        <CandidatesClient candidates={candidates} />
+        <CandidatesClient candidates={candidates} showParty />
       ) : (
         <EmptyState />
       )}
