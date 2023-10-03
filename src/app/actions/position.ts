@@ -52,3 +52,30 @@ export async function getPositionById(
     return null;
   }
 }
+
+export async function getPositionsByElectionId(params: {
+  electionId?: string;
+}): Promise<SafePosition[] | null> {
+  try {
+    const { electionId } = params;
+
+    const positions = await prisma.position.findMany({
+      where: {
+        electionId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const safePositions = positions.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safePositions;
+  } catch (error: any) {
+    return null;
+  }
+}
