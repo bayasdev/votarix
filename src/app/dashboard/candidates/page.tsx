@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { MdOutlineAdd } from 'react-icons/md';
 
-import { getCandidates } from '../../actions/candidate';
+import { getCandidatesWithParty } from '../../actions/candidate';
 import CandidatesClient from '@/src/components/dashboard/candidates/CandidatesClient';
 import Heading from '@/src/components/common/Heading';
 import EmptyState from '@/src/components/common/EmptyState';
 
 const CandidatesPage = async () => {
-  const candidates = await getCandidates();
+  const candidates = await getCandidatesWithParty();
 
   return (
     <div className="flex flex-col gap-8">
@@ -19,7 +19,7 @@ const CandidatesPage = async () => {
         </Link>
       </div>
       {candidates && candidates.length > 0 ? (
-        <CandidatesClient candidates={candidates} />
+        <CandidatesClient candidates={candidates} showParty />
       ) : (
         <EmptyState />
       )}

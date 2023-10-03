@@ -6,15 +6,19 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import { SafeCandidate } from '@/src/types';
+import { SafeCandidate, SafeCandidateWithParty } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 
 interface CandidatesClientProps {
-  candidates: SafeCandidate[] | null;
+  candidates: SafeCandidate[] | SafeCandidateWithParty[] | null;
+  showParty?: boolean;
 }
 
-const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
+const CandidatesClient: React.FC<CandidatesClientProps> = ({
+  candidates,
+  showParty = false,
+}) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +47,7 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafeCandidate>();
+  const columnHelper = createColumnHelper<SafeCandidateWithParty>();
 
   const columns = [
     columnHelper.accessor('name', {
@@ -54,6 +58,10 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
     }),
     columnHelper.accessor('email', {
       header: () => 'Correo electrónico',
+    }),
+    columnHelper.accessor('party.name', {
+      id: 'party',
+      header: () => 'Partido',
     }),
     columnHelper.accessor('id', {
       id: 'actions',
@@ -68,7 +76,17 @@ const CandidatesClient: React.FC<CandidatesClientProps> = ({ candidates }) => {
     }),
   ];
 
-  return <Table columns={columns} data={candidates} />;
+  const columnVisibility = {
+    party: showParty,
+  };
+
+  return (
+    <Table
+      columns={columns}
+      data={candidates}
+      columnVisibility={columnVisibility}
+    />
+  );
 };
 
 export default CandidatesClient;

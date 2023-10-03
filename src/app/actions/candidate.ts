@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/src/lib/prisma';
-import { SafeCandidate } from '@/src/types';
+import { SafeCandidate, SafeCandidateWithParty } from '@/src/types';
 
 interface IParams {
   candidateId?: string;
@@ -22,6 +22,36 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
     }));
 
     return safeCandidates;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getCandidatesWithParty(): Promise<
+  SafeCandidateWithParty[] | null
+> {
+  try {
+    const candidates = await prisma.candidate.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        party: true,
+      },
+    });
+
+    const safeCandidates = candidates.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+      party: {
+        ...item.party,
+        createdAt: item.party?.createdAt.toISOString(),
+        updatedAt: item.party?.updatedAt.toISOString(),
+      },
+    }));
+
+    return safeCandidates as SafeCandidateWithParty[];
   } catch (error: any) {
     return null;
   }
