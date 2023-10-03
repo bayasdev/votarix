@@ -1,13 +1,15 @@
 'use server';
 
 import prisma from '@/src/lib/prisma';
-import { SafePosition } from '@/src/types';
+import { SafePosition, SafePositionWithElection } from '@/src/types';
 
 interface IParams {
   positionId?: string;
 }
 
-export async function getPositions(): Promise<SafePosition[] | null> {
+export async function getPositions(): Promise<
+  SafePositionWithElection[] | null
+> {
   try {
     const positions = await prisma.position.findMany({
       orderBy: {
@@ -22,6 +24,38 @@ export async function getPositions(): Promise<SafePosition[] | null> {
     }));
 
     return safePositions;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getPositionsWithElection(): Promise<
+  SafePositionWithElection[] | null
+> {
+  try {
+    const positions = await prisma.position.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        election: true,
+      },
+    });
+
+    const safePositions = positions.map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+      election: {
+        ...item.election,
+        startTime: item?.election?.startTime.toISOString(),
+        endTime: item?.election?.endTime.toISOString(),
+        createdAt: item?.election?.createdAt.toISOString(),
+        updatedAt: item?.election?.updatedAt.toISOString(),
+      },
+    }));
+
+    return safePositions as SafePositionWithElection[];
   } catch (error: any) {
     return null;
   }

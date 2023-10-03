@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { MdOutlineAdd } from 'react-icons/md';
 
-import { getPositions } from '../../actions/position';
+import { getPositionsWithElection } from '../../actions/position';
 import PositionsClient from '@/src/components/dashboard/positions/PositionsClient';
 import Heading from '@/src/components/common/Heading';
 import EmptyState from '@/src/components/common/EmptyState';
 
 const PositionsPage = async () => {
-  const positions = await getPositions();
+  const positions = await getPositionsWithElection();
 
   return (
     <div className="flex flex-col gap-8">
@@ -22,7 +22,7 @@ const PositionsPage = async () => {
         </Link>
       </div>
       {positions && positions.length > 0 ? (
-        <PositionsClient positions={positions} />
+        <PositionsClient positions={positions} showElection />
       ) : (
         <EmptyState />
       )}

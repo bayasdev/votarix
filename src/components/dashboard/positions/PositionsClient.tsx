@@ -7,16 +7,20 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { IoMdEye } from 'react-icons/io';
 
-import { SafePosition } from '@/src/types';
+import { SafePosition, SafePositionWithElection } from '@/src/types';
 import Table from '../../common/Table';
 import Actions from '../common/Actions';
 import Button from '../../common/Button';
 
 interface PositionsClientProps {
-  positions: SafePosition[] | null;
+  positions: SafePosition[] | SafePositionWithElection[] | null;
+  showElection?: boolean;
 }
 
-const PositionsClient: React.FC<PositionsClientProps> = ({ positions }) => {
+const PositionsClient: React.FC<PositionsClientProps> = ({
+  positions,
+  showElection = false,
+}) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -52,11 +56,15 @@ const PositionsClient: React.FC<PositionsClientProps> = ({ positions }) => {
     [router],
   );
 
-  const columnHelper = createColumnHelper<SafePosition>();
+  const columnHelper = createColumnHelper<SafePositionWithElection>();
 
   const columns = [
     columnHelper.accessor('name', {
       header: () => 'Nombre',
+    }),
+    columnHelper.accessor('election.name', {
+      id: 'election',
+      header: () => 'Elección',
     }),
     columnHelper.accessor('id', {
       id: 'candidates',
@@ -84,7 +92,17 @@ const PositionsClient: React.FC<PositionsClientProps> = ({ positions }) => {
     }),
   ];
 
-  return <Table columns={columns} data={positions} />;
+  const columnVisibility = {
+    election: showElection,
+  };
+
+  return (
+    <Table
+      columns={columns}
+      data={positions}
+      columnVisibility={columnVisibility}
+    />
+  );
 };
 
 export default PositionsClient;
