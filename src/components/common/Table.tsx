@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   flexRender,
   getCoreRowModel,
@@ -8,6 +8,7 @@ import {
   ColumnDef,
   getPaginationRowModel,
   getFilteredRowModel,
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import Search from './Search';
@@ -16,9 +17,14 @@ import TablePagination from './Pagination';
 type TableProps<T> = {
   columns: ColumnDef<T, any>[];
   data: T[] | null;
+  columnVisibility?: VisibilityState;
 };
 
-export default function Table<T>({ columns, data }: TableProps<T>) {
+export default function Table<T>({
+  columns,
+  data,
+  columnVisibility,
+}: TableProps<T>) {
   const [filter, setFilter] = useState('');
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +39,16 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       globalFilter: filter,
+      columnVisibility: columnVisibility,
     },
     onGlobalFilterChange: setFilter,
   });
+
+  useEffect(() => {
+    if (columnVisibility) {
+      table.setColumnVisibility(columnVisibility);
+    }
+  }, [columnVisibility, table]);
 
   return (
     <div className="flex flex-col gap-8">
