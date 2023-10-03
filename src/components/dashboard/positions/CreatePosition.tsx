@@ -8,12 +8,21 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { MdOutlineAdd, MdOutlineRestore } from 'react-icons/md';
 
+import {
+  PositionRequest,
+  PositionValidator,
+} from '@/src/lib/validators/position';
+import { SafeElection } from '@/src/types';
 import Card from '../../common/Card';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
-import { PositionRequest, PositionValidator } from '@/src/lib/validators/position';
+import Select from '../../common/Select';
 
-const CreatePosition = () => {
+interface CreatePositionProps {
+  elections: SafeElection[] | null;
+}
+
+const CreatePosition: React.FC<CreatePositionProps> = ({ elections }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -48,12 +57,26 @@ const CreatePosition = () => {
       });
   };
 
+  const electionsOptions = elections?.map((election) => ({
+    label: election.name,
+    value: election.id,
+  }));
+
   const bodyContent = (
     <div className="flex flex-col gap-8">
       <Input
         id="name"
         label="Nombre del puesto electivo"
         placeholder="Presidente"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+      />
+      <Select
+        id="electionId"
+        label="Elección"
+        placeholder="Seleccione una elección"
+        options={electionsOptions}
         disabled={isLoading}
         register={register}
         errors={errors}
