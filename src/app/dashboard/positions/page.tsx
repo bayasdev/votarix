@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getPositions } from '@/app/actions/position';
+import { getPositionsWithElection } from '@/app/actions/position';
 import PositionsClient from '@/components/dashboard/positions/client';
 import Heading from '@/components/heading';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ import { Icons } from '@/components/icons';
 import EmptyState from '@/components/empty-state';
 
 const PositionsPage = async () => {
-  const positions = await getPositions();
+  const positions = await getPositionsWithElection();
 
   return (
     <div className="space-y-8">

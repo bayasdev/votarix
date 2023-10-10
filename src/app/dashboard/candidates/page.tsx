@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getCandidates } from '@/app/actions/candidate';
+import { getCandidatesWithParty } from '@/app/actions/candidate';
 import CandidatesClient from '@/components/dashboard/candidates/client';
 import Heading from '@/components/heading';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ import { Icons } from '@/components/icons';
 import EmptyState from '@/components/empty-state';
 
 const CandidatesPage = async () => {
-  const candidates = await getCandidates();
+  const candidates = await getCandidatesWithParty();
 
   return (
     <div className="space-y-8">
