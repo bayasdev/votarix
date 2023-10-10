@@ -2,9 +2,9 @@ import { Role } from '@prisma/client';
 import { z } from 'zod';
 import { hash } from 'bcrypt';
 
-import getCurrentUser from '@/src/app/actions/getCurrentUser';
-import prisma from '@/src/lib/prisma';
-import { UserValidator } from '@/src/lib/validators/user';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+import prisma from '@/lib/prisma';
+import { UserValidator } from '@/lib/validators/user';
 
 export async function POST(request: Request) {
   try {

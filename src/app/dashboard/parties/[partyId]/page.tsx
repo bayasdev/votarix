@@ -1,28 +1,32 @@
-import { getPartyById } from '@/src/app/actions/party';
-import EmptyState from '@/src/components/common/EmptyState';
-import Heading from '@/src/components/common/Heading';
-import GoBack from '@/src/components/dashboard/common/GoBack';
-import EditParty from '@/src/components/dashboard/parties/EditParty';
+import { notFound } from 'next/navigation';
 
-interface EditPartyPageProps {
+import { getPartyById } from '@/app/actions/party';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import PartyForm from '@/components/dashboard/parties/form';
+
+interface UpdatePartyPageProps {
   params: {
     partyId?: string;
   };
 }
 
-const EditPartyPage = async ({ params }: EditPartyPageProps) => {
+const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
   const party = await getPartyById(params);
-
-  if (!party)
-    return <EmptyState title="Error 404" subtitle="Página no encontrada" />;
+  if (!party) return notFound();
 
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Editar partido político" />
-      <EditParty party={party} />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Editar partido político"
+          subtitle="Actualice los datos de un partido político existente"
+        />
+        <GoBack />
+      </div>
+      <PartyForm initialData={party} />
     </div>
   );
 };
 
-export default EditPartyPage;
+export default UpdatePartyPage;

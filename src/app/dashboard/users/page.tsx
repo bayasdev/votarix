@@ -1,21 +1,23 @@
 import Link from 'next/link';
-import { MdOutlineAdd } from 'react-icons/md';
 
-import { getUsers } from '../../actions/user';
-import UsersClient from '@/src/components/dashboard/users/UsersClient';
-import Heading from '@/src/components/common/Heading';
-import EmptyState from '@/src/components/common/EmptyState';
+import { getUsers } from '@/app/actions/user';
+import UsersClient from '@/components/dashboard/users/client';
+import Heading from '@/components/heading';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import EmptyState from '@/components/empty-state';
 
 const UsersPage = async () => {
   const users = await getUsers();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <Heading title="Usuarios" subtitle="Administrar usuarios" />
-        <Link href="/dashboard/users/create" className="btn btn-primary">
-          <MdOutlineAdd size={20} />
-          Crear
+        <Link href="/dashboard/users/create" className={cn(buttonVariants())}>
+          <Icons.add className="mr-2 h-4 w-4" />
+          Crear usuario
         </Link>
       </div>
       {users && users.length > 0 ? (

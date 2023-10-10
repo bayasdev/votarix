@@ -1,28 +1,32 @@
-import { getElectionById } from '@/src/app/actions/election';
-import EmptyState from '@/src/components/common/EmptyState';
-import EditElection from '@/src/components/dashboard/elections/EditElection';
-import Heading from '@/src/components/common/Heading';
-import GoBack from '@/src/components/dashboard/common/GoBack';
+import { notFound } from 'next/navigation';
 
-interface EditElectionPageProps {
+import { getElectionById } from '@/app/actions/election';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import ElectionForm from '@/components/dashboard/elections/form';
+
+interface UpdateElectionPageProps {
   params: {
     electionId?: string;
   };
 }
 
-const EditElectionPage = async ({ params }: EditElectionPageProps) => {
+const UpdateElectionPage = async ({ params }: UpdateElectionPageProps) => {
   const election = await getElectionById(params);
-
-  if (!election)
-    return <EmptyState title="Error 404" subtitle="Página no encontrada" />;
+  if (!election) return notFound();
 
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Editar elección" />
-      <EditElection election={election} />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Editar elección"
+          subtitle="Actualice un proceso electoral existente"
+        />
+        <GoBack />
+      </div>
+      <ElectionForm initialData={election} />
     </div>
   );
 };
 
-export default EditElectionPage;
+export default UpdateElectionPage;

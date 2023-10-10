@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/src/lib/prisma';
-import { SafeParty } from '@/src/types';
+import prisma from '@/lib/prisma';
+import { SafeParty } from '@/types';
 
 interface IParams {
   partyId?: string;

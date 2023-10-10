@@ -1,13 +1,18 @@
-import CreateElection from '@/src/components/dashboard/elections/CreateElection';
-import Heading from '@/src/components/common/Heading';
-import GoBack from '@/src/components/dashboard/common/GoBack';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import ElectionForm from '@/components/dashboard/elections/form';
 
 const CreateElectionPage = () => {
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Crear elección" />
-      <CreateElection />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Crear elección"
+          subtitle="Registre un nuevo proceso electoral en el sistema"
+        />
+        <GoBack />
+      </div>
+      <ElectionForm />
     </div>
   );
 };

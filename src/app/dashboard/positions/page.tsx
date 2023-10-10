@@ -1,28 +1,33 @@
 import Link from 'next/link';
-import { MdOutlineAdd } from 'react-icons/md';
 
-import { getPositionsWithElection } from '../../actions/position';
-import PositionsClient from '@/src/components/dashboard/positions/PositionsClient';
-import Heading from '@/src/components/common/Heading';
-import EmptyState from '@/src/components/common/EmptyState';
+import { getPositions } from '@/app/actions/position';
+import PositionsClient from '@/components/dashboard/positions/client';
+import Heading from '@/components/heading';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import EmptyState from '@/components/empty-state';
 
 const PositionsPage = async () => {
-  const positions = await getPositionsWithElection();
+  const positions = await getPositions();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <Heading
-          title="Puestos Electivos"
-          subtitle="Administrar puestos electivos"
+          title="Dignidades"
+          subtitle="Administrar dignidades de elección popular"
         />
-        <Link href="/dashboard/positions/create" className="btn btn-primary">
-          <MdOutlineAdd size={20} />
-          Crear
+        <Link
+          href="/dashboard/positions/create"
+          className={cn(buttonVariants())}
+        >
+          <Icons.add className="mr-2 h-4 w-4" />
+          Crear dignidad
         </Link>
       </div>
       {positions && positions.length > 0 ? (
-        <PositionsClient positions={positions} showElection />
+        <PositionsClient positions={positions} />
       ) : (
         <EmptyState />
       )}

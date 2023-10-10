@@ -1,12 +1,13 @@
 import { hash } from 'bcrypt';
 import { z } from 'zod';
 
-import prisma from '@/src/lib/prisma';
-import { SignupValidator } from '@/src/lib/validators/auth';
+import prisma from '@/lib/prisma';
+import { SignupValidator } from '@/lib/validators/auth';
+import { siteConfig } from '@/config/site';
 
 export async function POST(request: Request) {
   try {
-    if (process.env.SIGNUP_ALLOWED !== 'true') {
+    if (!siteConfig.signupAllowed) {
       return new Response('Opción deshabilitada', {
         status: 400,
       });

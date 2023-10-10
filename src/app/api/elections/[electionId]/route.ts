@@ -1,9 +1,9 @@
 import { Role } from '@prisma/client';
 import { z } from 'zod';
 
-import getCurrentUser from '@/src/app/actions/getCurrentUser';
-import prisma from '@/src/lib/prisma';
-import { ElectionValidator } from '@/src/lib/validators/election';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+import prisma from '@/lib/prisma';
+import { ElectionValidator } from '@/lib/validators/election';
 
 interface IParams {
   params: {

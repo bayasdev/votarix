@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/src/lib/prisma';
-import { SafePosition, SafePositionWithElection } from '@/src/types';
+import prisma from '@/lib/prisma';
+import { SafePosition, SafePositionWithElection } from '@/types';
 
 interface IParams {
   positionId?: string;

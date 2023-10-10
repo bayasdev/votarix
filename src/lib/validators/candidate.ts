@@ -1,5 +1,5 @@
 import { z } from 'zod';
-// import validateDni from '../helpers/validateDni';
+// import validateDni from '@/lib/helpers/validateDni';
 
 export const CandidateValidator = z.object({
   name: z.string().min(1, 'El campo es requerido'),

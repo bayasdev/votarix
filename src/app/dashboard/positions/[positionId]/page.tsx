@@ -1,30 +1,34 @@
-import { getElections } from '@/src/app/actions/election';
-import { getPositionById } from '@/src/app/actions/position';
-import EmptyState from '@/src/components/common/EmptyState';
-import Heading from '@/src/components/common/Heading';
-import GoBack from '@/src/components/dashboard/common/GoBack';
-import EditPosition from '@/src/components/dashboard/positions/EditPosition';
+import { notFound } from 'next/navigation';
 
-interface EditPositionPageProps {
+import { getPositionById } from '@/app/actions/position';
+import { getElections } from '@/app/actions/election';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import PositionForm from '@/components/dashboard/positions/form';
+
+interface UpdatePositionPageProps {
   params: {
     positionId?: string;
   };
 }
 
-const EditPositionPage = async ({ params }: EditPositionPageProps) => {
+const UpdatePositionPage = async ({ params }: UpdatePositionPageProps) => {
   const position = await getPositionById(params);
   const elections = await getElections();
-
-  if (!position)
-    return <EmptyState title="Error 404" subtitle="Página no encontrada" />;
+  if (!position) return notFound();
 
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Editar puesto electivo" />
-      <EditPosition position={position} elections={elections} />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Editar dignidad"
+          subtitle="Actualice los datos de una dignidad existente"
+        />
+        <GoBack />
+      </div>
+      <PositionForm initialData={position} elections={elections} />
     </div>
   );
 };
 
-export default EditPositionPage;
+export default UpdatePositionPage;

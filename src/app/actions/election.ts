@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/src/lib/prisma';
-import { SafeElection } from '@/src/types';
+import prisma from '@/lib/prisma';
+import { SafeElection } from '@/types';
 
 interface IParams {
   electionId?: string;
@@ -10,6 +10,36 @@ interface IParams {
 export async function getElections(): Promise<SafeElection[] | null> {
   try {
     const elections = await prisma.election.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const safeElections = elections.map((item) => ({
+      ...item,
+      startTime: item.startTime.toISOString(),
+      endTime: item.endTime.toISOString(),
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeElections;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getOngoingElections(): Promise<SafeElection[] | null> {
+  try {
+    const elections = await prisma.election.findMany({
+      where: {
+        startTime: {
+          lt: new Date(),
+        },
+        endTime: {
+          gt: new Date(),
+        },
+      },
       orderBy: {
         createdAt: 'desc',
       },

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import validateDni from '../helpers/validateDni';
+import validateDni from '@/lib/helpers/validateDni';
 
 export const LoginValidator = z.object({
   email: z

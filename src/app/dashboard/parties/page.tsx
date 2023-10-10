@@ -1,24 +1,26 @@
 import Link from 'next/link';
-import { MdOutlineAdd } from 'react-icons/md';
 
-import { getParties } from '../../actions/party';
-import PartiesClient from '@/src/components/dashboard/parties/PartiesClient';
-import Heading from '@/src/components/common/Heading';
-import EmptyState from '@/src/components/common/EmptyState';
+import { getParties } from '@/app/actions/party';
+import PartiesClient from '@/components/dashboard/parties/client';
+import Heading from '@/components/heading';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import EmptyState from '@/components/empty-state';
 
 const PartiesPage = async () => {
   const parties = await getParties();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <Heading
-          title="Partidos Políticos"
+          title="Partidos políticos"
           subtitle="Administrar partidos políticos"
         />
-        <Link href="/dashboard/parties/create" className="btn btn-primary">
-          <MdOutlineAdd size={20} />
-          Crear
+        <Link href="/dashboard/parties/create" className={cn(buttonVariants())}>
+          <Icons.add className="mr-2 h-4 w-4" />
+          Crear partido político
         </Link>
       </div>
       {parties && parties.length > 0 ? (

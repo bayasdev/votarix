@@ -1,25 +1,30 @@
 import Link from 'next/link';
-import { MdOutlineAdd } from 'react-icons/md';
 
-import { getCandidatesWithParty } from '../../actions/candidate';
-import CandidatesClient from '@/src/components/dashboard/candidates/CandidatesClient';
-import Heading from '@/src/components/common/Heading';
-import EmptyState from '@/src/components/common/EmptyState';
+import { getCandidates } from '@/app/actions/candidate';
+import CandidatesClient from '@/components/dashboard/candidates/client';
+import Heading from '@/components/heading';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import EmptyState from '@/components/empty-state';
 
 const CandidatesPage = async () => {
-  const candidates = await getCandidatesWithParty();
+  const candidates = await getCandidates();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <Heading title="Candidatos" subtitle="Administrar candidatos" />
-        <Link href="/dashboard/candidates/create" className="btn btn-primary">
-          <MdOutlineAdd size={20} />
-          Crear
+        <Link
+          href="/dashboard/candidates/create"
+          className={cn(buttonVariants())}
+        >
+          <Icons.add className="mr-2 h-4 w-4" />
+          Crear candidato
         </Link>
       </div>
       {candidates && candidates.length > 0 ? (
-        <CandidatesClient candidates={candidates} showParty />
+        <CandidatesClient candidates={candidates} />
       ) : (
         <EmptyState />
       )}

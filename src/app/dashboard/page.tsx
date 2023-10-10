@@ -1,7 +1,7 @@
-import Home from '@/src/components/dashboard/Home';
+import DashboardClient from '@/components/dashboard/home/client';
 
 const DashboardPage = () => {
-  return <Home />;
+  return <DashboardClient />;
 };
 
 export default DashboardPage;

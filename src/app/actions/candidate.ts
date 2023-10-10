@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/src/lib/prisma';
-import { SafeCandidate, SafeCandidateWithParty } from '@/src/types';
+import prisma from '@/lib/prisma';
+import { SafeCandidate, SafeCandidateWithParty } from '@/types';
 
 interface IParams {
   candidateId?: string;

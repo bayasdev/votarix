@@ -1,18 +1,23 @@
-import { getParties } from '@/src/app/actions/party';
-import CreateCandidate from '@/src/components/dashboard/candidates/CreateCandidate';
-import Heading from '@/src/components/common/Heading';
-import { getPositions } from '@/src/app/actions/position';
-import GoBack from '@/src/components/dashboard/common/GoBack';
+import { getParties } from '@/app/actions/party';
+import { getPositions } from '@/app/actions/position';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import CandidateForm from '@/components/dashboard/candidates/form';
 
 const CreateCandidatePage = async () => {
   const parties = await getParties();
   const positions = await getPositions();
 
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Crear candidato" />
-      <CreateCandidate parties={parties} positions={positions} />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Crear candidato"
+          subtitle="Registre un nuevo candidato en el sistema"
+        />
+        <GoBack />
+      </div>
+      <CandidateForm parties={parties} positions={positions} />
     </div>
   );
 };

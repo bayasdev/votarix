@@ -1,21 +1,26 @@
 import Link from 'next/link';
-import { MdOutlineAdd } from 'react-icons/md';
 
-import { getElections } from '../../actions/election';
-import ElectionsClient from '@/src/components/dashboard/elections/ElectionsClient';
-import Heading from '@/src/components/common/Heading';
-import EmptyState from '@/src/components/common/EmptyState';
+import { getElections } from '@/app/actions/election';
+import ElectionsClient from '@/components/dashboard/elections/client';
+import Heading from '@/components/heading';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import EmptyState from '@/components/empty-state';
 
 const ElectionsPage = async () => {
   const elections = await getElections();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <Heading title="Elecciones" subtitle="Administrar elecciones" />
-        <Link href="/dashboard/elections/create" className="btn btn-primary">
-          <MdOutlineAdd size={20} />
-          Crear
+        <Link
+          href="/dashboard/elections/create"
+          className={cn(buttonVariants())}
+        >
+          <Icons.add className="mr-2 h-4 w-4" />
+          Crear elección
         </Link>
       </div>
       {elections && elections.length > 0 ? (

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import validateDni from '../helpers/validateDni';
+import validateDni from '@/lib/helpers/validateDni';
 
 export const UserValidator = z.object({
   name: z.string().min(1, 'Ingrese su nombre'),

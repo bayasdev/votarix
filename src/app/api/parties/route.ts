@@ -1,9 +1,9 @@
 import { Role } from '@prisma/client';
 import { z } from 'zod';
 
-import getCurrentUser from '@/src/app/actions/getCurrentUser';
-import prisma from '@/src/lib/prisma';
-import { PartyValidator } from '@/src/lib/validators/party';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+import prisma from '@/lib/prisma';
+import { PartyValidator } from '@/lib/validators/party';
 
 export async function POST(request: Request) {
   try {

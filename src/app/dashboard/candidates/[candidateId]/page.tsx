@@ -1,31 +1,35 @@
-import { getCandidateById } from '@/src/app/actions/candidate';
-import { getParties } from '@/src/app/actions/party';
-import EmptyState from '@/src/components/common/EmptyState';
-import EditCandidate from '@/src/components/dashboard/candidates/EditCandidate';
-import Heading from '@/src/components/common/Heading';
-import { getPositions } from '@/src/app/actions/position';
-import GoBack from '@/src/components/dashboard/common/GoBack';
+import { notFound } from 'next/navigation';
 
-interface EditCandidatePageProps {
+import { getCandidateById } from '@/app/actions/candidate';
+import { getParties } from '@/app/actions/party';
+import { getPositions } from '@/app/actions/position';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import CandidateForm from '@/components/dashboard/candidates/form';
+
+interface UpdateCandidatePageProps {
   params: {
     candidateId?: string;
   };
 }
 
-const EditCandidatePage = async ({ params }: EditCandidatePageProps) => {
+const UpdateCandidatePage = async ({ params }: UpdateCandidatePageProps) => {
   const candidate = await getCandidateById(params);
   const parties = await getParties();
   const positions = await getPositions();
-
-  if (!candidate)
-    return <EmptyState title="Error 404" subtitle="Página no encontrada" />;
+  if (!candidate) return notFound();
 
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Editar candidato" />
-      <EditCandidate
-        candidate={candidate}
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Editar candidato"
+          subtitle="Actualice un candidato existente"
+        />
+        <GoBack />
+      </div>
+      <CandidateForm
+        initialData={candidate}
         parties={parties}
         positions={positions}
       />
@@ -33,4 +37,4 @@ const EditCandidatePage = async ({ params }: EditCandidatePageProps) => {
   );
 };
 
-export default EditCandidatePage;
+export default UpdateCandidatePage;

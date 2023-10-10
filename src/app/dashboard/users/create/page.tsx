@@ -1,13 +1,18 @@
-import CreateUser from '@/src/components/dashboard/users/CreateUser';
-import Heading from '@/src/components/common/Heading';
-import GoBack from '@/src/components/dashboard/common/GoBack';
+import GoBack from '@/components/go-back';
+import Heading from '@/components/heading';
+import UserForm from '@/components/dashboard/users/form';
 
 const CreateUserPage = () => {
   return (
-    <div className="flex flex-col gap-8">
-      <GoBack />
-      <Heading title="Crear usuario" />
-      <CreateUser />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Crear usuario"
+          subtitle="Registre un nuevo usuario en el sistema"
+        />
+        <GoBack />
+      </div>
+      <UserForm />
     </div>
   );
 };

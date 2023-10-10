@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 export const ElectionValidator = z
   .object({
     name: z.string().min(1, 'El campo es requerido'),
-    description: z.string(),
+    description: z.string().min(1, 'El campo es requerido'),
     startTime: z.coerce.date(),
     endTime: z.coerce.date(),
   })

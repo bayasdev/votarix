@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/src/lib/prisma';
-import { SafeUser } from '@/src/types';
+import prisma from '@/lib/prisma';
+import { SafeUser } from '@/types';
 
 interface IParams {
   userId?: string;

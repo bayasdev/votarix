@@ -1,13 +1,12 @@
-import { AuthOptions } from 'next-auth';
+import { type AuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { Adapter } from 'next-auth/adapters';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
 
-import prisma from './prisma';
+import prisma from '@/lib/prisma';
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma) as Adapter,
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -53,7 +52,6 @@ export const authOptions: AuthOptions = {
   },
   pages: {
     signIn: '/login',
-    signOut: '/',
   },
   debug: process.env.NODE_ENV === 'development',
   session: {
