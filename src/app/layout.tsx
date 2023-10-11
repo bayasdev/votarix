@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
+import '@uploadthing/react/styles.css';
 import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
 import { Toaster } from '@/components/ui/toaster';
@@ -37,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable,
-          fontHeading.variable
+          fontHeading.variable,
         )}
       >
         {children}

@@ -31,6 +31,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { UploadDropzone } from '@/lib/uploadthing';
 
 interface CandidateFormProps {
   initialData?: SafeCandidate | null;
@@ -55,6 +56,10 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
       proposals: initialData?.proposals || '',
       partyId: initialData?.partyId || '',
       positionId: initialData?.positionId || '',
+      image: {
+        key: initialData?.imageUrl || '',
+        url: initialData?.imageUrl || '',
+      },
     },
   });
 
@@ -225,7 +230,6 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             )}
           />
         </div>
-
         <FormField
           control={form.control}
           name="proposals"
@@ -238,6 +242,34 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                   placeholder="Propuestas del candidato"
                   className="resize-none"
                   {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Foto del candidato</FormLabel>
+              <FormControl>
+                <UploadDropzone
+                  endpoint="candidates"
+                  onClientUploadComplete={(res) => {
+                    field.onChange(res?.[0]);
+                    toast({
+                      title: 'Foto subida correctamente',
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast({
+                      title: 'Ocurrió un error',
+                      description: error.message,
+                      variant: 'destructive',
+                    });
+                  }}
                 />
               </FormControl>
               <FormMessage />

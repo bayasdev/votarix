@@ -17,11 +17,13 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name } = PartyValidator.parse(body);
+    const { name, image } = PartyValidator.parse(body);
 
     const party = await prisma.party.create({
       data: {
         name,
+        imageKey: image.key,
+        imageUrl: image.url,
       },
     });
 

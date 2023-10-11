@@ -18,6 +18,10 @@ export const CandidateValidator = z.object({
   partyId: z.string().min(1, 'El campo es requerido'),
   positionId: z.string().min(1, 'El campo es requerido'),
   proposals: z.string().optional(),
+  image: z.object({
+    key: z.string().optional(),
+    url: z.string().optional(),
+  }),
 });
 
 export type CandidateRequest = z.infer<typeof CandidateValidator>;

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { PartyValidator } from '@/lib/validators/party';
+import { utapi } from '@/app/api/uploadthing/core';
 
 interface IParams {
   params: {
@@ -27,7 +28,18 @@ export async function PUT(request: Request, { params }: IParams) {
       return new Response('ID no válido', { status: 400 });
     }
 
-    const body = PartyValidator.parse(await request.json());
+    const { image, ...body } = PartyValidator.parse(await request.json());
+
+    const oldParty = await prisma.party.findUnique({
+      where: {
+        id: partyId,
+      },
+    });
+
+    // if there is a new image, delete the old one
+    if (image && oldParty?.imageKey) {
+      await utapi.deleteFiles(oldParty?.imageKey);
+    }
 
     const party = await prisma.party.update({
       where: {
@@ -35,6 +47,8 @@ export async function PUT(request: Request, { params }: IParams) {
       },
       data: {
         ...body,
+        imageKey: image.key,
+        imageUrl: image.url,
       },
     });
 
@@ -66,7 +80,22 @@ export async function DELETE(request: Request, { params }: IParams) {
       return new Response('ID no válido', { status: 400 });
     }
 
-    const party = await prisma.party.delete({
+    const party = await prisma.party.findUnique({
+      where: {
+        id: partyId,
+      },
+    });
+
+    if (!party) {
+      return new Response('No encontrado', { status: 404 });
+    }
+
+    // if there is a image, delete it
+    if (party?.imageKey) {
+      await utapi.deleteFiles(party.imageKey);
+    }
+
+    await prisma.party.delete({
       where: {
         id: partyId,
       },

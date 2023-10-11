@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { UploadDropzone } from '@/lib/uploadthing';
 
 interface PartyFormProps {
   initialData?: SafeParty | null;
@@ -33,6 +34,10 @@ const PartyForm: React.FC<PartyFormProps> = ({ initialData }) => {
     resolver: zodResolver(PartyValidator),
     defaultValues: {
       name: initialData?.name || '',
+      image: {
+        key: initialData?.imageKey || '',
+        url: initialData?.imageUrl || '',
+      },
     },
   });
 
@@ -95,6 +100,34 @@ const PartyForm: React.FC<PartyFormProps> = ({ initialData }) => {
                   disabled={isLoading}
                   placeholder="Alianza Full-Stack"
                   {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Logo del partido</FormLabel>
+              <FormControl>
+                <UploadDropzone
+                  endpoint="parties"
+                  onClientUploadComplete={(res) => {
+                    field.onChange(res?.[0]);
+                    toast({
+                      title: 'Foto subida correctamente',
+                    });
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast({
+                      title: 'Ocurrió un error',
+                      description: error.message,
+                      variant: 'destructive',
+                    });
+                  }}
                 />
               </FormControl>
               <FormMessage />
