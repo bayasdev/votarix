@@ -34,7 +34,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
               </p>
             )}
             {user.role && (
-              <Badge variant="secondary" className="self-start">
+              <Badge variant="secondary" className="self-start lowercase">
                 {user.role}
               </Badge>
             )}
