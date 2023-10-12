@@ -23,8 +23,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
-import { DataTablePagination } from '@/components/dashboard/data-table-pagination';
-import { DataTableViewOptions } from '@/components/dashboard/data-table-view-options';
+import { DataTablePagination } from '@/components/ui/data-table-pagination';
+import { DataTableViewOptions } from '@/components/ui/data-table-view-options';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

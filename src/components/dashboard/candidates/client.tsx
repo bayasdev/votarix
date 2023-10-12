@@ -1,5 +1,5 @@
 import { columns } from '@/components/dashboard/candidates/columns';
-import { DataTable } from '@/components/dashboard/data-table';
+import { DataTable } from '@/components/ui/data-table';
 import { SafeCandidate } from '@/types';
 
 interface CandidatesClientProps {

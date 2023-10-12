@@ -3,7 +3,7 @@
 import { SafeUser } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { DataTableColumnHeader } from '@/components/dashboard/data-table-column-header';
+import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import CellActions from '@/components/dashboard/users/cell-actions';
 
 export const columns: ColumnDef<SafeUser>[] = [
