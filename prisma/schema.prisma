@@ -40,6 +40,7 @@ model User {
   accounts       Account[]
   ballots        Ballot[]
   certificates   Certificate[]
+  elections      Election[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,6 +60,7 @@ model Election {
   positions    Position[]
   ballots      Ballot[]
   certificates Certificate[]
+  voters       User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

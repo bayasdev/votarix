@@ -16,6 +16,46 @@ async function main() {
     },
   });
 
+  const voters = await prisma.user.createMany({
+    data: [
+      {
+        name: 'Votante 1',
+        document: '1799999999',
+        email: 'votante1@bayas.dev',
+        hashedPassword,
+        role: Role.VOTER,
+      },
+      {
+        name: 'Votante 2',
+        document: '1799999998',
+        email: 'votante2@bayas.dev',
+        hashedPassword,
+        role: Role.VOTER,
+      },
+      {
+        name: 'Votante 3',
+        document: '1799999997',
+        email: 'votante3@bayas.dev',
+        hashedPassword,
+        role: Role.VOTER,
+      },
+      {
+        name: 'Votante 4',
+        document: '1799999996',
+        email: 'votante4@bayas.dev',
+        hashedPassword,
+        role: Role.VOTER,
+      },
+      {
+        name: 'Votante 5',
+        document: '1799999995',
+        email: 'votante5@bayas.dev',
+        hashedPassword,
+        role: Role.VOTER,
+      },
+    ],
+  });
+
   const election1 = await prisma.election.create({
     data: {
       name: 'Elecciones 1',
@@ -69,6 +109,7 @@ async function main() {
 
   console.log({
     admin,
+    voters,
     election1,
     position1,
     party1,
