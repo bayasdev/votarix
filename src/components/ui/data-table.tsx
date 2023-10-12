@@ -31,6 +31,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[] | null;
   searchKey?: string;
   showViewOptions?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onSelectedRowsChange?: (data: TData[]) => void;
+  showRowSelection?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -38,6 +41,8 @@ export function DataTable<TData, TValue>({
   data,
   searchKey = 'name',
   showViewOptions = true,
+  onSelectedRowsChange = () => {},
+  showRowSelection = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -45,6 +50,7 @@ export function DataTable<TData, TValue>({
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: data || [],
@@ -56,12 +62,20 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
+
+  React.useEffect(() => {
+    onSelectedRowsChange(
+      table.getSelectedRowModel().flatRows.map((row) => row.original),
+    );
+  }, [rowSelection, table, onSelectedRowsChange]);
 
   return (
     <div>
@@ -126,6 +140,12 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      {showRowSelection && (
+        <div className="flex-1 py-4 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} fila(s) seleccionada(s)
+        </div>
+      )}
       <DataTablePagination table={table} />
     </div>
   );
