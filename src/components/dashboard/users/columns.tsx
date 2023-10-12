@@ -20,6 +20,12 @@ export const columns: ColumnDef<SafeUser>[] = [
     ),
   },
   {
+    accessorKey: 'document',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Cédula" />
+    ),
+  },
+  {
     accessorKey: 'role',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Rol" />

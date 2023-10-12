@@ -34,6 +34,12 @@ export const columns: ColumnDef<SafeCandidateWithParty>[] = [
     ),
   },
   {
+    accessorKey: 'document',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Cédula" />
+    ),
+  },
+  {
     accessorKey: 'party',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Partido" />
