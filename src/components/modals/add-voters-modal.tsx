@@ -58,7 +58,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
           </TabsList>
           <TabsContent
             value="manual"
-            className="flex max-h-[400vh] flex-col gap-6 overflow-y-auto"
+            className="flex max-h-[60vh] flex-col gap-6 overflow-y-auto"
           >
             <AddVotersClient
               elegibleVoters={elegibleVoters}
