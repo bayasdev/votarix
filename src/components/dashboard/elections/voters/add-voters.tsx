@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SafeUser } from '@/types';
 import AddVotersModal from '@/components/modals/add-voters-modal';
 import { toast } from '@/components/ui/use-toast';
+import { UserPlusIcon } from 'lucide-react';
 
 interface AddVotersProps {
   electionId?: string;
@@ -68,7 +69,10 @@ const AddVoters: React.FC<AddVotersProps> = ({
         isLoading={isLoading}
         elegibleVoters={elegibleVoters}
       />
-      <Button onClick={() => setIsOpen(true)}>Agregar votantes</Button>
+      <Button onClick={() => setIsOpen(true)}>
+        <UserPlusIcon className="mr-2 h-4 w-4" />
+        Agregar votantes
+      </Button>
     </>
   );
 };
