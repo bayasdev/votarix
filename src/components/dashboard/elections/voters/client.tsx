@@ -9,8 +9,8 @@ import { columns } from '@/components/dashboard/elections/voters/columns';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';
 import { toast } from '@/components/ui/use-toast';
-import { Icons } from '@/components/icons';
 import { UserXIcon } from 'lucide-react';
+import AlertModal from '@/components/modals/alert-modal';
 
 interface VotersClientProps {
   electionId?: string;
@@ -20,6 +20,7 @@ interface VotersClientProps {
 const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectedData, setSelectedData] = React.useState<SafeUser[]>([]);
 
@@ -45,6 +46,7 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
       })
       .finally(() => {
         setIsLoading(false);
+        setIsOpen(false);
         setRowSelection({});
       });
   };
@@ -52,12 +54,8 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
   const selectActions = (
     <>
       {selectedData.length > 0 && (
-        <Button variant="destructive" onClick={handleDisconnect}>
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <UserXIcon className="mr-2 h-4 w-4" />
-          )}
+        <Button variant="destructive" onClick={() => setIsOpen(true)}>
+          <UserXIcon className="mr-2 h-4 w-4" />
           Eliminar votantes
         </Button>
       )}
@@ -65,7 +63,13 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
   );
 
   return (
-    <div>
+    <>
+      <AlertModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={() => handleDisconnect()}
+        isLoading={isLoading}
+      />
       <DataTable
         columns={columns}
         data={voters}
@@ -75,7 +79,7 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
         showRowSelection
         selectActions={selectActions}
       />
-    </div>
+    </>
   );
 };
 
