@@ -49,16 +49,8 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
       });
   };
 
-  return (
-    <div>
-      <DataTable
-        columns={columns}
-        data={voters}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        onSelectedRowsChange={setSelectedData}
-        showRowSelection
-      />
+  const selectActions = (
+    <>
       {selectedData.length > 0 && (
         <Button variant="destructive" onClick={handleDisconnect}>
           {isLoading ? (
@@ -69,6 +61,20 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
           Eliminar votantes
         </Button>
       )}
+    </>
+  );
+
+  return (
+    <div>
+      <DataTable
+        columns={columns}
+        data={voters}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
+        onSelectedRowsChange={setSelectedData}
+        showRowSelection
+        selectActions={selectActions}
+      />
     </div>
   );
 };

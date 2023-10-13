@@ -40,6 +40,7 @@ interface DataTableProps<TData, TValue> {
   onSelectedRowsChange?: (data: TData[]) => void;
   resetRowSelection?: () => void;
   showRowSelection?: boolean;
+  selectActions?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -51,6 +52,7 @@ export function DataTable<TData, TValue>({
   setRowSelection = () => {},
   onSelectedRowsChange = () => {},
   showRowSelection = false,
+  selectActions,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -148,6 +150,11 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      {selectActions && (
+        <div className="flex items-center justify-end py-4">
+          {selectActions}
+        </div>
+      )}
       {showRowSelection && (
         <div className="flex-1 py-4 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{' '}
