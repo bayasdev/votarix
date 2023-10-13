@@ -1,22 +1,26 @@
 'use client';
 
+import { useState } from 'react';
+import Link from 'next/link';
 import { RowSelectionState, Updater } from '@tanstack/react-table';
+import { FileDownIcon } from 'lucide-react';
 
+import { SafeUser } from '@/types';
+import { cn } from '@/lib/utils';
 import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { FileDownIcon } from 'lucide-react';
-import { SafeUser } from '@/types';
 import AddVotersClient from '@/components/dashboard/elections/add-voters/client';
+import { Label } from '@/components/ui/label';
 
 interface AddVotersModalProps {
   isOpen: boolean;
   onClose: () => void;
   handleManualUpload: () => void;
-  handleFileUpload: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleFileUpload: (file: File | null) => void;
   rowSelection: {};
   // eslint-disable-next-line no-unused-vars
   setRowSelection?: (updater: Updater<RowSelectionState>) => void;
@@ -37,6 +41,8 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
   isLoading,
   elegibleVoters,
 }) => {
+  const [file, setFile] = useState<File | null>(null);
+
   return (
     <Modal
       title="Agregar votantes"
@@ -68,30 +74,52 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Confirmar
+                Agregar votantes
               </Button>
             </div>
           </TabsContent>
           <TabsContent value="upload" className="flex flex-col gap-6">
-            <Button variant="secondary">
+            <Link
+              href="/resources/modelo_votantes.csv"
+              className={cn(buttonVariants({ variant: 'secondary' }))}
+            >
               <FileDownIcon className="mr-2 h-4 w-4" />
               Descargar modelo CSV
-            </Button>
-            <div className="flex flex-col gap-2">
+            </Link>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleFileUpload(file);
+              }}
+              className="w-full space-y-2"
+            >
               <Label htmlFor="file">Archivo CSV</Label>
-              <Input type="file" id="file" />
-            </div>
-            <div className="flex w-full items-center justify-end space-x-2">
-              <Button disabled={isLoading} variant="outline" onClick={onClose}>
-                Cancelar
-              </Button>
-              <Button disabled={isLoading} onClick={handleFileUpload}>
-                {isLoading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Confirmar
-              </Button>
-            </div>
+              <Input
+                id="file"
+                type="file"
+                accept=".csv"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+              />
+              <div className="flex w-full items-center justify-end space-x-2 pt-6">
+                <Button
+                  disabled={isLoading}
+                  variant="outline"
+                  onClick={onClose}
+                >
+                  Cancelar
+                </Button>
+                <Button disabled={isLoading} type="submit">
+                  {isLoading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Subir archivo
+                </Button>
+              </div>
+            </form>
           </TabsContent>
         </Tabs>
       </div>

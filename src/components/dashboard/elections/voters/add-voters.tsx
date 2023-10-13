@@ -52,9 +52,38 @@ const AddVoters: React.FC<AddVotersProps> = ({
       });
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (file: File | null) => {
     setIsLoading(true);
-    setIsLoading(false);
+
+    if (!file || file.type !== 'text/csv') {
+      toast({
+        title: 'Ocurrió un error',
+        description: 'El archivo debe ser de tipo CSV',
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    axios
+      .post(`/api/elections/${electionId}/voters/bulkUpload`, file)
+      .then((response) => {
+        toast({
+          title: 'Votante(s) agregado(s) correctamente',
+          description: response?.data,
+        });
+        router.refresh();
+      })
+      .catch((error) => {
+        toast({
+          title: 'Ocurrió un error',
+          description: error?.response?.data,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsOpen(false);
+      });
   };
   return (
     <>
