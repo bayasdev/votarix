@@ -109,6 +109,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
                   disabled={isLoading}
                   variant="outline"
                   onClick={onClose}
+                  type="button"
                 >
                   Cancelar
                 </Button>
