@@ -85,3 +85,15 @@ export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
 export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
   party?: SafeParty;
 };
+
+// aggregated types
+
+export type ElectionResult = {
+  electionId: string;
+  positionName: string;
+  candidateName: string;
+  candidateImageUrl: string;
+  partyName: string;
+  partyImageUrl: string;
+  voteCount: number;
+};

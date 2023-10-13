@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { SafeElection } from '@/types';
+import { ElectionResult, SafeElection } from '@/types';
 
 interface IParams {
   electionId?: string;
@@ -83,6 +83,58 @@ export async function getElectionById(
       updatedAt: election.updatedAt.toISOString(),
     };
   } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getElectionResultsById(
+  params: IParams,
+): Promise<ElectionResult[] | null> {
+  try {
+    const { electionId } = params;
+
+    const election = await prisma.election.findUnique({
+      where: {
+        id: electionId,
+      },
+      include: {
+        positions: {
+          include: {
+            candidates: {
+              include: {
+                party: true,
+                ballots: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!election) {
+      return null;
+    }
+
+    const electionResult: ElectionResult[] = [];
+
+    election.positions.forEach((position) => {
+      position.candidates.forEach((candidate) => {
+        const voteCount = candidate.ballots.length;
+
+        electionResult.push({
+          electionId: election.id,
+          positionName: position.name,
+          candidateName: candidate.name,
+          candidateImageUrl: candidate.imageUrl || '',
+          partyName: candidate.party.name,
+          partyImageUrl: candidate.party?.imageUrl || '',
+          voteCount,
+        });
+      });
+    });
+
+    return electionResult;
+  } catch (error) {
     return null;
   }
 }
