@@ -3,12 +3,12 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { UserPlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { SafeUser } from '@/types';
 import AddVotersModal from '@/components/modals/add-voters-modal';
 import { toast } from '@/components/ui/use-toast';
-import { UserPlusIcon } from 'lucide-react';
 
 interface AddVotersProps {
   electionId?: string;
