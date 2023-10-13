@@ -21,6 +21,7 @@ const AddVoters: React.FC<AddVotersProps> = ({
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [rowSelection, setRowSelection] = React.useState({});
   const [selectedData, setSelectedData] = React.useState<SafeUser[]>([]);
 
   const handleManualUpload = () => {
@@ -45,6 +46,7 @@ const AddVoters: React.FC<AddVotersProps> = ({
       })
       .finally(() => {
         setIsLoading(false);
+        setRowSelection({});
         setIsOpen(false);
       });
   };
@@ -60,6 +62,8 @@ const AddVoters: React.FC<AddVotersProps> = ({
         onClose={() => setIsOpen(false)}
         handleManualUpload={handleManualUpload}
         handleFileUpload={handleFileUpload}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
         setSelectedData={setSelectedData}
         isLoading={isLoading}
         elegibleVoters={elegibleVoters}

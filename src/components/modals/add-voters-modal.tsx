@@ -1,5 +1,7 @@
 'use client';
 
+import { RowSelectionState, Updater } from '@tanstack/react-table';
+
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
@@ -15,6 +17,9 @@ interface AddVotersModalProps {
   onClose: () => void;
   handleManualUpload: () => void;
   handleFileUpload: () => void;
+  rowSelection: {};
+  // eslint-disable-next-line no-unused-vars
+  setRowSelection?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
   setSelectedData: (data: SafeUser[]) => void;
   isLoading: boolean;
@@ -26,6 +31,8 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
   onClose,
   handleManualUpload,
   handleFileUpload,
+  rowSelection,
+  setRowSelection,
   setSelectedData,
   isLoading,
   elegibleVoters,
@@ -49,6 +56,8 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
           >
             <AddVotersClient
               elegibleVoters={elegibleVoters}
+              rowSelection={rowSelection}
+              setRowSelection={setRowSelection}
               onSelectedRowsChange={setSelectedData}
             />
             <div className="flex w-full items-center justify-end space-x-2">

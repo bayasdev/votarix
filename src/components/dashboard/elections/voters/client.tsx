@@ -20,6 +20,7 @@ interface VotersClientProps {
 const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [rowSelection, setRowSelection] = React.useState({});
   const [selectedData, setSelectedData] = React.useState<SafeUser[]>([]);
 
   const handleDisconnect = () => {
@@ -44,6 +45,7 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
       })
       .finally(() => {
         setIsLoading(false);
+        setRowSelection({});
       });
   };
 
@@ -52,6 +54,8 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
       <DataTable
         columns={columns}
         data={voters}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
         onSelectedRowsChange={setSelectedData}
         showRowSelection
       />

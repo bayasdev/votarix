@@ -4,7 +4,9 @@ import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
+  RowSelectionState,
   SortingState,
+  Updater,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -31,8 +33,12 @@ interface DataTableProps<TData, TValue> {
   data: TData[] | null;
   searchKey?: string;
   showViewOptions?: boolean;
+  rowSelection?: {};
+  // eslint-disable-next-line no-unused-vars
+  setRowSelection?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
   onSelectedRowsChange?: (data: TData[]) => void;
+  resetRowSelection?: () => void;
   showRowSelection?: boolean;
 }
 
@@ -41,6 +47,8 @@ export function DataTable<TData, TValue>({
   data,
   searchKey = 'name',
   showViewOptions = true,
+  rowSelection = {},
+  setRowSelection = () => {},
   onSelectedRowsChange = () => {},
   showRowSelection = false,
 }: DataTableProps<TData, TValue>) {
@@ -50,7 +58,7 @@ export function DataTable<TData, TValue>({
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  // const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: data || [],
