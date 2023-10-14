@@ -1,13 +1,14 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { ElectionResult, SafeElection } from '@/types';
+
+import { ElectionResult, SafeElection, SafeElectionWithStatus } from '@/types';
 
 interface IParams {
   electionId?: string;
 }
 
-export async function getElections(): Promise<SafeElection[] | null> {
+export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
   try {
     const elections = await prisma.election.findMany({
       orderBy: {
@@ -21,6 +22,7 @@ export async function getElections(): Promise<SafeElection[] | null> {
       endTime: item.endTime.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
+      status: item.startTime < new Date() && item.endTime > new Date(),
     }));
 
     return safeElections;

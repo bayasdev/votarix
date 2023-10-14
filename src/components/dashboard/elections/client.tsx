@@ -1,9 +1,9 @@
 import { columns } from '@/components/dashboard/elections/columns';
 import { DataTable } from '@/components/ui/data-table';
-import { SafeElection } from '@/types';
+import { SafeElectionWithStatus } from '@/types';
 
 interface ElectionsClientProps {
-  elections: SafeElection[] | null;
+  elections: SafeElectionWithStatus[] | null;
 }
 
 const ElectionsClient: React.FC<ElectionsClientProps> = ({ elections }) => {

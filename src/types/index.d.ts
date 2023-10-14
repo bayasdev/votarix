@@ -78,6 +78,10 @@ export type SafeElection = Safe<Omit<Election, 'startTime' | 'endTime'>> & {
   endTime: string;
 };
 
+export type SafeElectionWithStatus = SafeElection & {
+  status: boolean;
+};
+
 export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
   election?: SafeElection;
 };
@@ -85,8 +89,6 @@ export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
 export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
   party?: SafeParty;
 };
-
-// aggregated types
 
 export type ElectionResult = {
   electionId: string;
