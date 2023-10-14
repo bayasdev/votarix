@@ -40,8 +40,8 @@ const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
     defaultValues: {
       name: initialData?.name || '',
       description: initialData?.description || '',
-      startTime: defaultStartTime,
-      endTime: defaultEndTime,
+      startTime: dayjs(initialData?.startTime).toDate() || defaultStartTime,
+      endTime: dayjs(initialData?.endTime).toDate() || defaultEndTime,
     },
   });
 
