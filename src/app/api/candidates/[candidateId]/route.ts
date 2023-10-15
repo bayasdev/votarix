@@ -37,7 +37,11 @@ export async function PUT(request: Request, { params }: IParams) {
     });
 
     // if there is a new image, delete the old one
-    if (image && oldCandidate?.imageKey) {
+    if (
+      image &&
+      oldCandidate?.imageKey &&
+      oldCandidate?.imageKey !== image.key
+    ) {
       await utapi.deleteFiles(oldCandidate?.imageKey);
     }
 
