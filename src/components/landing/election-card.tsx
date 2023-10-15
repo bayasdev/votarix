@@ -1,36 +1,64 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { CalendarClockIcon, FileDownIcon, VoteIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import { SafeElection } from '@/types';
-import { Icons } from '@/components/icons';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+import { SafeElectionWithStatus } from '@/types';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 interface ElectionCardProps {
-  election: SafeElection;
+  election: SafeElectionWithStatus;
 }
 
 const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
+  const router = useRouter();
+
+  const handleDownloadCertificate = () => {
+    router.push(`/api/elections/${election.id}/downloadCertificate`);
+  };
+
+  const handleVote = () => {
+    router.push(`/vote/${election.id}`);
+  };
+
   return (
-    <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-      <div className="flex h-[360px] flex-col justify-between rounded-md p-6">
-        <Icons.vote className="h-12 w-12" />
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="font-bold">{election.name}</h3>
-            <p className="text-sm text-muted-foreground">
-              {election.description}
-            </p>
-          </div>
-          <Link
-            href={`/vote/${election.id}`}
-            className={cn(buttonVariants({ size: 'sm' }))}
+    <Card>
+      <CardHeader>
+        <CardTitle className="tracking-tight">{election.name}</CardTitle>
+        <CardDescription className="flex flex-wrap items-center gap-2">
+          <CalendarClockIcon className="h-4 w-4" />
+          {dayjs(election.startTime).format('DD/MM/YYYY HH:mm')}
+          {' - '}
+          {dayjs(election.endTime).format('DD/MM/YYYY HH:mm')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>{election.description}</CardContent>
+      <CardFooter>
+        <div className="flex w-full justify-end space-x-2 pt-6">
+          <Button
+            variant="outline"
+            onClick={handleDownloadCertificate}
+            disabled
           >
+            <FileDownIcon className="mr-2 h-4 w-4" />
+            Descargar certificado
+          </Button>
+          <Button onClick={handleVote}>
+            <VoteIcon className="mr-2 h-4 w-4" />
             Votar
-          </Link>
+          </Button>
         </div>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 

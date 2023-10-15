@@ -1,11 +1,60 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { SafeUser } from '@/types';
 
-export async function getElegibleVoters(params: {
+import { SafeUser } from '@/types';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+
+interface IParams {
   electionId?: string;
-}): Promise<SafeUser[] | null> {
+}
+
+export async function getCanUserVote(params: IParams): Promise<boolean> {
+  const { electionId } = params;
+
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return false;
+  }
+
+  try {
+    const election = await prisma.election.findFirst({
+      where: {
+        id: electionId,
+        voters: {
+          some: {
+            id: currentUser.id,
+            role: 'VOTER',
+          },
+        },
+        startTime: {
+          lt: new Date(),
+        },
+        endTime: {
+          gt: new Date(),
+        },
+        ballots: {
+          none: {
+            userId: currentUser.id,
+          },
+        },
+      },
+    });
+
+    if (!election) {
+      return false;
+    }
+
+    return true;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function getElegibleVoters(
+  params: IParams,
+): Promise<SafeUser[] | null> {
   const { electionId } = params;
   // where role is VOTER and not in electionId
   try {
@@ -38,9 +87,9 @@ export async function getElegibleVoters(params: {
   }
 }
 
-export async function getVotersByElectionId(params: {
-  electionId?: string;
-}): Promise<SafeUser[] | null> {
+export async function getVotersByElectionId(
+  params: IParams,
+): Promise<SafeUser[] | null> {
   try {
     const { electionId } = params;
 

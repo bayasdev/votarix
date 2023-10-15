@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Role } from '@prisma/client';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import { landingConfig } from '@/config/landing';
@@ -7,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { MainNav } from '@/components/main-nav';
 import { SiteFooter } from '@/components/site-footer';
-import LogoutButtonNav from '@/components/logout-button-nav';
+import { UserAccountNav } from '@/components/user-account-nav';
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -32,18 +31,8 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
               >
                 Iniciar sesión
               </Link>
-            ) : currentUser.role === Role.ADMIN ? (
-              <Link
-                href="/dashboard"
-                className={cn(
-                  buttonVariants({ variant: 'secondary', size: 'sm' }),
-                  'px-4',
-                )}
-              >
-                Dashboard
-              </Link>
             ) : (
-              <LogoutButtonNav />
+              <UserAccountNav user={currentUser} />
             )}
           </nav>
         </div>

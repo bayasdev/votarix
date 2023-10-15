@@ -99,3 +99,25 @@ export type ElectionResult = {
   partyImageUrl: string;
   voteCount: number;
 };
+
+export type ElectionData = {
+  id: string;
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  positions: {
+    id: string;
+    name: string;
+    candidates: {
+      id: string;
+      name: string;
+      imageUrl?: string;
+      party: {
+        id: string;
+        name: string;
+        imageUrl?: string;
+      };
+    }[];
+  }[];
+};
