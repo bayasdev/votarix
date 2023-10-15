@@ -4,8 +4,10 @@ const NotFoundPage = () => {
   return (
     <div>
       <EmptyState
-        title="Página no encontrada"
+        title="Error 404"
         subtitle="La página que buscas no existe"
+        icon="notFound"
+        showGoBack
       />
     </div>
   );

@@ -1,12 +1,16 @@
 import EmptyState from '@/components/empty-state';
 
-const DashboardNotFoundPage = () => {
+const NotFoundPage = () => {
   return (
-    <EmptyState
-      title="Página no encontrada"
-      subtitle="La página que buscas no existe"
-    />
+    <div>
+      <EmptyState
+        title="Error 404"
+        subtitle="La página que buscas no existe"
+        icon="notFound"
+        showGoBack
+      />
+    </div>
   );
 };
 
-export default DashboardNotFoundPage;
+export default NotFoundPage;
