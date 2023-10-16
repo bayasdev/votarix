@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { getElectionDataById } from '@/app/actions/election';
-import VoteClient from '@/components/landing/vote/client';
+import VoteForm from '@/components/landing/vote/form';
 import { getCanUserVote } from '@/app/actions/voters';
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
@@ -36,7 +36,7 @@ const VotePage = async ({ params }: VotePageProps) => {
         subtitle={electionData.description}
         center
       />
-      <VoteClient electionData={electionData} />
+      <VoteForm electionData={electionData} />
     </div>
   );
 };

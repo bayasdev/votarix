@@ -2,6 +2,7 @@ import Image from 'next/image';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { CheckIcon } from 'lucide-react';
 
+import { FormControl } from '@/components/ui/form';
 import {
   Card,
   CardHeader,
@@ -51,14 +52,16 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-center">
-        <RadioGroup.Item
-          value={candidate.id}
-          className="aspect-square h-8 w-8 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <RadioGroup.Indicator className="flex items-center justify-center">
-            <CheckIcon className="h-6 w-6" />
-          </RadioGroup.Indicator>
-        </RadioGroup.Item>
+        <FormControl>
+          <RadioGroup.Item
+            value={candidate.id}
+            className="aspect-square h-8 w-8 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <RadioGroup.Indicator className="flex items-center justify-center">
+              <CheckIcon className="h-6 w-6" />
+            </RadioGroup.Indicator>
+          </RadioGroup.Item>
+        </FormControl>
       </CardFooter>
     </Card>
   );
