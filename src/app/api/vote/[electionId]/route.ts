@@ -1,9 +1,7 @@
 import { z } from 'zod';
-import { Role } from '@prisma/client';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
-import { getCanUserVote } from '@/app/actions/voters';
 import { VoteValidator } from '@/lib/validators/vote';
 
 interface IParams {
@@ -14,14 +12,48 @@ interface IParams {
 
 export async function POST(request: Request, { params }: IParams) {
   try {
-    const { electionId } = params;
     const currentUser = await getCurrentUser();
-    const canUserVote = await getCanUserVote(params);
 
-    if (!canUserVote || !currentUser || !electionId) {
+    if (!currentUser) {
       return new Response('No autorizado', {
         status: 401,
       });
+    }
+
+    const { electionId } = params;
+
+    if (!electionId || typeof electionId !== 'string') {
+      return new Response('ID no válido', { status: 400 });
+    }
+
+    const canVote = await prisma.election.findUnique({
+      where: {
+        id: electionId,
+        // check if user is a voter and is enrolled in election
+        voters: {
+          some: {
+            id: currentUser.id,
+            role: 'VOTER',
+          },
+        },
+        // check if election is ongoing
+        startTime: {
+          lt: new Date(),
+        },
+        endTime: {
+          gt: new Date(),
+        },
+        // check if user has voted
+        ballots: {
+          none: {
+            userId: currentUser.id,
+          },
+        },
+      },
+    });
+
+    if (!canVote) {
+      return new Response('No puedes votar en esta elección', { status: 403 });
     }
 
     const body = await request.json();
@@ -34,8 +66,17 @@ export async function POST(request: Request, { params }: IParams) {
       userId: currentUser.id,
     }));
 
+    // create ballots
     await prisma.ballot.createMany({
       data: ballotsData,
+    });
+
+    // create certificate
+    await prisma.certificate.create({
+      data: {
+        electionId: electionId,
+        userId: currentUser.id,
+      },
     });
 
     return new Response('Voto registrado', { status: 201 });
