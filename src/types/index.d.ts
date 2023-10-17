@@ -67,6 +67,10 @@ export type SafeUser = Safe<Omit<User, 'emailVerified'>> & {
   emailVerified: string | null;
 };
 
+type SafeUserWithHasVoted = SafeUser & {
+  hasVoted: boolean;
+};
+
 export type SafeParty = Safe<Party>;
 
 export type SafePosition = Safe<Position>;

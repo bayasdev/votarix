@@ -1,6 +1,6 @@
 import { RowSelectionState, Updater } from '@tanstack/react-table';
 
-import { columns } from '@/components/dashboard/elections/voters/columns';
+import { columns } from '@/components/dashboard/elections/add-voters/columns';
 import { DataTable } from '@/components/ui/data-table';
 import { SafeUser } from '@/types';
 

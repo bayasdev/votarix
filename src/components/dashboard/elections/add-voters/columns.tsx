@@ -1,13 +1,12 @@
 'use client';
 
-import { SafeUserWithHasVoted } from '@/types';
+import { SafeUser } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
-import { Badge } from '@/components/ui/badge';
 
-export const columns: ColumnDef<SafeUserWithHasVoted>[] = [
+export const columns: ColumnDef<SafeUser>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -44,17 +43,5 @@ export const columns: ColumnDef<SafeUserWithHasVoted>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Correo electrónico" />
     ),
-  },
-  {
-    accessorKey: 'hasVoted',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Votó" />
-    ),
-    cell: ({ row }) =>
-      row.original.hasVoted ? (
-        <Badge>Si</Badge>
-      ) : (
-        <Badge variant="destructive">No</Badge>
-      ),
   },
 ];

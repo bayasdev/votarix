@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import { SafeUser } from '@/types';
+import { SafeUserWithHasVoted } from '@/types';
 import { columns } from '@/components/dashboard/elections/voters/columns';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';
@@ -14,7 +14,7 @@ import AlertModal from '@/components/modals/alert-modal';
 
 interface VotersClientProps {
   electionId?: string;
-  voters: SafeUser[] | null;
+  voters: SafeUserWithHasVoted[] | null;
 }
 
 const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
@@ -22,7 +22,9 @@ const VotersClient: React.FC<VotersClientProps> = ({ electionId, voters }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [rowSelection, setRowSelection] = React.useState({});
-  const [selectedData, setSelectedData] = React.useState<SafeUser[]>([]);
+  const [selectedData, setSelectedData] = React.useState<
+    SafeUserWithHasVoted[]
+  >([]);
 
   const handleDisconnect = () => {
     setIsLoading(true);
