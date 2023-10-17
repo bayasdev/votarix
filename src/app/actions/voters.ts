@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 
-import { SafeUser } from '@/types';
+import { SafeUser, SafeUserWithHasVoted } from '@/types';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 
 interface IParams {
@@ -19,21 +19,24 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
   }
 
   try {
-    const election = await prisma.election.findFirst({
+    const canVote = await prisma.election.findUnique({
       where: {
         id: electionId,
+        // check if user is a voter and is enrolled in election
         voters: {
           some: {
             id: currentUser.id,
             role: 'VOTER',
           },
         },
+        // check if election is ongoing
         startTime: {
           lt: new Date(),
         },
         endTime: {
           gt: new Date(),
         },
+        // check if user has voted
         ballots: {
           none: {
             userId: currentUser.id,
@@ -42,7 +45,7 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
       },
     });
 
-    if (!election) {
+    if (!canVote) {
       return false;
     }
 
@@ -89,17 +92,27 @@ export async function getElegibleVoters(
 
 export async function getVotersByElectionId(
   params: IParams,
-): Promise<SafeUser[] | null> {
+): Promise<SafeUserWithHasVoted[] | null> {
   try {
     const { electionId } = params;
 
-    const voters = await prisma.election
-      .findUnique({
-        where: {
-          id: electionId,
+    const voters = await prisma.user.findMany({
+      where: {
+        role: 'VOTER',
+        elections: {
+          some: {
+            id: electionId,
+          },
         },
-      })
-      .voters();
+      },
+      include: {
+        ballots: {
+          where: {
+            electionId,
+          },
+        },
+      },
+    });
 
     if (!voters) {
       return null;
@@ -111,6 +124,7 @@ export async function getVotersByElectionId(
       updatedAt: item.updatedAt.toISOString(),
       emailVerified: item.emailVerified?.toISOString() || null,
       hashedPassword: null,
+      hasVoted: item.ballots.length > 0,
     }));
 
     return safeVoters;
