@@ -1,5 +1,6 @@
 'use server';
 
+import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 
 import {
@@ -7,6 +8,7 @@ import {
   ElectionResult,
   SafeElection,
   SafeElectionWithStatus,
+  SafeElectionWithStatusAndCanVote,
 } from '@/types';
 
 interface IParams {
@@ -37,9 +39,11 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
 }
 
 export async function getOngoingElections(): Promise<
-  SafeElectionWithStatus[] | null
+  SafeElectionWithStatusAndCanVote[] | null
 > {
   try {
+    const currentUser = await getCurrentUser();
+
     const elections = await prisma.election.findMany({
       where: {
         startTime: {
@@ -47,6 +51,13 @@ export async function getOngoingElections(): Promise<
         },
         endTime: {
           gt: new Date(),
+        },
+      },
+      include: {
+        ballots: {
+          select: {
+            userId: true,
+          },
         },
       },
       orderBy: {
@@ -61,6 +72,9 @@ export async function getOngoingElections(): Promise<
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
       status: item.startTime < new Date() && item.endTime > new Date(),
+      canVote: !item.ballots.some(
+        (ballot) => ballot.userId === currentUser?.id,
+      ),
     }));
 
     return safeElections;

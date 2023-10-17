@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CalendarClockIcon, FileDownIcon, VoteIcon } from 'lucide-react';
+import { CalendarClockIcon, VoteIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import { SafeElectionWithStatus } from '@/types';
+import { SafeElectionWithStatusAndCanVote } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/card';
 
 interface ElectionCardProps {
-  election: SafeElectionWithStatus;
+  election: SafeElectionWithStatusAndCanVote;
 }
 
 const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
@@ -44,7 +44,10 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
       <CardContent>{election.description}</CardContent>
       <CardFooter>
         <div className="flex w-full justify-end space-x-2 pt-6">
-          <Button onClick={handleVote} disabled={!election.status}>
+          <Button
+            onClick={handleVote}
+            disabled={!election.canVote || !election.status}
+          >
             <VoteIcon className="mr-2 h-4 w-4" />
             Votar
           </Button>
