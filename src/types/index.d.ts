@@ -67,15 +67,17 @@ export type SafeUser = Safe<Omit<User, 'emailVerified'>> & {
   emailVerified: string | null;
 };
 
-type SafeUserWithHasVoted = SafeUser & {
+export type SafeUserWithHasVoted = SafeUser & {
   hasVoted: boolean;
 };
 
 export type SafeParty = Safe<Party>;
 
-export type SafePosition = Safe<Position>;
-
 export type SafeCandidate = Safe<Candidate>;
+
+export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
+  party?: SafeParty;
+};
 
 export type SafeElection = Safe<Omit<Election, 'startTime' | 'endTime'>> & {
   startTime: string;
@@ -86,12 +88,17 @@ export type SafeElectionWithStatus = SafeElection & {
   status: boolean;
 };
 
+export type SafePosition = Safe<Position>;
+
 export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
   election?: SafeElection;
 };
 
-export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
-  party?: SafeParty;
+export type CertificateResponse = {
+  id: string;
+  electionName: string;
+  voterName: string;
+  voterDocument?: string;
 };
 
 export type ElectionResult = {
