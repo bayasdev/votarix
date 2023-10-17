@@ -1,4 +1,5 @@
 import { getVoterCertificates } from '@/app/actions/voters';
+import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import CertificatesClient from '@/components/landing/certificates/client';
 
@@ -11,7 +12,11 @@ const CertificatesPage = async () => {
         title="Mis certificados"
         subtitle="Procesos electorales en los que ha participado"
       />
-      <CertificatesClient certificates={certificates} />
+      {certificates && certificates.length > 0 ? (
+        <CertificatesClient certificates={certificates} />
+      ) : (
+        <EmptyState subtitle="No has participado en ningún proceso electoral" />
+      )}
     </div>
   );
 };
