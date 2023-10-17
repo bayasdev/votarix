@@ -69,13 +69,12 @@ model Election {
 model Position {
   id         String      @id @default(cuid())
   name       String
-  election   Election?   @relation(fields: [electionId], references: [id])
-  electionId String?
+  election   Election    @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  electionId String
   candidates Candidate[]
   Ballot     Ballot[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Party {
@@ -90,17 +89,17 @@ model Party {
 }
 
 model Candidate {
-  id         String    @id @default(cuid())
+  id         String   @id @default(cuid())
   name       String
   email      String?
   document   String?
   imageKey   String?
   imageUrl   String?
   proposals  String?
-  party      Party     @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  party      Party    @relation(fields: [partyId], references: [id], onDelete: Cascade)
   partyId    String
-  position   Position? @relation(fields: [positionId], references: [id], onDelete: Cascade)
-  positionId String?
+  position   Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  positionId String
   ballots    Ballot[]
 
   createdAt DateTime @default(now())
@@ -109,13 +108,13 @@ model Candidate {
 
 model Ballot {
   id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
-  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   candidateId String
-  position    Position  @relation(fields: [positionId], references: [id])
+  position    Position  @relation(fields: [positionId], references: [id], onDelete: Cascade)
   positionId  String
-  election    Election  @relation(fields: [electionId], references: [id])
+  election    Election  @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId  String
 
   createdAt DateTime @default(now())
@@ -126,9 +125,9 @@ model Ballot {
 
 model Certificate {
   id         String   @id @default(cuid())
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  election   Election @relation(fields: [electionId], references: [id])
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId String
 
   createdAt DateTime @default(now())
