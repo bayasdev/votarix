@@ -14,5 +14,9 @@ export const landingConfig: LandingConfig = {
       title: 'Resultados',
       href: '/results',
     },
+    {
+      title: 'Mis certificados',
+      href: '/certificates',
+    },
   ],
 };

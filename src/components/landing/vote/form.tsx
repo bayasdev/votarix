@@ -45,7 +45,7 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
           title: 'Voto registrado',
           description: 'Gracias por participar',
         });
-        router.replace('/vote');
+        router.replace('/certificates');
         router.refresh();
       })
       .catch((error) => {

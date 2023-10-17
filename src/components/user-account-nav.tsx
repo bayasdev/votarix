@@ -40,6 +40,14 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             )}
           </div>
         </div>
+        {user.role === 'VOTER' && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/certificates">Mis certificados</Link>
+            </DropdownMenuItem>
+          </>
+        )}
         {user.role === 'ADMIN' && (
           <>
             <DropdownMenuSeparator />

@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 
-import { SafeUser, SafeUserWithHasVoted } from '@/types';
+import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 
 interface IParams {
@@ -128,6 +128,40 @@ export async function getVotersByElectionId(
     }));
 
     return safeVoters;
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getVoterCertificates(): Promise<
+  CertificateResponse[] | null
+> {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return null;
+    }
+
+    const certificates = await prisma.certificate.findMany({
+      where: {
+        userId: currentUser.id,
+      },
+      include: {
+        election: true,
+      },
+    });
+
+    if (!certificates) {
+      return null;
+    }
+
+    return certificates.map((item) => ({
+      id: item.id,
+      electionName: item.election.name,
+      voterName: currentUser.name,
+      voterDocument: currentUser.document || '',
+    }));
   } catch (error: any) {
     return null;
   }
