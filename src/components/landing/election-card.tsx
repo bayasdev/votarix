@@ -44,15 +44,7 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
       <CardContent>{election.description}</CardContent>
       <CardFooter>
         <div className="flex w-full justify-end space-x-2 pt-6">
-          <Button
-            variant="outline"
-            onClick={handleDownloadCertificate}
-            disabled
-          >
-            <FileDownIcon className="mr-2 h-4 w-4" />
-            Descargar certificado
-          </Button>
-          <Button onClick={handleVote}>
+          <Button onClick={handleVote} disabled={!election.status}>
             <VoteIcon className="mr-2 h-4 w-4" />
             Votar
           </Button>
