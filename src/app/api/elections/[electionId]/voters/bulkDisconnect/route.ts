@@ -2,6 +2,7 @@ import { Role } from '@prisma/client';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
+import { VotersDisconnectValidator } from '@/lib/validators/voters-disconnect';
 
 interface IParams {
   params: {
@@ -27,13 +28,35 @@ export async function POST(request: Request, { params }: IParams) {
 
     const body = await request.json();
 
+    const voters = VotersDisconnectValidator.parse(body);
+
     const election = await prisma.election.update({
       where: {
         id: electionId,
       },
       data: {
         voters: {
-          disconnect: body,
+          disconnect: voters,
+        },
+      },
+    });
+
+    // also remove ballots and certificates
+
+    await prisma.ballot.deleteMany({
+      where: {
+        electionId,
+        userId: {
+          in: voters.map((voter) => voter.id),
+        },
+      },
+    });
+
+    await prisma.certificate.deleteMany({
+      where: {
+        electionId,
+        userId: {
+          in: voters.map((voter) => voter.id),
         },
       },
     });
