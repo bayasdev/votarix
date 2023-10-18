@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { Role } from '@prisma/client';
+import QRCode from 'qrcode';
 import PDFDocument from 'pdfkit';
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
@@ -42,50 +44,80 @@ export default async function handler(
       return res.status(404).send('Certificado no encontrado');
     }
 
+    const qrImage = await QRCode.toBuffer(
+      `http://localhost:3000/validateCertificate/${certificate.id}`,
+    );
+
+    const generationDate = dayjs()
+      .locale('es')
+      .format('DD [de] MMMM [del] YYYY');
+
+    const message = `Este documento acredita que ${
+      certificate.user.name
+    } portador/a de la cédula de ciudadanía ecuatoriana # ${
+      certificate.user.document
+    } sufragó en el proceso electoral denominado "${
+      certificate.election.name
+    }" el día ${dayjs(certificate.createdAt)
+      .locale('es')
+      .format('DD [de] MMMM [del] YYYY')}.`;
+
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
+      const margin = 50;
+
       const doc = new PDFDocument({
         size: 'A4',
         layout: 'portrait',
+        margin,
       });
 
       // register fonts
       doc.registerFont('Inter', 'src/assets/fonts/Inter-Regular.ttf');
       doc.registerFont('Inter-Bold', 'src/assets/fonts/Inter-Bold.ttf');
 
-      doc.font('Inter-Bold').fontSize(16);
+      const logoWidth = 180;
+      const logoHeight = 75;
+      doc.image(
+        'src/assets/images/logoUnibeNuevo.png',
+        doc.page.width / 2 - logoWidth / 2,
+        doc.y,
+        {
+          fit: [logoWidth, logoHeight],
+          align: 'center',
+        },
+      );
 
-      doc.text('Certificado de votación', {
+      doc.moveDown(2);
+
+      doc.font('Inter-Bold').fontSize(14).text('CERTIFICADO DE VOTACIÓN', {
         align: 'center',
       });
 
-      doc.font('Inter').fontSize(12);
+      doc.moveDown(2);
 
-      doc.moveDown();
+      doc.font('Inter').fontSize(12).text(message, { align: 'justify' });
 
-      doc.text(`Nombre: ${certificate.user.name}`, {
-        align: 'left',
+      doc.moveDown(2);
+
+      doc
+        .font('Inter')
+        .fontSize(12)
+        .text(`Dado en Quito, D.M. el ${generationDate}.`, { align: 'center' });
+
+      doc.moveDown(2);
+
+      doc.font('Inter-Bold').fontSize(12).text('Escanea el código QR', {
+        align: 'center',
       });
 
-      doc.text(`Cédula: ${certificate.user.document}`, {
-        align: 'left',
-      });
+      doc.moveDown(1);
 
-      // proceso electoral
-
-      doc.moveDown();
-
-      doc.text(`Proceso electoral: ${certificate.election.name}`, {
-        align: 'left',
-      });
-
-      doc.text(`Fecha: ${dayjs(certificate.createdAt).format('DD/MM/YYYY')}`, {
-        align: 'left',
-      });
-
-      doc.moveDown();
-
-      doc.text('Firma: ', {
-        align: 'left',
+      const qrWidth = 80;
+      const qrHeight = qrWidth;
+      doc.image(qrImage, doc.page.width / 2 - qrWidth / 2, doc.y, {
+        fit: [qrWidth, qrHeight],
+        align: 'center',
+        valign: 'center',
       });
 
       const buffers: Buffer[] = [];
@@ -97,12 +129,13 @@ export default async function handler(
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader(
       'Content-Disposition',
-      `attachment; filename=certificado_${certificate.id}.pdf`,
+      `inline; filename=certificado_${certificate.id}.pdf`,
     );
     res.setHeader('Content-Length', pdfBuffer.length);
 
     return res.status(200).send(pdfBuffer);
   } catch (error) {
+    console.error(error);
     return res.status(500).send('Error al generar el certificado');
   }
 }
