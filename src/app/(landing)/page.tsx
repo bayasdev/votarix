@@ -37,7 +37,7 @@ const LandingPage = async () => {
             Con el sistema de votación electrónica {siteConfig.name}, los
             resultados de las elecciones se obtienen en minutos, no en días.
           </p>
-          <div className="space-x-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/vote" className={cn(buttonVariants({ size: 'lg' }))}>
               <ArrowRightCircleIcon className="mr-2 h-5 w-5" />
               Procesos electorales
