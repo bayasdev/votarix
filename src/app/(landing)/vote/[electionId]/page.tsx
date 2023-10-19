@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getElectionDataById } from '@/app/actions/election';
@@ -11,6 +12,10 @@ interface VotePageProps {
     electionId: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: 'Votar',
+};
 
 const VotePage = async ({ params }: VotePageProps) => {
   const canUserVote = await getCanUserVote(params);

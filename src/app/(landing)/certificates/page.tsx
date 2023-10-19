@@ -1,7 +1,13 @@
+import { Metadata } from 'next';
+
 import { getVoterCertificates } from '@/app/actions/voters';
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import CertificatesClient from '@/components/landing/certificates/client';
+
+export const metadata: Metadata = {
+  title: 'Mis certificados',
+};
 
 const CertificatesPage = async () => {
   const certificates = await getVoterCertificates();

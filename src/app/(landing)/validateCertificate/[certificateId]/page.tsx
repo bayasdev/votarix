@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getCertificateById } from '@/app/actions/certificates';
@@ -8,6 +9,10 @@ interface ValidateCertificatePageProps {
     certificateId: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: 'Validar certificado',
+};
 
 const ValidateCertificatePage = async ({
   params,

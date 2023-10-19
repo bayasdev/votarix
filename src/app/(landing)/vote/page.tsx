@@ -1,7 +1,13 @@
+import { Metadata } from 'next';
+
 import { getOngoingElections } from '@/app/actions/election';
 import Heading from '@/components/heading';
 import ElectionCard from '@/components/landing/election-card';
 import EmptyState from '@/components/empty-state';
+
+export const metadata: Metadata = {
+  title: 'Elecciones',
+};
 
 const ElectionsPage = async () => {
   const elections = await getOngoingElections();
