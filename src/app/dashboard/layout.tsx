@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-
 import { dashboardConfig } from '@/config/dashboard';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import { MainNav } from '@/components/main-nav';
@@ -14,11 +12,7 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return notFound();
-  }
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
@@ -27,13 +21,7 @@ export default async function DashboardLayout({
           <MainNav items={dashboardConfig.mainNav}>
             <DashboardNav items={dashboardConfig.sidebarNav} />
           </MainNav>
-          <UserAccountNav
-            user={{
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            }}
-          />
+          <UserAccountNav currentUser={currentUser} />
         </div>
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">

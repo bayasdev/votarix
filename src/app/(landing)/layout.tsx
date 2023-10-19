@@ -32,7 +32,7 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
                 Iniciar sesión
               </Link>
             ) : (
-              <UserAccountNav user={currentUser} />
+              <UserAccountNav currentUser={currentUser} />
             )}
           </nav>
         </div>

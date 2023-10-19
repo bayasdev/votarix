@@ -15,32 +15,34 @@ import { UserAvatar } from '@/components/user-avatar';
 import { Badge } from '@/components/ui/badge';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<SafeUser, 'name' | 'email' | 'role'>;
+  currentUser: SafeUser | null;
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function UserAccountNav({ currentUser }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar name={user.name || ''} className="h-8 w-8" />
+        <UserAvatar name={currentUser?.name || ''} className="h-8 w-8" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
-            {user.name && <p className="font-medium">{user.name}</p>}
-            {user.email && (
+            {currentUser?.name && (
+              <p className="font-medium">{currentUser.name}</p>
+            )}
+            {currentUser?.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
-                {user.email}
+                {currentUser.email}
               </p>
             )}
-            {user.role && (
+            {currentUser?.role && (
               <Badge variant="secondary" className="self-start lowercase">
-                {user.role}
+                {currentUser.role}
               </Badge>
             )}
           </div>
         </div>
-        {user.role === 'VOTER' && (
+        {currentUser?.role === 'VOTER' && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
@@ -48,7 +50,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             </DropdownMenuItem>
           </>
         )}
-        {user.role === 'ADMIN' && (
+        {currentUser?.role === 'ADMIN' && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
