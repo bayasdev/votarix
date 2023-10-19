@@ -29,10 +29,14 @@ export default withAuth(
         from += req.nextUrl.search;
       }
 
-      // If not authenticated, redirect to login page passing the current path as from
-      return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
-      );
+      if (!isDashboardPage) {
+        // If not authenticated, redirect to login page passing the current path as from
+        return NextResponse.redirect(
+          new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
+        );
+      } else {
+        return NextResponse.redirect(new URL('/login', req.url));
+      }
     }
 
     return null;
