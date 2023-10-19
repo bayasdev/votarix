@@ -45,7 +45,7 @@ export default async function handler(
     }
 
     const qrImage = await QRCode.toBuffer(
-      `http://localhost:3000/validateCertificate/${certificate.id}`,
+      `${process.env.NEXTAUTH_URL}/validateCertificate/${certificate.id}`,
     );
 
     const generationDate = dayjs()
