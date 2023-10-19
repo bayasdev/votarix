@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { useMemo } from 'react';
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -31,14 +32,16 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
   });
   const searchParams = useSearchParams();
 
-  const error = searchParams?.get('error');
+  useMemo(() => {
+    const error = searchParams?.get('error');
 
-  if (error) {
-    toast({
-      title: error || 'Algo salió mal',
-      variant: 'destructive',
-    });
-  }
+    if (error) {
+      toast({
+        title: error || 'Algo salió mal',
+        variant: 'destructive',
+      });
+    }
+  }, [searchParams]);
 
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     signIn('credentials', {
