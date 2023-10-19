@@ -1,3 +1,4 @@
+import { Role } from '@prisma/client';
 import { parse } from 'papaparse';
 import { hashSync } from 'bcrypt';
 
