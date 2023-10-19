@@ -22,10 +22,6 @@ interface ElectionCardProps {
 const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
   const router = useRouter();
 
-  const handleDownloadCertificate = () => {
-    router.push(`/api/elections/${election.id}/downloadCertificate`);
-  };
-
   const handleVote = () => {
     router.push(`/vote/${election.id}`);
   };
@@ -48,7 +44,7 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
             onClick={handleVote}
             disabled={!election.canVote || !election.status}
           >
-            <VoteIcon className="mr-2 h-4 w-4" />
+            <VoteIcon className="mr-2 h-5 w-5" />
             Votar
           </Button>
         </div>

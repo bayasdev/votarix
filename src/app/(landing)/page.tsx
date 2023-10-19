@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
+import {
+  ArrowRightCircleIcon,
+  BarChartBigIcon,
+  FileDownIcon,
+} from 'lucide-react';
 
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
@@ -12,7 +18,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { FileDownIcon } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Inicio',
+};
 
 const LandingPage = async () => {
   const elections = await getOngoingElections();
@@ -30,7 +39,8 @@ const LandingPage = async () => {
           </p>
           <div className="space-x-4">
             <Link href="/vote" className={cn(buttonVariants({ size: 'lg' }))}>
-              Votar
+              <ArrowRightCircleIcon className="mr-2 h-5 w-5" />
+              Procesos electorales
             </Link>
             <Link
               href={siteConfig.links.github}
@@ -38,6 +48,7 @@ const LandingPage = async () => {
               rel="noreferrer"
               className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
             >
+              <BarChartBigIcon className="mr-2 h-5 w-5" />
               Resultados
             </Link>
           </div>
