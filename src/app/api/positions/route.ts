@@ -16,11 +16,12 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name } = PositionValidator.parse(body);
+    const { name, electionId } = PositionValidator.parse(body);
 
     const position = await prisma.position.create({
       data: {
         name,
+        electionId,
       },
     });
 

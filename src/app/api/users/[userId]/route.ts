@@ -1,3 +1,4 @@
+import { Role } from '@prisma/client';
 import { z } from 'zod';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';

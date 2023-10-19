@@ -16,7 +16,7 @@ export default async function handler(
   try {
     const session = await getServerSession(req, res, authOptions);
 
-    if (!session || session.user.role !== Role.VOTER) {
+    if (!session || session.user.role !== 'VOTER') {
       return res.status(401).send('No autorizado');
     }
 
