@@ -5,45 +5,37 @@ import { NextResponse } from 'next/server';
 export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req });
-    const isAuth = !!token;
+    const isAuthenticated = !!token;
     const isAuthPage =
       req.nextUrl.pathname.startsWith('/login') ||
       req.nextUrl.pathname.startsWith('/signup');
     const isDashboardPage = req.nextUrl.pathname.startsWith('/dashboard');
 
-    if (isAuthPage) {
-      if (isAuth) {
-        switch (token.role) {
-          case 'ADMIN':
-            return NextResponse.redirect(new URL('/dashboard', req.url));
-          default:
-            return NextResponse.redirect(new URL('/', req.url));
-        }
-      }
-
-      return null;
-    }
-
-    if (isDashboardPage) {
-      if (isAuth) {
-        if (token.role !== 'ADMIN') {
+    if (isAuthenticated) {
+      if (isAuthPage) {
+        // If authenticated, avoid showing login and signup pages
+        if (token.role === 'ADMIN') {
+          return NextResponse.redirect(new URL('/dashboard', req.url));
+        } else {
           return NextResponse.redirect(new URL('/', req.url));
         }
+      } else if (isDashboardPage && token.role !== 'ADMIN') {
+        // If authenticated, avoid showing dashboard page to non-admins
+        return NextResponse.redirect(new URL('/', req.url));
       }
-
-      return null;
-    }
-
-    if (!isAuth) {
+    } else if (!isAuthPage) {
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
       }
 
+      // If not authenticated, redirect to login page passing the current path as from
       return NextResponse.redirect(
         new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
       );
     }
+
+    return null;
   },
   {
     callbacks: {
@@ -57,6 +49,7 @@ export default withAuth(
   },
 );
 
+// Protected routes
 export const config = {
   matcher: [
     '/dashboard/:path*',
