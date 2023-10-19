@@ -1,4 +1,11 @@
-import { Candidate, Election, Party, Position, User } from '@prisma/client';
+import {
+  Candidate,
+  Election,
+  Party,
+  Position,
+  Role,
+  User,
+} from '@prisma/client';
 // eslint-disable-next-line no-unused-vars
 import type { Icon } from 'lucide-react';
 
@@ -10,6 +17,7 @@ export type NavItem = {
   title: string;
   href: string;
   disabled?: boolean;
+  role?: Role;
 };
 
 export type MainNavItem = NavItem;

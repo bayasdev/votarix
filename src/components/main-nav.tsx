@@ -4,18 +4,19 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
-import { MainNavItem } from '@/types';
+import { MainNavItem, SafeUser } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { MobileNav } from '@/components/mobile-nav';
 
 interface MainNavProps {
+  currentUser?: SafeUser | null;
   items?: MainNavItem[];
   children?: React.ReactNode;
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ currentUser, items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -39,6 +40,7 @@ export function MainNav({ items, children }: MainNavProps) {
                   ? 'text-foreground'
                   : 'text-foreground/60',
                 item.disabled && 'cursor-not-allowed opacity-80',
+                item?.role && item.role !== currentUser?.role && 'hidden',
               )}
             >
               {item.title}

@@ -17,6 +17,7 @@ export const landingConfig: LandingConfig = {
     {
       title: 'Mis certificados',
       href: '/certificates',
+      role: 'VOTER',
     },
   ],
 };
