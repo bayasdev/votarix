@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
@@ -13,8 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import { Icons } from '@/components/icons';
-import getCurrentUser from '@/app/actions/getCurrentUser';
-import { Role } from '@prisma/client';
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -31,14 +29,14 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     },
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
   async function onSubmit(data: LoginRequest) {
     setIsLoading(true);
 
     const signInResult = await signIn('credentials', {
       ...data,
-      redirect: false,
+      callbackUrl: searchParams?.get('from') || '/dashboard',
     });
 
     setIsLoading(false);
@@ -47,14 +45,6 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
       toast({
         title: 'Sesión iniciada',
       });
-
-      const currentUser = await getCurrentUser();
-
-      if (currentUser?.role === Role.ADMIN) {
-        return router.replace('/dashboard');
-      } else {
-        return router.replace('/vote');
-      }
     }
 
     if (signInResult?.error) {

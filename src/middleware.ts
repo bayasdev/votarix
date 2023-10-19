@@ -1,25 +1,70 @@
-import { Role } from '@prisma/client';
+import { getToken } from 'next-auth/jwt';
 import { withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
-export default withAuth({
-  callbacks: {
-    authorized: ({ req, token }) => {
-      const path = req.nextUrl.pathname;
+export default withAuth(
+  async function middleware(req) {
+    const token = await getToken({ req });
+    const isAuth = !!token;
+    const isAuthPage =
+      req.nextUrl.pathname.startsWith('/login') ||
+      req.nextUrl.pathname.startsWith('/signup');
+    const isDashboardPage = req.nextUrl.pathname.startsWith('/dashboard');
 
-      // Check if the middleware is processing the
-      // route which requires a specific role
-      if (path.startsWith('/dashboard')) {
-        return token?.role === Role.ADMIN;
+    if (isAuthPage) {
+      if (isAuth) {
+        switch (token.role) {
+          case 'ADMIN':
+            return NextResponse.redirect(new URL('/dashboard', req.url));
+          case 'VOTER':
+            return NextResponse.redirect(new URL('/vote', req.url));
+          default:
+            return NextResponse.redirect(new URL('/', req.url));
+        }
       }
 
-      // By default return true only if the token is not null
-      // (this forces the users to be signed in to access the page)
-      return token !== null;
+      return null;
+    }
+
+    if (isDashboardPage) {
+      if (isAuth) {
+        if (token.role !== 'ADMIN') {
+          return NextResponse.redirect(new URL('/', req.url));
+        }
+      }
+
+      return null;
+    }
+
+    if (!isAuth) {
+      let from = req.nextUrl.pathname;
+      if (req.nextUrl.search) {
+        from += req.nextUrl.search;
+      }
+
+      return NextResponse.redirect(
+        new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
+      );
+    }
+  },
+  {
+    callbacks: {
+      async authorized() {
+        // This is a work-around for handling redirect on auth pages.
+        // We return true here so that the middleware function above
+        // is always called.
+        return true;
+      },
     },
   },
-});
+);
 
-// Define paths for which the middleware will run
 export const config = {
-  matcher: ['/dashboard/:path*', '/vote/:path'],
+  matcher: [
+    '/dashboard/:path*',
+    '/vote/:path*',
+    '/certificates/:path*',
+    '/login',
+    '/signup',
+  ],
 };
