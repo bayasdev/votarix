@@ -135,7 +135,6 @@ export default async function handler(
 
     return res.status(200).send(pdfBuffer);
   } catch (error) {
-    console.error(error);
     return res.status(500).send('Error al generar el certificado');
   }
 }
