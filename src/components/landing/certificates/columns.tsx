@@ -19,7 +19,7 @@ const downloadCertificate = (id: string) => {
         title: 'Descargado correctamente',
       });
     })
-    .catch((error) => {
+    .catch(() => {
       toast({
         title: 'Ocurrió un error',
       });

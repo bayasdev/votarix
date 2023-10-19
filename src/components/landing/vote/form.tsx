@@ -21,7 +21,6 @@ import { RadioGroup } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import ConfirmVoteModal from '@/components/modals/confirm-vote-modal';
 import { toast } from '@/components/ui/use-toast';
-import { ro } from 'date-fns/locale';
 
 interface VoteFormProps {
   electionData: ElectionData | null;
