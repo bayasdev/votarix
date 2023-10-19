@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { useMemo } from 'react';
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,7 +32,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
   });
   const searchParams = useSearchParams();
 
-  useMemo(() => {
+  React.useMemo(() => {
     const error = searchParams?.get('error');
 
     if (error) {
