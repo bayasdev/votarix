@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write --ignore-path .gitignore .",
+    "format": "prettier --write .",
     "db:rm": "docker compose rm db -s -f -v",
     "db:up": "docker compose up db -d",
     "db:seed": "ts-node prisma/seed.ts",
