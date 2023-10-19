@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'Iniciar sesión',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
