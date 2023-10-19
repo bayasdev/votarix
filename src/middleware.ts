@@ -16,8 +16,6 @@ export default withAuth(
         switch (token.role) {
           case 'ADMIN':
             return NextResponse.redirect(new URL('/dashboard', req.url));
-          case 'VOTER':
-            return NextResponse.redirect(new URL('/vote', req.url));
           default:
             return NextResponse.redirect(new URL('/', req.url));
         }
