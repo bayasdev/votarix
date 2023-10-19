@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
@@ -29,33 +29,26 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     },
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
-  async function onSubmit(data: LoginRequest) {
+  const error = searchParams?.get('error');
+
+  if (error) {
+    toast({
+      title: error,
+      variant: 'destructive',
+    });
+  }
+
+  function onSubmit(data: LoginRequest) {
     setIsLoading(true);
 
-    const signInResult = await signIn('credentials', {
+    signIn('credentials', {
       ...data,
-      redirect: false,
+      callbackUrl: searchParams?.get('from') || '/dashboard',
     });
 
     setIsLoading(false);
-
-    if (signInResult?.ok) {
-      toast({
-        title: 'Sesión iniciada',
-      });
-
-      return router.push(searchParams?.get('from') || '/dashboard');
-    }
-
-    if (signInResult?.error) {
-      return toast({
-        title: signInResult?.error,
-        variant: 'destructive',
-      });
-    }
   }
 
   return (
