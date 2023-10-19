@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-import { Role } from '@prisma/client';
+
 import QRCode from 'qrcode';
 import PDFDocument from 'pdfkit';
 import dayjs from 'dayjs';

@@ -1,5 +1,3 @@
-import { Role } from '@prisma/client';
-
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 
@@ -13,7 +11,7 @@ export async function POST(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== Role.ADMIN) {
+    if (!currentUser || currentUser.role !== 'ADMIN') {
       return new Response('No autorizado', {
         status: 401,
       });

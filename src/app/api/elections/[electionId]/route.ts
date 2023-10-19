@@ -1,4 +1,3 @@
-import { Role } from '@prisma/client';
 import { z } from 'zod';
 
 import getCurrentUser from '@/app/actions/getCurrentUser';
@@ -15,7 +14,7 @@ export async function PUT(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== Role.ADMIN) {
+    if (!currentUser || currentUser.role !== 'ADMIN') {
       return new Response('No autorizado', {
         status: 401,
       });
@@ -54,7 +53,7 @@ export async function DELETE(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== Role.ADMIN) {
+    if (!currentUser || currentUser.role !== 'ADMIN') {
       return new Response('No autorizado', {
         status: 401,
       });

@@ -1,4 +1,3 @@
-import { Role } from '@prisma/client';
 import { parse } from 'papaparse';
 import { hashSync } from 'bcrypt';
 
@@ -15,7 +14,7 @@ export async function POST(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== Role.ADMIN) {
+    if (!currentUser || currentUser.role !== 'ADMIN') {
       return new Response('No autorizado', {
         status: 401,
       });
