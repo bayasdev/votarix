@@ -1,103 +1,97 @@
 'use client';
 
-import * as React from 'react';
 import { useSearchParams } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
 import { LoginRequest, LoginValidator } from '@/lib/validators/auth';
-import { buttonVariants } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormLabel,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { Icons } from '@/components/icons';
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: LoginFormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginRequest>({
+  const form = useForm<LoginRequest>({
     resolver: zodResolver(LoginValidator),
     defaultValues: {
       email: '',
       password: '',
     },
   });
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
   const error = searchParams?.get('error');
 
   if (error) {
     toast({
-      title: error,
+      title: error || 'Algo salió mal',
       variant: 'destructive',
     });
   }
 
-  function onSubmit(data: LoginRequest) {
-    setIsLoading(true);
-
+  const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     signIn('credentials', {
       ...data,
       callbackUrl: searchParams?.get('from') || '/dashboard',
     });
-
-    setIsLoading(false);
-  }
+  };
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-6">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Correo Electrónico</Label>
-            <Input
-              id="email"
-              placeholder="usuario@ejemplo.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-              {...register('email')}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid gap-6">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="email"
+                      placeholder="usuario@ejemplo.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors?.email && (
-              <p className="px-1 text-xs text-red-600">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Contraseña</Label>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              type="password"
-              autoCapitalize="none"
-              autoCorrect="off"
-              disabled={isLoading}
-              {...register('password')}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contraseña</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="password"
+                      placeholder="••••••••"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors?.password && (
-              <p className="px-1 text-xs text-red-600">
-                {errors.password.message}
-              </p>
-            )}
+            <Button type="submit">Iniciar Sesión</Button>
           </div>
-          <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Iniciar Sesión
-          </button>
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 }
