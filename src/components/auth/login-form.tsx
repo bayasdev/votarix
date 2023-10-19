@@ -47,7 +47,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
         title: 'Sesión iniciada',
       });
 
-      router.replace(searchParams?.get('from') || '/dashboard');
+      return router.push(searchParams?.get('from') || '/dashboard');
     }
 
     if (signInResult?.error) {
