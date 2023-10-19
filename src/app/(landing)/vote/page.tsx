@@ -12,7 +12,7 @@ const ElectionsPage = async () => {
         subtitle="Selecciona una elección para votar"
       />
       {elections && elections.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3">
           {elections.map((election) => (
             <ElectionCard key={election.id} election={election} />
           ))}
