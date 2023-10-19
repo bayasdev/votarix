@@ -27,7 +27,7 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
   };
 
   return (
-    <Card>
+    <Card className="flex flex-col justify-between">
       <CardHeader>
         <CardTitle className="tracking-tight">{election.name}</CardTitle>
         <CardDescription className="flex flex-wrap items-center gap-2">

@@ -67,7 +67,7 @@ const LandingPage = async () => {
           </p>
         </div>
         {elections && elections.length > 0 ? (
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+          <div className="mx-auto grid justify-center gap-4 md:max-w-[64rem] lg:grid-cols-3">
             {elections.map((election) => (
               <ElectionCard key={election.id} election={election} />
             ))}
