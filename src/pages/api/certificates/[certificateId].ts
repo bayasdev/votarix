@@ -50,7 +50,7 @@ export default async function handler(
 
     const generationDate = dayjs()
       .locale('es')
-      .format('DD [de] MMMM [del] YYYY');
+      .format('DD [de] MMMM [del] YYYY [a las] HH:mm');
 
     const message = `Este documento acredita que ${
       certificate.user.name
@@ -60,7 +60,7 @@ export default async function handler(
       certificate.election.name
     }" el día ${dayjs(certificate.createdAt)
       .locale('es')
-      .format('DD [de] MMMM [del] YYYY')}.`;
+      .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}.`;
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
       const margin = 50;
