@@ -24,19 +24,19 @@ export default withAuth(
         return NextResponse.redirect(new URL('/', req.url));
       }
     } else if (!isAuthPage) {
+      if (isDashboardPage) {
+        return NextResponse.redirect(new URL('/login', req.url));
+      }
+
+      // If not authenticated, redirect to login page passing the current path as from
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
       }
 
-      if (!isDashboardPage) {
-        // If not authenticated, redirect to login page passing the current path as from
-        return NextResponse.redirect(
-          new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
-        );
-      } else {
-        return NextResponse.redirect(new URL('/login', req.url));
-      }
+      return NextResponse.redirect(
+        new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
+      );
     }
 
     return null;
