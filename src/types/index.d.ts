@@ -113,14 +113,31 @@ export type CertificateResponse = {
   voterDocument?: string;
 };
 
-export type ElectionResult = {
+export type ElectionResultsCandidate = {
+  id: string;
+  name: string;
+  imageUrl?: string;
+  party: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  };
+  votes: number;
+};
+
+export type ElectionResultsPosition = {
+  id: string;
+  name: string;
+  candidates: ElectionResultsCandidate[];
+};
+
+export type ElectionResults = {
   electionId: string;
-  positionName: string;
-  candidateName: string;
-  candidateImageUrl: string;
-  partyName: string;
-  partyImageUrl: string;
-  voteCount: number;
+  electionName: string;
+  positions: ElectionResultsPosition[];
+  registeredVoters: number;
+  totalVotes: number;
+  updatedAt: string;
 };
 
 export type ElectionData = {

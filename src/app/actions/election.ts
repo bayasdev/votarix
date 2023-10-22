@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 
 import {
   ElectionData,
-  ElectionResult,
+  ElectionResults,
   SafeElection,
   SafeElectionWithStatus,
   SafeElectionWithStatusAndCanVote,
@@ -129,7 +129,9 @@ export async function getElectionDataById(
                 party: true,
               },
               orderBy: {
-                name: 'asc',
+                party: {
+                  name: 'asc',
+                },
               },
             },
           },
@@ -174,7 +176,7 @@ export async function getElectionDataById(
 
 export async function getElectionResultsById(
   params: IParams,
-): Promise<ElectionResult[] | null> {
+): Promise<ElectionResults | null> {
   try {
     const { electionId } = params;
 
@@ -190,9 +192,18 @@ export async function getElectionResultsById(
                 party: true,
                 ballots: true,
               },
+              orderBy: {
+                party: {
+                  name: 'asc',
+                },
+              },
             },
           },
+          orderBy: {
+            name: 'asc',
+          },
         },
+        voters: true,
       },
     });
 
@@ -200,25 +211,38 @@ export async function getElectionResultsById(
       return null;
     }
 
-    const electionResult: ElectionResult[] = [];
+    const electionResults: ElectionResults = {
+      electionId: election.id,
+      electionName: election.name,
+      positions: election.positions.map((position) => ({
+        id: position.id,
+        name: position.name,
+        candidates: position.candidates.map((candidate) => ({
+          id: candidate.id,
+          name: candidate.name,
+          imageUrl: candidate.imageUrl || '',
+          party: {
+            id: candidate.party.id,
+            name: candidate.party.name,
+            imageUrl: candidate.party.imageUrl || '',
+          },
+          votes: candidate.ballots.length,
+        })),
+      })),
+      registeredVoters: election.voters.length,
+      totalVotes: election.positions.reduce(
+        (acc, position) =>
+          acc +
+          position.candidates.reduce(
+            (acc, candidate) => acc + candidate.ballots.length,
+            0,
+          ),
+        0,
+      ),
+      updatedAt: new Date().toISOString(),
+    };
 
-    election.positions.forEach((position) => {
-      position.candidates.forEach((candidate) => {
-        const voteCount = candidate.ballots.length;
-
-        electionResult.push({
-          electionId: election.id,
-          positionName: position.name,
-          candidateName: candidate.name,
-          candidateImageUrl: candidate.imageUrl || '',
-          partyName: candidate.party.name,
-          partyImageUrl: candidate.party?.imageUrl || '',
-          voteCount,
-        });
-      });
-    });
-
-    return electionResult;
+    return electionResults;
   } catch (error) {
     return null;
   }
