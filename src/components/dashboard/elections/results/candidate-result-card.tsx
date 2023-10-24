@@ -26,7 +26,7 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
             </AvatarFallback>
           )}
         </Avatar>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col justify-center gap-2">
           <div className="font-semibold tracking-tight">{candidate?.name}</div>
           <div className="flex items-center gap-2">
             {candidate?.party.imageUrl ? (
@@ -36,12 +36,12 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="h-6 w-auto"
+                className="h-4 w-auto"
               />
             ) : (
-              <FlagIcon className="h-6 w-6" />
+              <FlagIcon className="h-4 w-4" />
             )}
-            <div className="tracking-tight text-muted-foreground">
+            <div className="text-sm text-muted-foreground">
               {candidate?.party.name}
             </div>
           </div>
