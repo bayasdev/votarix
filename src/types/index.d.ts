@@ -123,6 +123,7 @@ export type ElectionResultsCandidate = {
     imageUrl?: string;
   };
   votes: number;
+  percentage: number;
 };
 
 export type ElectionResultsPosition = {
@@ -135,8 +136,10 @@ export type ElectionResults = {
   electionId: string;
   electionName: string;
   positions: ElectionResultsPosition[];
-  registeredVoters: number;
+  totalVoters: number;
   totalVotes: number;
+  absentVoters: number;
+  absentPercentage: number;
   updatedAt: string;
 };
 

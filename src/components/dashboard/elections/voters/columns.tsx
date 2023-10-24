@@ -48,7 +48,7 @@ export const columns: ColumnDef<SafeUserWithHasVoted>[] = [
   {
     accessorKey: 'hasVoted',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Votó" />
+      <DataTableColumnHeader column={column} title="Sufragante" />
     ),
     cell: ({ row }) =>
       row.original.hasVoted ? (

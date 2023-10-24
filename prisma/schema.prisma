@@ -72,7 +72,7 @@ model Position {
   election   Election    @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId String
   candidates Candidate[]
-  Ballot     Ballot[]
+  ballots    Ballot[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }

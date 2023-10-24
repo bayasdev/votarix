@@ -184,18 +184,40 @@ export async function getElectionResultsById(
       where: {
         id: electionId,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
         positions: {
-          include: {
+          select: {
+            id: true,
+            name: true,
             candidates: {
-              include: {
-                party: true,
-                ballots: true,
+              select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+                party: {
+                  select: {
+                    id: true,
+                    name: true,
+                    imageUrl: true,
+                  },
+                },
+                _count: {
+                  select: {
+                    ballots: true,
+                  },
+                },
               },
               orderBy: {
-                party: {
-                  name: 'asc',
+                ballots: {
+                  _count: 'desc',
                 },
+              },
+            },
+            _count: {
+              select: {
+                ballots: true,
               },
             },
           },
@@ -203,13 +225,29 @@ export async function getElectionResultsById(
             name: 'asc',
           },
         },
-        voters: true,
+        _count: {
+          select: {
+            voters: true,
+          },
+        },
       },
     });
 
     if (!election) {
       return null;
     }
+
+    const totalVoters = election._count.voters;
+    let totalVotes = 0;
+
+    for (const position of election.positions) {
+      for (const candidate of position.candidates) {
+        totalVotes += candidate._count.ballots;
+      }
+    }
+
+    const absentVoters = totalVoters - totalVotes;
+    const absentPercentage = (absentVoters / totalVoters) * 100 || 0;
 
     const electionResults: ElectionResults = {
       electionId: election.id,
@@ -226,19 +264,16 @@ export async function getElectionResultsById(
             name: candidate.party.name,
             imageUrl: candidate.party.imageUrl || '',
           },
-          votes: candidate.ballots.length,
+          votes: candidate._count.ballots,
+          // percentage is relative to the total votes for a position
+          percentage:
+            (candidate._count.ballots / position._count.ballots) * 100 || 0,
         })),
       })),
-      registeredVoters: election.voters.length,
-      totalVotes: election.positions.reduce(
-        (acc, position) =>
-          acc +
-          position.candidates.reduce(
-            (acc, candidate) => acc + candidate.ballots.length,
-            0,
-          ),
-        0,
-      ),
+      totalVoters,
+      totalVotes,
+      absentVoters,
+      absentPercentage,
       updatedAt: new Date().toISOString(),
     };
 
