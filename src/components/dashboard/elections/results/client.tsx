@@ -21,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CandidateResultCard from '@/components/dashboard/elections/results/candidate-result-card';
 import VotersChart from '@/components/dashboard/elections/results/voters-chart';
 import { Badge } from '@/components/ui/badge';
+import { toast } from '@/components/ui/use-toast';
 
 interface ElectionResultsClientProps {
   data: ElectionResults | null;
@@ -35,6 +36,9 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
 
   const handleRefresh = React.useCallback(() => {
     router.refresh();
+    toast({
+      title: 'Resultados actualizados',
+    });
   }, [router]);
 
   React.useEffect(() => {
