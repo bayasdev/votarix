@@ -2,6 +2,7 @@ import Image from 'next/image';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { CheckIcon } from 'lucide-react';
 
+import { ElectionDataCandidate } from '@/types';
 import { FormControl } from '@/components/ui/form';
 import {
   Card,
@@ -13,16 +14,7 @@ import { Icons } from '@/components/icons';
 import { CandidatePhoto } from '@/components/landing/vote/candidate-photo';
 
 interface CandidateCardProps {
-  candidate: {
-    id: string;
-    name: string;
-    imageUrl?: string;
-    party: {
-      id: string;
-      name: string;
-      imageUrl?: string;
-    };
-  };
+  candidate: ElectionDataCandidate;
 }
 
 const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
@@ -46,7 +38,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
         )}
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-2">
-        <CandidatePhoto name={candidate.name} imageUrl={candidate.imageUrl} />
+        <CandidatePhoto candidate={candidate} />
         <div className="text-center text-lg font-semibold tracking-tight">
           {candidate.name}
         </div>
