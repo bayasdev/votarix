@@ -76,7 +76,7 @@ export async function GET(request: Request, { params }: IParams) {
     });
 
     if (!election) {
-      return null;
+      return new Response('Elección no encontrada', { status: 404 });
     }
 
     const totalVoters = election._count.voters;
@@ -89,6 +89,8 @@ export async function GET(request: Request, { params }: IParams) {
     const electionResults: ElectionResults = {
       electionId: election.id,
       electionName: election.name,
+      startTime: election.startTime.toISOString(),
+      endTime: election.endTime.toISOString(),
       positions: election.positions.map((position) => ({
         id: position.id,
         name: position.name,

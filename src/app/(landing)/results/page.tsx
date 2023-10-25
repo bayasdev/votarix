@@ -15,7 +15,7 @@ const ResultsPage = async () => {
     <div className="container flex flex-col gap-6">
       <Heading
         title="Resultados de las elecciones"
-        subtitle="Selecciona una elección para ver sus resultados"
+        subtitle="Selecciona un proceso electoral para ver sus resultados"
       />
       <ResultsClient elections={elections} />
     </div>

@@ -133,6 +133,8 @@ export type ElectionResultsPosition = {
 export type ElectionResults = {
   electionId: string;
   electionName: string;
+  startTime: string;
+  endTime: string;
   positions: ElectionResultsPosition[];
   totalVoters: number;
   totalVotes: number;

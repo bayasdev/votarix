@@ -308,6 +308,8 @@ export async function getElectionResultsById(
     const electionResults: ElectionResults = {
       electionId: election.id,
       electionName: election.name,
+      startTime: election.startTime.toISOString(),
+      endTime: election.endTime.toISOString(),
       positions: election.positions.map((position) => ({
         id: position.id,
         name: position.name,

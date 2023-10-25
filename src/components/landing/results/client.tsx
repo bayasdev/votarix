@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { UsersIcon, VoteIcon } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 
 import { ElectionResults, SafeElection } from '@/types';
@@ -14,42 +14,55 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import CandidateResultCard from '@/components/dashboard/elections/results/candidate-result-card';
-import VotersChart from '@/components/dashboard/elections/results/voters-chart';
-import { Badge } from '@/components/ui/badge';
 import { toast } from '@/components/ui/use-toast';
+import ElectionResultsComponent from '@/components/dashboard/elections/results/election-results-component';
 
 interface ResultsClientProps {
   elections: SafeElection[] | null;
 }
 
 const ResultsClient: React.FC<ResultsClientProps> = ({ elections }) => {
-  const [selectedElection, setSelectedElection] = React.useState<string>('');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [selectedElection, setSelectedElection] = React.useState<string>(
+    searchParams?.get('electionId') || '',
+  );
   const [results, setResults] = React.useState<ElectionResults | null>(null);
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = React.useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams || '');
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   const getResults = React.useCallback(async () => {
     if (!selectedElection) return;
-    try {
-      const { data } = await axios.get<ElectionResults>(
-        `/api/results/${selectedElection}`,
-      );
-      setResults(data);
-    } catch (error) {
-      toast({
-        title: 'No se pudo obtener los resultados',
-        variant: 'destructive',
+
+    // set selected election in url
+    router.push(
+      pathname + '?' + createQueryString('electionId', selectedElection),
+    );
+
+    axios
+      .get<ElectionResults>(`/api/results/${selectedElection}`)
+      .then((response) => {
+        setResults(response.data);
+      })
+      .catch((error) => {
+        toast({
+          title: 'Ocurrió un error al obtener los resultados',
+          description: error?.response?.data,
+          variant: 'destructive',
+        });
       });
-    }
-  }, [selectedElection]);
+  }, [createQueryString, pathname, router, selectedElection]);
 
   React.useEffect(() => {
     getResults();
@@ -63,7 +76,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({ elections }) => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Elecciones</SelectLabel>
+            <SelectLabel>Proceso Electoral</SelectLabel>
             {elections?.map((election) => (
               <SelectItem key={election.id} value={election.id}>
                 {election.name}
@@ -72,66 +85,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({ elections }) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      {results && (
-        <>
-          <div className="font-medium tracking-tight">
-            <VoteIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-            Resultados por dignidad
-          </div>
-          <Tabs value={results?.positions[0]?.id} className="w-full">
-            <TabsList>
-              {results?.positions.map((position) => (
-                <TabsTrigger key={position.id} value={position.id}>
-                  {position.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {results?.positions.map((position) => (
-              <TabsContent
-                key={position.id}
-                value={position.id}
-                className="flex flex-col gap-6"
-              >
-                {position?.candidates.map((candidate) => (
-                  <CandidateResultCard
-                    key={candidate.id}
-                    candidate={candidate}
-                  />
-                ))}
-              </TabsContent>
-            ))}
-          </Tabs>
-          <div className="font-medium tracking-tight">
-            <UsersIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-            Participación electoral
-          </div>
-          <div className="flex flex-wrap justify-between gap-6">
-            <div className="flex-1">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Sufragantes</TableHead>
-                    <TableHead>Ausentes</TableHead>
-                    <TableHead>Electores</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{results?.totalVotes}</TableCell>
-                    <TableCell>{results?.absentVoters}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{results?.totalVoters}</Badge>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-            <div>
-              <VotersChart data={results} />
-            </div>
-          </div>
-        </>
-      )}
+      {results && <ElectionResultsComponent data={results} />}
     </div>
   );
 };
