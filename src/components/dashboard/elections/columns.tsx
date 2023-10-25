@@ -1,9 +1,10 @@
 'use client';
 
-import { SafeElectionWithStatus } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
+import { SafeElectionWithStatus } from '@/types';
+import { ElectionStatus } from '@/types/constants';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import CellActions from '@/components/dashboard/elections/cell-actions';
 import Link from 'next/link';
@@ -48,8 +49,21 @@ export const columns: ColumnDef<SafeElectionWithStatus>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Badge variant={row.original.status ? 'default' : 'secondary'}>
-          {row.original.status ? 'Activa' : 'Inactiva'}
+        // display No iniciada, En curso, Finalizada
+        <Badge
+          variant={
+            row.original.status === ElectionStatus.ONGOING
+              ? 'default'
+              : row.original.status === ElectionStatus.NOT_STARTED
+              ? 'secondary'
+              : 'destructive'
+          }
+        >
+          {row.original.status === ElectionStatus.ONGOING
+            ? 'En curso'
+            : row.original.status === ElectionStatus.NOT_STARTED
+            ? 'No iniciada'
+            : 'Finalizada'}
         </Badge>
       );
     },

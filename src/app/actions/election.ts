@@ -8,8 +8,9 @@ import {
   ElectionResults,
   SafeElection,
   SafeElectionWithStatus,
-  SafeElectionWithStatusAndCanVote,
+  SafeElectionWithCanVote,
 } from '@/types';
+import { ElectionStatus } from '@/types/constants';
 
 interface IParams {
   electionId?: string;
@@ -29,7 +30,12 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
       endTime: item.endTime.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      status: item.startTime < new Date() && item.endTime > new Date(),
+      status:
+        item.startTime > new Date()
+          ? ElectionStatus.NOT_STARTED
+          : item.endTime > new Date()
+          ? ElectionStatus.ONGOING
+          : ElectionStatus.FINISHED,
     }));
 
     return safeElections;
@@ -39,7 +45,7 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
 }
 
 export async function getOngoingElections(): Promise<
-  SafeElectionWithStatusAndCanVote[] | null
+  SafeElectionWithCanVote[] | null
 > {
   try {
     const currentUser = await getCurrentUser();
@@ -51,6 +57,11 @@ export async function getOngoingElections(): Promise<
         },
         endTime: {
           gt: new Date(),
+        },
+        voters: {
+          some: {
+            id: currentUser?.id,
+          },
         },
       },
       include: {
@@ -71,7 +82,6 @@ export async function getOngoingElections(): Promise<
       endTime: item.endTime.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      status: item.startTime < new Date() && item.endTime > new Date(),
       canVote: !item.ballots.some(
         (ballot) => ballot.userId === currentUser?.id,
       ),
@@ -241,6 +251,8 @@ export async function getElectionResultsById(
             name: 'asc',
           },
         },
+        startTime: true,
+        endTime: true,
         _count: {
           select: {
             voters: true,
@@ -286,6 +298,12 @@ export async function getElectionResultsById(
       totalVotes,
       absentVoters,
       absentPercentage,
+      status:
+        election.startTime > new Date()
+          ? ElectionStatus.NOT_STARTED
+          : election.endTime > new Date()
+          ? ElectionStatus.ONGOING
+          : ElectionStatus.FINISHED,
       updatedAt: new Date().toISOString(),
     };
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import {
   Candidate,
   Election,
@@ -6,10 +8,10 @@ import {
   Role,
   User,
 } from '@prisma/client';
-// eslint-disable-next-line no-unused-vars
 import type { Icon } from 'lucide-react';
 
 import { Icons } from '@/components/icons';
+import { ElectionStatus } from '@/types/constants';
 
 // ui
 
@@ -93,10 +95,10 @@ export type SafeElection = Safe<Omit<Election, 'startTime' | 'endTime'>> & {
 };
 
 export type SafeElectionWithStatus = SafeElection & {
-  status: boolean;
+  status: ElectionStatus;
 };
 
-export type SafeElectionWithStatusAndCanVote = SafeElectionWithStatus & {
+export type SafeElectionWithCanVote = SafeElection & {
   canVote: boolean;
 };
 
@@ -140,6 +142,7 @@ export type ElectionResults = {
   totalVotes: number;
   absentVoters: number;
   absentPercentage: number;
+  status: ElectionStatus;
   updatedAt: string;
 };
 
