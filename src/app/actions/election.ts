@@ -121,12 +121,28 @@ export async function getElectionDataById(
       where: {
         id: electionId,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        startTime: true,
+        endTime: true,
         positions: {
-          include: {
+          select: {
+            id: true,
+            name: true,
             candidates: {
-              include: {
-                party: true,
+              select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+                party: {
+                  select: {
+                    id: true,
+                    name: true,
+                    imageUrl: true,
+                  },
+                },
               },
               orderBy: {
                 party: {
@@ -169,7 +185,7 @@ export async function getElectionDataById(
     };
 
     return electionData;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
