@@ -228,6 +228,7 @@ export async function getElectionResultsById(
         _count: {
           select: {
             voters: true,
+            certificates: true,
           },
         },
       },
@@ -238,13 +239,8 @@ export async function getElectionResultsById(
     }
 
     const totalVoters = election._count.voters;
-    let totalVotes = 0;
-
-    for (const position of election.positions) {
-      for (const candidate of position.candidates) {
-        totalVotes += candidate._count.ballots;
-      }
-    }
+    // for each voter, there is one certificate
+    const totalVotes = election._count.certificates;
 
     const absentVoters = totalVoters - totalVotes;
     const absentPercentage = (absentVoters / totalVoters) * 100 || 0;
