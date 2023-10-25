@@ -33,15 +33,25 @@ const VotePage = async ({ params }: VotePageProps) => {
   const electionData = await getElectionDataById(params);
 
   if (!electionData) return notFound();
-
   return (
     <div className="container flex flex-col gap-12">
-      <Heading
-        title={electionData.name}
-        subtitle={electionData.description}
-        center
-      />
-      <VoteForm electionData={electionData} />
+      {electionData?.positions.length ? (
+        <>
+          <Heading
+            title={electionData.name}
+            subtitle={electionData.description}
+            center
+          />
+          <VoteForm electionData={electionData} />
+        </>
+      ) : (
+        <EmptyState
+          title="No hay dignidades en esta elección"
+          subtitle="Intenta más tarde"
+          icon="notFound"
+          showGoBack
+        />
+      )}
     </div>
   );
 };
