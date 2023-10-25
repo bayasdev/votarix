@@ -9,7 +9,7 @@ import {
   SafeElection,
   SafeElectionWithStatus,
 } from '@/types';
-import { ElectionStatus } from '@/types/constants';
+import { ElectionStatus } from '@/constants';
 
 interface IParams {
   electionId?: string;

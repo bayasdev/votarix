@@ -11,7 +11,7 @@ import {
 import type { Icon } from 'lucide-react';
 
 import { Icons } from '@/components/icons';
-import { ElectionStatus } from '@/types/constants';
+import { ElectionStatus } from '@/constants';
 
 // ui
 

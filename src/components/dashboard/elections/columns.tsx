@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
 import { SafeElectionWithStatus } from '@/types';
-import { ElectionStatus } from '@/types/constants';
+import { ElectionStatus } from '@/constants';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import CellActions from '@/components/dashboard/elections/cell-actions';
 import Link from 'next/link';
