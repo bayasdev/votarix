@@ -98,10 +98,6 @@ export type SafeElectionWithStatus = SafeElection & {
   status: ElectionStatus;
 };
 
-export type SafeElectionWithCanVote = SafeElection & {
-  canVote: boolean;
-};
-
 export type SafePosition = Safe<Position>;
 
 export type SafePositionWithElection = Omit<SafePosition, 'election'> & {

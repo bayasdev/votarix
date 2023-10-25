@@ -1,11 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { CalendarClockIcon, VoteIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 
-import { SafeElectionWithCanVote } from '@/types';
-import { Button } from '@/components/ui/button';
+import { SafeElection } from '@/types';
 import {
   Card,
   CardContent,
@@ -14,18 +13,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 
 interface ElectionCardProps {
-  election: SafeElectionWithCanVote;
+  election: SafeElection;
 }
 
 const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
-  const router = useRouter();
-
-  const handleVote = () => {
-    router.push(`/vote/${election.id}`);
-  };
-
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader>
@@ -40,10 +35,10 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
       <CardContent>{election.description}</CardContent>
       <CardFooter>
         <div className="flex w-full justify-end space-x-2 pt-6">
-          <Button onClick={handleVote} disabled={!election.canVote}>
+          <Link href={`/vote/${election.id}`} className={cn(buttonVariants())}>
             <VoteIcon className="mr-2 h-5 w-5" />
             Votar
-          </Button>
+          </Link>
         </div>
       </CardFooter>
     </Card>

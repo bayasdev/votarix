@@ -8,7 +8,6 @@ import {
   ElectionResults,
   SafeElection,
   SafeElectionWithStatus,
-  SafeElectionWithCanVote,
 } from '@/types';
 import { ElectionStatus } from '@/types/constants';
 
@@ -44,9 +43,7 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
   }
 }
 
-export async function getOngoingElections(): Promise<
-  SafeElectionWithCanVote[] | null
-> {
+export async function getOngoingElections(): Promise<SafeElection[] | null> {
   try {
     const currentUser = await getCurrentUser();
 
@@ -65,6 +62,11 @@ export async function getOngoingElections(): Promise<
         voters: {
           some: {
             id: currentUser?.id,
+          },
+        },
+        ballots: {
+          none: {
+            userId: currentUser?.id,
           },
         },
       },
@@ -86,9 +88,6 @@ export async function getOngoingElections(): Promise<
       endTime: item.endTime.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      canVote: !item.ballots.some(
-        (ballot) => ballot.userId === currentUser?.id,
-      ),
     }));
 
     return safeElections;
