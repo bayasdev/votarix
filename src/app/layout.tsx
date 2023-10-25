@@ -4,9 +4,10 @@ import localFont from 'next/font/local';
 import '@uploadthing/react/styles.css';
 import '@/styles/globals.css';
 import { siteConfig } from '@/config/site';
+import { cn } from '@/lib/utils';
+import ClientOnly from '@/components/client-only';
 import { Toaster } from '@/components/ui/toaster';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
-import { cn } from '@/lib/utils';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -40,9 +41,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable,
         )}
       >
-        {children}
-        <Toaster />
-        <TailwindIndicator />
+        <ClientOnly>
+          {children}
+          <Toaster />
+          <TailwindIndicator />
+        </ClientOnly>
       </body>
     </html>
   );
