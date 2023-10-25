@@ -43,7 +43,9 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
   }
 }
 
-export async function getOngoingElections(): Promise<SafeElection[] | null> {
+export async function getAvailableElectionsForCurrentUser(): Promise<
+  SafeElection[] | null
+> {
   try {
     const currentUser = await getCurrentUser();
 

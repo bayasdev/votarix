@@ -9,7 +9,7 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { getOngoingElections } from '@/app/actions/election';
+import { getAvailableElectionsForCurrentUser } from '@/app/actions/election';
 import ElectionCard from '@/components/landing/election-card';
 import EmptyState from '@/components/empty-state';
 import {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 const LandingPage = async () => {
-  const elections = await getOngoingElections();
+  const elections = await getAvailableElectionsForCurrentUser();
 
   return (
     <>

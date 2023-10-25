@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { getOngoingElections } from '@/app/actions/election';
+import { getAvailableElectionsForCurrentUser } from '@/app/actions/election';
 import Heading from '@/components/heading';
 import ElectionCard from '@/components/landing/election-card';
 import EmptyState from '@/components/empty-state';
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const ElectionsPage = async () => {
-  const elections = await getOngoingElections();
+  const elections = await getAvailableElectionsForCurrentUser();
   return (
     <div className="container flex flex-col gap-6">
       <Heading
