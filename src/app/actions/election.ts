@@ -43,6 +43,33 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
   }
 }
 
+export async function getFinishedElections(): Promise<SafeElection[] | null> {
+  try {
+    const elections = await prisma.election.findMany({
+      where: {
+        endTime: {
+          lt: new Date(),
+        },
+      },
+      orderBy: {
+        endTime: 'desc',
+      },
+    });
+
+    const safeElections = elections.map((item) => ({
+      ...item,
+      startTime: item.startTime.toISOString(),
+      endTime: item.endTime.toISOString(),
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeElections;
+  } catch (error: any) {
+    return null;
+  }
+}
+
 export async function getAvailableElectionsForCurrentUser(): Promise<
   SafeElection[] | null
 > {

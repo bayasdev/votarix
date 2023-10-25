@@ -43,9 +43,7 @@ const LandingPage = async () => {
               Procesos electorales
             </Link>
             <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
+              href="/results"
               className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
             >
               <BarChartBigIcon className="mr-2 h-5 w-5" />
