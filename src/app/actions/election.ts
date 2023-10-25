@@ -50,6 +50,10 @@ export async function getOngoingElections(): Promise<
   try {
     const currentUser = await getCurrentUser();
 
+    if (!currentUser) {
+      return null;
+    }
+
     const elections = await prisma.election.findMany({
       where: {
         startTime: {

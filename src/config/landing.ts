@@ -5,10 +5,12 @@ export const landingConfig: LandingConfig = {
     {
       title: 'Votar',
       href: '/vote',
+      role: 'VOTER',
     },
     {
       title: 'Conoce al candidato',
       href: '/candidates',
+      role: 'VOTER',
     },
     {
       title: 'Resultados',

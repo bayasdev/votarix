@@ -25,8 +25,8 @@ const ElectionsPage = async () => {
         </div>
       ) : (
         <EmptyState
-          title="No hay elecciones en curso"
-          subtitle="Intenta más tarde"
+          title="Aquí no hay nada"
+          subtitle="No puedes participar en ninguna elección en este momento"
           showGoBack
         />
       )}
