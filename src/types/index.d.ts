@@ -143,24 +143,28 @@ export type ElectionResults = {
   updatedAt: string;
 };
 
+export type ElectionDataCandidate = {
+  id: string;
+  name: string;
+  imageUrl?: string;
+  party: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  };
+};
+
+export type ElectionDataPosition = {
+  id: string;
+  name: string;
+  candidates: ElectionDataCandidate[];
+};
+
 export type ElectionData = {
   id: string;
   name: string;
   description: string;
   startTime: string;
   endTime: string;
-  positions: {
-    id: string;
-    name: string;
-    candidates: {
-      id: string;
-      name: string;
-      imageUrl?: string;
-      party: {
-        id: string;
-        name: string;
-        imageUrl?: string;
-      };
-    }[];
-  }[];
+  positions: ElectionDataPosition[];
 };
