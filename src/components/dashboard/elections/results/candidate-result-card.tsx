@@ -15,7 +15,7 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
 }) => {
   return (
     <Card>
-      <CardHeader className="flex flex-row flex-wrap items-center gap-8">
+      <CardHeader className="flex flex-col flex-wrap gap-6 md:flex-row md:items-center">
         <Avatar className="h-20 w-20">
           {candidate?.imageUrl ? (
             <AvatarImage alt={candidate.name} src={candidate.imageUrl} />
