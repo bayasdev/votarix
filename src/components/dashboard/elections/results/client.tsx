@@ -50,7 +50,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title={data?.electionName || ''}
           subtitle={`Corte actualizado el ${dayjs(data?.updatedAt)

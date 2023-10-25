@@ -10,7 +10,7 @@ const CreateCandidatePage = async () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Crear candidato"
           subtitle="Registre un nuevo candidato en el sistema"

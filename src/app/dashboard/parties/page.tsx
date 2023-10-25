@@ -13,7 +13,7 @@ const PartiesPage = async () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Partidos políticos"
           subtitle="Administrar partidos políticos"

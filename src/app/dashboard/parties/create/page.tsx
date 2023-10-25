@@ -5,7 +5,7 @@ import PartyForm from '@/components/dashboard/parties/form';
 const CreatePartyPage = () => {
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Crear partido político"
           subtitle="Ingrese los datos del partido político"

@@ -17,7 +17,7 @@ const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Editar partido político"
           subtitle="Actualice los datos de un partido político existente"

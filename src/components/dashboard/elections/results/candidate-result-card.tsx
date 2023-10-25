@@ -47,7 +47,7 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="flex items-center justify-between gap-6">
+      <CardContent className="flex flex-wrap items-center justify-between gap-4 gap-6">
         <Progress value={candidate?.percentage} />
         <div className="flex flex-1 flex-wrap items-center justify-end gap-2 text-center font-medium tracking-tight">
           <span className="text-muted-foreground">

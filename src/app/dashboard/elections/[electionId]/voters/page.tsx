@@ -22,7 +22,7 @@ const ElectionVotersPage = async ({ params }: ElectionVotersPageProps) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Padrón electoral"
           subtitle={`Administre los votantes de ${election.name}`}

@@ -17,7 +17,7 @@ const UpdateElectionPage = async ({ params }: UpdateElectionPageProps) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
           title="Editar elección"
           subtitle="Actualice un proceso electoral existente"
