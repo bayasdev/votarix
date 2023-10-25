@@ -5,6 +5,7 @@ import {
   CheckCircle,
   ChevronLeft,
   ChevronRight,
+  Clock,
   CreditCard,
   File,
   FileText,
@@ -88,4 +89,5 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
+  clock: Clock,
 };
