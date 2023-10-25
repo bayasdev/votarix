@@ -106,9 +106,9 @@ export async function getVotersByElectionId(
         },
       },
       include: {
-        ballots: {
-          where: {
-            electionId,
+        _count: {
+          select: {
+            ballots: true,
           },
         },
       },
@@ -124,7 +124,7 @@ export async function getVotersByElectionId(
       updatedAt: item.updatedAt.toISOString(),
       emailVerified: item.emailVerified?.toISOString() || null,
       hashedPassword: null,
-      hasVoted: item.ballots.length > 0,
+      hasVoted: item._count.ballots > 0,
     }));
 
     return safeVoters;
