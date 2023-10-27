@@ -11,18 +11,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import CandidateResultCard from '@/components/dashboard/elections/results/candidate-result-card';
-import VotersChart from '@/components/dashboard/elections/results/voters-chart';
+import CandidateCard from '@/components/results/candidate-card';
+import VotersChart from '@/components/results/voters-chart';
 import { Badge } from '@/components/ui/badge';
 import { ElectionStatus } from '@/constants';
 
-interface ElectionResultsComponentProps {
+interface ResultsViewerProps {
   data: ElectionResults | null;
 }
 
-const ElectionResultsComponent: React.FC<ElectionResultsComponentProps> = ({
-  data,
-}) => {
+const ResultsViewer: React.FC<ResultsViewerProps> = ({ data }) => {
   return (
     <>
       <div className="font-medium tracking-tight">
@@ -44,7 +42,7 @@ const ElectionResultsComponent: React.FC<ElectionResultsComponentProps> = ({
             className="flex flex-col gap-6"
           >
             {position?.candidates.map((candidate) => (
-              <CandidateResultCard key={candidate.id} candidate={candidate} />
+              <CandidateCard key={candidate.id} candidate={candidate} />
             ))}
           </TabsContent>
         ))}
@@ -108,4 +106,4 @@ const ElectionResultsComponent: React.FC<ElectionResultsComponentProps> = ({
   );
 };
 
-export default ElectionResultsComponent;
+export default ResultsViewer;

@@ -6,13 +6,11 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import Image from 'next/image';
 
-interface CandidateResultCardProps {
+interface CandidateCardProps {
   candidate: ElectionResultsCandidate | null;
 }
 
-const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
-  candidate,
-}) => {
+const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
   return (
     <Card>
       <CardHeader className="flex flex-col flex-wrap gap-6 md:flex-row md:items-center">
@@ -60,4 +58,4 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
   );
 };
 
-export default CandidateResultCard;
+export default CandidateCard;
