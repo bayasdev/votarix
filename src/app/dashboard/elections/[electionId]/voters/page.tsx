@@ -18,7 +18,7 @@ const ElectionVotersPage = async ({ params }: ElectionVotersPageProps) => {
   const voters = await getVotersByElectionId(params);
   const elegibleVoters = await getElegibleVoters(params);
 
-  if (!election) return notFound;
+  if (!election) return notFound();
 
   return (
     <div className="space-y-8">
