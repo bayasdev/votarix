@@ -64,9 +64,9 @@ export async function getPositionsWithElection(): Promise<
 export async function getPositionById(
   params: IParams,
 ): Promise<SafePosition | null> {
-  try {
-    const { positionId } = params;
+  const { positionId } = params;
 
+  try {
     const position = await prisma.position.findUnique({
       where: {
         id: positionId,
@@ -90,9 +90,9 @@ export async function getPositionById(
 export async function getPositionsByElectionId(params: {
   electionId?: string;
 }): Promise<SafePosition[] | null> {
-  try {
-    const { electionId } = params;
+  const { electionId } = params;
 
+  try {
     const positions = await prisma.position.findMany({
       where: {
         electionId,

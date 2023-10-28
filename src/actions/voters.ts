@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 
 import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 
 interface IParams {
   electionId?: string;
@@ -93,9 +93,9 @@ export async function getElegibleVoters(
 export async function getVotersByElectionId(
   params: IParams,
 ): Promise<SafeUserWithHasVoted[] | null> {
-  try {
-    const { electionId } = params;
+  const { electionId } = params;
 
+  try {
     const voters = await prisma.user.findMany({
       where: {
         role: 'VOTER',

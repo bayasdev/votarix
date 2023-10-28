@@ -28,9 +28,9 @@ export async function getParties(): Promise<SafeParty[] | null> {
 }
 
 export async function getPartyById(params: IParams): Promise<SafeParty | null> {
-  try {
-    const { partyId } = params;
+  const { partyId } = params;
 
+  try {
     const party = await prisma.party.findUnique({
       where: {
         id: partyId,

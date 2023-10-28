@@ -86,9 +86,9 @@ export async function getCandidateById(
 export async function getCandidatesByPartyId(params: {
   partyId?: string;
 }): Promise<SafeCandidate[] | null> {
-  try {
-    const { partyId } = params;
+  const { partyId } = params;
 
+  try {
     const candidates = await prisma.candidate.findMany({
       where: {
         partyId,
@@ -114,9 +114,9 @@ export async function getCandidatesByPartyId(params: {
 export async function getCandidatesByPositionId(params: {
   positionId?: string;
 }): Promise<SafeCandidateWithParty[] | null> {
-  try {
-    const { positionId } = params;
+  const { positionId } = params;
 
+  try {
     const candidates = await prisma.candidate.findMany({
       where: {
         positionId,

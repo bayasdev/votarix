@@ -1,6 +1,6 @@
 'use server';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 
 import {
@@ -128,9 +128,9 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
 export async function getElectionById(
   params: IParams,
 ): Promise<SafeElection | null> {
-  try {
-    const { electionId } = params;
+  const { electionId } = params;
 
+  try {
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
@@ -156,9 +156,9 @@ export async function getElectionById(
 export async function getElectionDataById(
   params: IParams,
 ): Promise<ElectionData | null> {
-  try {
-    const { electionId } = params;
+  const { electionId } = params;
 
+  try {
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
@@ -235,9 +235,9 @@ export async function getElectionDataById(
 export async function getElectionResultsById(
   params: IParams,
 ): Promise<ElectionResults | null> {
-  try {
-    const { electionId } = params;
+  const { electionId } = params;
 
+  try {
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,

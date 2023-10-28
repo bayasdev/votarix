@@ -30,9 +30,9 @@ export async function getUsers(): Promise<SafeUser[] | null> {
 }
 
 export async function getUserById(params: IParams): Promise<SafeUser | null> {
-  try {
-    const { userId } = params;
+  const { userId } = params;
 
+  try {
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
