@@ -36,12 +36,12 @@ export default async function handler(
       },
     });
 
-    if (certificate?.userId !== session.user.id) {
-      return res.status(401).send('No autorizado');
-    }
-
     if (!certificate) {
       return res.status(404).send('Certificado no encontrado');
+    }
+
+    if (certificate.userId !== session.user.id) {
+      return res.status(401).send('No autorizado');
     }
 
     const qrImage = await QRCode.toBuffer(
