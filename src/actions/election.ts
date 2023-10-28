@@ -11,7 +11,7 @@ import {
 } from '@/types';
 import { ElectionStatus } from '@/constants';
 
-interface IParams {
+export interface IParams {
   electionId?: string;
 }
 
@@ -234,6 +234,7 @@ export async function getElectionDataById(
 
 export async function getElectionResultsById(
   params: IParams,
+  showOnlyCompleted: boolean = false,
 ): Promise<ElectionResults | null> {
   const { electionId } = params;
 
@@ -241,6 +242,7 @@ export async function getElectionResultsById(
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
+        endTime: showOnlyCompleted ? { lt: new Date() } : undefined,
       },
       select: {
         id: true,

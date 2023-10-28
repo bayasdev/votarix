@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
 
 import Heading from '@/components/heading';
-import { getFinishedElections } from '@/actions/election';
+import {
+  getFinishedElections,
+  getElectionResultsById,
+} from '@/actions/election';
 import ResultsClient from '@/components/landing/results/client';
 
 export const metadata: Metadata = {
@@ -17,7 +20,10 @@ const ResultsPage = async () => {
         title="Resultados de las elecciones"
         subtitle="Selecciona un proceso electoral para ver sus resultados"
       />
-      <ResultsClient elections={elections} />
+      <ResultsClient
+        elections={elections}
+        getElectionResultsById={getElectionResultsById}
+      />
     </div>
   );
 };
