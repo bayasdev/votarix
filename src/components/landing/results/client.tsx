@@ -39,11 +39,25 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
   );
   const [results, setResults] = React.useState<ElectionResults | null>(null);
 
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = React.useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams || '');
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
+
   const getResults = React.useCallback(async () => {
     if (!selectedElection) return;
 
     // store selected electionId in URL
-    router.push(`/results?electionId=${selectedElection}`);
+    router.push(
+      '/results?' + createQueryString('electionId', selectedElection),
+    );
 
     const response = await getElectionResultsById(
       { electionId: selectedElection },
@@ -58,7 +72,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
     }
 
     setResults(response);
-  }, [getElectionResultsById, router, selectedElection]);
+  }, [createQueryString, getElectionResultsById, router, selectedElection]);
 
   React.useEffect(() => {
     getResults();
