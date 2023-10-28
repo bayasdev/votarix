@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getCandidatesWithParty } from '@/app/actions/candidate';
+import { getCandidatesWithParty } from '@/actions/candidate';
 import CandidatesClient from '@/components/dashboard/candidates/client';
 import Heading from '@/components/heading';
 import { cn } from '@/lib/utils';

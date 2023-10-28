@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import { parse } from 'papaparse';
 import { hashSync } from 'bcrypt';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 
 interface IParams {

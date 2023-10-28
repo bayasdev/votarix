@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { CandidateValidator } from '@/lib/validators/candidate';
 import { utapi } from '@/app/api/uploadthing/core';

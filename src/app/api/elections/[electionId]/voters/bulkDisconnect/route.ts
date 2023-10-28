@@ -1,4 +1,4 @@
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { VotersDisconnectValidator } from '@/lib/validators/voters-disconnect';
 

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getParties } from '@/app/actions/party';
+import { getParties } from '@/actions/party';
 import PartiesClient from '@/components/dashboard/parties/client';
 import Heading from '@/components/heading';
 import { cn } from '@/lib/utils';

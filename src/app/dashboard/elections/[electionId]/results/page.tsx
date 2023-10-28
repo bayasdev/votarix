@@ -1,4 +1,4 @@
-import { getElectionResultsById } from '@/app/actions/election';
+import { getElectionResultsById } from '@/actions/election';
 import ElectionResultsClient from '@/components/dashboard/elections/results/client';
 import EmptyState from '@/components/empty-state';
 

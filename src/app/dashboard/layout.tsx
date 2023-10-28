@@ -1,5 +1,5 @@
 import { dashboardConfig } from '@/config/dashboard';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import { MainNav } from '@/components/main-nav';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
 import { SiteFooter } from '@/components/site-footer';

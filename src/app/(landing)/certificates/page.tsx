@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { getVoterCertificates } from '@/app/actions/voters';
+import { getVoterCertificates } from '@/actions/voters';
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import CertificatesClient from '@/components/landing/certificates/client';

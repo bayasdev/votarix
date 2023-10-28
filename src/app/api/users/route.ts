@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import { z } from 'zod';
 import { hash } from 'bcrypt';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { UserValidator } from '@/lib/validators/user';
 

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getElectionById } from '@/app/actions/election';
-import { getElegibleVoters, getVotersByElectionId } from '@/app/actions/voters';
+import { getElectionById } from '@/actions/election';
+import { getElegibleVoters, getVotersByElectionId } from '@/actions/voters';
 import Heading from '@/components/heading';
 import EmptyState from '@/components/empty-state';
 import AddVoters from '@/components/dashboard/elections/voters/add-voters';

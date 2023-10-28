@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import Heading from '@/components/heading';
-import { getFinishedElections } from '@/app/actions/election';
+import { getFinishedElections } from '@/actions/election';
 import ResultsClient from '@/components/landing/results/client';
 
 export const metadata: Metadata = {

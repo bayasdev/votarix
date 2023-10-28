@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getElectionDataById } from '@/app/actions/election';
+import { getElectionDataById } from '@/actions/election';
 import VoteForm from '@/components/landing/vote/form';
-import { getCanUserVote } from '@/app/actions/voters';
+import { getCanUserVote } from '@/actions/voters';
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 

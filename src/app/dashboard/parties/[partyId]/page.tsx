@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getPartyById } from '@/app/actions/party';
+import { getPartyById } from '@/actions/party';
 import GoBack from '@/components/go-back';
 import Heading from '@/components/heading';
 import PartyForm from '@/components/dashboard/parties/form';
