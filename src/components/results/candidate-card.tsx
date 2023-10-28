@@ -6,11 +6,13 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import Image from 'next/image';
 
-interface CandidateCardProps {
+interface CandidateResultCardProps {
   candidate: ElectionResultsCandidate | null;
 }
 
-const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
+const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
+  candidate,
+}) => {
   return (
     <Card>
       <CardHeader className="flex flex-col flex-wrap gap-6 md:flex-row md:items-center">
@@ -45,7 +47,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-wrap items-center justify-between gap-4 gap-6">
+      <CardContent className="flex flex-wrap items-center justify-between gap-4">
         <Progress value={candidate?.percentage} />
         <div className="flex flex-1 flex-wrap items-center justify-end gap-2 text-center font-medium tracking-tight">
           <span className="text-muted-foreground">
@@ -58,4 +60,4 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
   );
 };
 
-export default CandidateCard;
+export default CandidateResultCard;

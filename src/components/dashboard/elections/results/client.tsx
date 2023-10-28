@@ -11,7 +11,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 
 import { toast } from '@/components/ui/use-toast';
-import ResultsViewer from '@/components/results/viewer';
+import ElectionResultsViewer from '@/components/results/viewer';
 
 interface ElectionResultsClientProps {
   data: ElectionResults | null;
@@ -64,7 +64,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
           )}
         </Button>
       </div>
-      <ResultsViewer data={data} />
+      <ElectionResultsViewer data={data} />
     </div>
   );
 };

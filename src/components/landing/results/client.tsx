@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
-import ResultsViewer from '@/components/results/viewer';
+import ElectionResultsViewer from '@/components/results/viewer';
 
 interface ResultsClientProps {
   elections: SafeElection[] | null;
@@ -85,7 +85,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({ elections }) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      {results && <ResultsViewer data={results} />}
+      {results && <ElectionResultsViewer data={results} />}
     </div>
   );
 };

@@ -13,11 +13,13 @@ import {
 import { Icons } from '@/components/icons';
 import { CandidatePhoto } from '@/components/landing/vote/candidate-photo';
 
-interface CandidateCardProps {
+interface CandidateResultCardProps {
   candidate: ElectionDataCandidate;
 }
 
-const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
+const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
+  candidate,
+}) => {
   return (
     <Card>
       <CardHeader className="flex flex-col items-center justify-center gap-2">
@@ -59,4 +61,4 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ candidate }) => {
   );
 };
 
-export default CandidateCard;
+export default CandidateResultCard;

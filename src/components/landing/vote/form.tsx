@@ -16,7 +16,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import CandidateCard from '@/components/landing/vote/candidate-card';
+import CandidateResultCard from '@/components/landing/vote/candidate-card';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import ConfirmVoteModal from '@/components/modals/confirm-vote-modal';
@@ -102,7 +102,7 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
                           >
                             {position?.candidates.map((candidate) => (
                               <FormItem key={candidate.id}>
-                                <CandidateCard
+                                <CandidateResultCard
                                   key={candidate.id}
                                   candidate={candidate}
                                 />
