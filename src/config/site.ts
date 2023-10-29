@@ -11,4 +11,26 @@ export const siteConfig: SiteConfig = {
     github: 'https://github.com/bayasdev/votarix',
   },
   signupAllowed: false,
+  tribunal: [
+    {
+      name: 'Mgst. Myriam Álvarez',
+      title: 'Presidente',
+    },
+    {
+      name: 'Mgst. Ana Quintana',
+      title: 'Vocal (Representante de los docentes)',
+    },
+    {
+      name: 'Verónica Quito',
+      title: 'Vocal (Representante de los trabajadores)',
+    },
+    {
+      name: 'Sr. Emiliano Zapata',
+      title: 'Vocal (Representante de los estudiantes)',
+    },
+    {
+      name: 'Dr. Thelman Cabrera',
+      title: 'Secretario',
+    },
+  ],
 };

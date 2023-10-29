@@ -42,6 +42,12 @@ export type SidebarNavItem = {
 
 // configs
 
+export type TribunalMember = {
+  name: string;
+  title: string;
+  imageUrl?: string;
+};
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -53,6 +59,7 @@ export type SiteConfig = {
     github: string;
   };
   signupAllowed: boolean;
+  tribunal: TribunalMember[];
 };
 
 export type LandingConfig = {
