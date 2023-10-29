@@ -1,14 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 
-import PDFDocument from 'pdfkit';
+import PDFDocumentWithTables from 'pdfkit-table';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { siteConfig } from '@/config/site';
-import { el } from 'date-fns/locale';
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,6 +34,33 @@ export default async function handler(
         },
       },
       include: {
+        positions: {
+          include: {
+            candidates: {
+              include: {
+                party: true,
+                _count: {
+                  select: {
+                    ballots: true,
+                  },
+                },
+              },
+              orderBy: {
+                party: {
+                  name: 'asc',
+                },
+              },
+            },
+            _count: {
+              select: {
+                ballots: true,
+              },
+            },
+          },
+          orderBy: {
+            name: 'asc',
+          },
+        },
         _count: {
           select: {
             ballots: true,
@@ -48,10 +74,6 @@ export default async function handler(
       return res.status(404).send('Elección no encontrada');
     }
 
-    const generationDate = dayjs()
-      .locale('es')
-      .format('DD [de] MMMM [del] YYYY');
-
     const generationDateLong = dayjs()
       .locale('es')
       .format('DD [días del mes de] MMMM [de] YYYY [siendo las] HH:mm [horas]');
@@ -64,7 +86,51 @@ export default async function handler(
 
     const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionEndTime} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
 
-    const firstPoint = `1.- Verificar los escrutinios totales y levantar la presente ACTA DE RESULTADOS DEFINITIVOS con los siguientes resultados:`;
+    const firstPoint = `1.- Verificar los escrutinios totales y levantar la presente ACTA DE RESULTADOS con los siguientes resultados:`;
+
+    const tableHeaders = [
+      'DIGNIDAD',
+      // get all the parties
+      ...election.positions.reduce<string[]>((acc, position) => {
+        const parties = position.candidates.map((candidate) => candidate.party);
+        const uniqueParties = [...new Set(parties)];
+
+        return [
+          ...acc,
+          ...uniqueParties.map((party) => 'VOTOS ' + party.name.toUpperCase()),
+        ];
+      }, []),
+      'TOTAL SUFRAGANTES',
+      'TOTAL AUSENTES',
+      'TOTAL EMPADRONADOS',
+    ];
+
+    // get the position name, then the count of ballots for each party, then count of certificates, then count of absent voters, then total voters
+    const tableRows = election.positions.map((position) => {
+      const parties = position.candidates.map((candidate) => candidate.party);
+      const uniqueParties = [...new Set(parties)];
+
+      return [
+        position.name.toUpperCase(),
+        ...uniqueParties.map((party) => {
+          const candidates = position.candidates.filter(
+            (candidate) => candidate.party.id === party.id,
+          );
+
+          return candidates
+            .reduce((acc, candidate) => acc + candidate._count.ballots, 0)
+            .toString();
+        }),
+        position._count.ballots.toString(),
+        (election._count.voters - position._count.ballots).toString(),
+        election._count.voters.toString(),
+      ];
+    });
+
+    const resultsTable = {
+      headers: tableHeaders,
+      rows: tableRows,
+    };
 
     const secondPoint = `2.- Dar inicio a la fase de impugnación de resultados, acorde al cronograma establecido para el efecto.`;
 
@@ -73,12 +139,18 @@ export default async function handler(
         ?.name || '';
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
-      const margin = 60;
+      const verticalMargin = 20;
+      const horizontalMargin = 40;
 
-      const doc = new PDFDocument({
+      const doc = new PDFDocumentWithTables({
         size: 'A4',
         layout: 'portrait',
-        margin,
+        margins: {
+          top: verticalMargin,
+          bottom: verticalMargin,
+          left: horizontalMargin,
+          right: horizontalMargin,
+        },
       });
 
       const logoHeight = 80;
@@ -108,19 +180,19 @@ export default async function handler(
         });
       doc.moveDown(1);
 
-      doc.font('Helvetica-Bold').fontSize(12).text(election.name, {
-        align: 'center',
-        underline: true,
-      });
-      doc.moveDown(1);
-
       doc
         .font('Helvetica-Bold')
         .fontSize(12)
-        .text('ACTA DE RESULTADOS DEFINITIVOS DEL ESCRUTINIO', {
+        .text(election.name.toUpperCase(), {
           align: 'center',
+          underline: true,
         });
-      doc.moveDown(2);
+      doc.moveDown(1);
+
+      doc.font('Helvetica-Bold').fontSize(12).text('ACTA DE RESULTADOS', {
+        align: 'center',
+      });
+      doc.moveDown(1);
 
       doc.font('Helvetica').fontSize(11).text(intro, { align: 'justify' });
       doc.moveDown(1);
@@ -130,9 +202,10 @@ export default async function handler(
         {
           listType: 'bullet',
           bulletRadius: 3,
-          lineGap: 10,
+          lineGap: 4,
         },
       );
+      doc.moveDown(1);
 
       doc
         .font('Helvetica')
@@ -143,11 +216,14 @@ export default async function handler(
       doc.font('Helvetica').fontSize(11).text(firstPoint, { align: 'justify' });
       doc.moveDown(1);
 
+      doc.table(resultsTable);
+      doc.moveDown(1);
+
       doc
         .font('Helvetica')
         .fontSize(11)
         .text(secondPoint, { align: 'justify' });
-      doc.moveDown(6);
+      doc.moveDown(10);
 
       doc
         .font('Helvetica')

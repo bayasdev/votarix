@@ -61,6 +61,7 @@
     "next-auth": "^4.24.4",
     "papaparse": "^5.4.1",
     "pdfkit": "^0.13.0",
+    "pdfkit-table": "^0.1.99",
     "prisma": "^5.5.2",
     "qrcode": "^1.5.3",
     "react": "^18",
