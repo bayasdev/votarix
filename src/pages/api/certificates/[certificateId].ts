@@ -71,10 +71,6 @@ export default async function handler(
         margin,
       });
 
-      // register fonts
-      doc.registerFont('Inter', 'src/assets/fonts/Inter-Regular.ttf');
-      doc.registerFont('Inter-Bold', 'src/assets/fonts/Inter-Bold.ttf');
-
       const logoHeight = 80;
       const aspectRatio = 3 / 2;
       const logoWidth = logoHeight * aspectRatio;
@@ -89,23 +85,24 @@ export default async function handler(
       );
       doc.moveDown(2);
 
-      doc.font('Inter-Bold').fontSize(14).text('CERTIFICADO DE VOTACIÓN', {
+      doc.font('Helvetica-Bold').fontSize(14).text('CERTIFICADO DE VOTACIÓN', {
         align: 'center',
+        underline: true,
       });
       doc.moveDown(2);
 
-      doc.font('Inter').fontSize(12).text(message, { align: 'justify' });
+      doc.font('Helvetica').fontSize(12).text(message, { align: 'justify' });
       doc.moveDown(2);
 
       doc
-        .font('Inter')
+        .font('Helvetica')
         .fontSize(12)
         .text(`Dado en la ciudad de Quito, D.M., el ${generationDate}.`, {
           align: 'center',
         });
       doc.moveDown(2);
 
-      doc.font('Inter-Bold').fontSize(12).text('Escanea el código QR', {
+      doc.font('Helvetica-Bold').fontSize(12).text('Escanea el código QR', {
         align: 'center',
       });
       doc.moveDown(1);

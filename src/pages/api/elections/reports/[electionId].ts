@@ -81,10 +81,6 @@ export default async function handler(
         margin,
       });
 
-      // register fonts
-      doc.registerFont('Inter', 'src/assets/fonts/Inter-Regular.ttf');
-      doc.registerFont('Inter-Bold', 'src/assets/fonts/Inter-Bold.ttf');
-
       const logoHeight = 80;
       const aspectRatio = 3 / 2;
       const logoWidth = logoHeight * aspectRatio;
@@ -99,34 +95,34 @@ export default async function handler(
       );
       doc.moveDown(1);
 
-      doc.font('Inter-Bold').fontSize(12).text('TRIBUNAL ELECTORAL', {
+      doc.font('Helvetica-Bold').fontSize(12).text('TRIBUNAL ELECTORAL', {
         align: 'center',
       });
       doc.moveDown(1);
 
       doc
-        .font('Inter-Bold')
+        .font('Helvetica-Bold')
         .fontSize(11)
         .text('UNIVERSIDAD IBEROAMERICANA DEL ECUADOR - UNIB.E', {
           align: 'center',
         });
       doc.moveDown(1);
 
-      doc.font('Inter-Bold').fontSize(12).text(election.name, {
+      doc.font('Helvetica-Bold').fontSize(12).text(election.name, {
         align: 'center',
         underline: true,
       });
       doc.moveDown(1);
 
       doc
-        .font('Inter-Bold')
+        .font('Helvetica-Bold')
         .fontSize(12)
         .text('ACTA DE RESULTADOS DEFINITIVOS DEL ESCRUTINIO', {
           align: 'center',
         });
       doc.moveDown(2);
 
-      doc.font('Inter').fontSize(11).text(intro, { align: 'justify' });
+      doc.font('Helvetica').fontSize(11).text(intro, { align: 'justify' });
       doc.moveDown(1);
 
       doc.list(
@@ -139,34 +135,40 @@ export default async function handler(
       );
 
       doc
-        .font('Inter')
+        .font('Helvetica')
         .fontSize(11)
         .text(introContinuation, { align: 'justify' });
       doc.moveDown(1);
 
-      doc.font('Inter').fontSize(11).text(firstPoint, { align: 'justify' });
+      doc.font('Helvetica').fontSize(11).text(firstPoint, { align: 'justify' });
       doc.moveDown(1);
 
-      doc.font('Inter').fontSize(11).text(secondPoint, { align: 'justify' });
+      doc
+        .font('Helvetica')
+        .fontSize(11)
+        .text(secondPoint, { align: 'justify' });
       doc.moveDown(6);
 
-      doc.font('Inter').fontSize(11).text(secretaryName, { align: 'center' });
+      doc
+        .font('Helvetica')
+        .fontSize(11)
+        .text(secretaryName, { align: 'center' });
       doc.moveDown(0.5);
 
       doc
-        .font('Inter-Bold')
+        .font('Helvetica-Bold')
         .fontSize(11)
         .text('Secretario', { align: 'center' });
       doc.moveDown(0.5);
 
       doc
-        .font('Inter-Bold')
+        .font('Helvetica-Bold')
         .fontSize(11)
         .text('Tribunal Electoral', { align: 'center' });
       doc.moveDown(0.5);
 
       doc
-        .font('Inter-Bold')
+        .font('Helvetica-Bold')
         .fontSize(11)
         .text('UNIVERSIDAD IBEROAMERICANA DEL ECUADOR', {
           align: 'center',
