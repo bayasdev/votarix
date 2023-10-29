@@ -63,7 +63,7 @@ export default async function handler(
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}.`;
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
-      const margin = 50;
+      const margin = 60;
 
       const doc = new PDFDocument({
         size: 'A4',
@@ -75,8 +75,9 @@ export default async function handler(
       doc.registerFont('Inter', 'src/assets/fonts/Inter-Regular.ttf');
       doc.registerFont('Inter-Bold', 'src/assets/fonts/Inter-Bold.ttf');
 
-      const logoWidth = 180;
-      const logoHeight = 75;
+      const logoHeight = 80;
+      const aspectRatio = 3 / 2;
+      const logoWidth = logoHeight * aspectRatio;
       doc.image(
         'src/assets/images/logoUnibeNuevo.png',
         doc.page.width / 2 - logoWidth / 2,
@@ -86,30 +87,27 @@ export default async function handler(
           align: 'center',
         },
       );
-
       doc.moveDown(2);
 
       doc.font('Inter-Bold').fontSize(14).text('CERTIFICADO DE VOTACIÓN', {
         align: 'center',
       });
-
       doc.moveDown(2);
 
       doc.font('Inter').fontSize(12).text(message, { align: 'justify' });
-
       doc.moveDown(2);
 
       doc
         .font('Inter')
         .fontSize(12)
-        .text(`Dado en Quito, D.M. el ${generationDate}.`, { align: 'center' });
-
+        .text(`Dado en la ciudad de Quito, D.M., el ${generationDate}.`, {
+          align: 'center',
+        });
       doc.moveDown(2);
 
       doc.font('Inter-Bold').fontSize(12).text('Escanea el código QR', {
         align: 'center',
       });
-
       doc.moveDown(1);
 
       const qrWidth = 80;
