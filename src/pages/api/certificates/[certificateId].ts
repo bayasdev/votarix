@@ -63,12 +63,18 @@ export default async function handler(
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}.`;
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
-      const margin = 60;
+      const verticalMargin = 20;
+      const horizontalMargin = 40;
 
       const doc = new PDFDocument({
         size: 'A4',
         layout: 'portrait',
-        margin,
+        margins: {
+          top: verticalMargin,
+          bottom: verticalMargin,
+          left: horizontalMargin,
+          right: horizontalMargin,
+        },
       });
 
       const logoHeight = 80;
