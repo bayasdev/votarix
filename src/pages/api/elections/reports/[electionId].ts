@@ -60,7 +60,7 @@ export default async function handler(
       .locale('es')
       .format('DD [de] MMMM [del] YYYY');
 
-    const intro = `En cumplimiento a lo que dispone la Constitución de la República del Ecuador; la Ley Orgánica de Educación Superior - LOES; y, desarrollado en el Estatuto de la Universidad Iberoamericana del Ecuador y la Normativa de Elecciones de los Representantes de los Estamentos Universitarios al Órgano del Gobierno. En la ciudad de Quito, D.M., a ${generationDateLong}, se reune el Tribunal Electoral integrado por:`;
+    const intro = `En cumplimiento a lo que dispone la Constitución de la República del Ecuador; la Ley Orgánica de Educación Superior - LOES; y, desarrollado en el Estatuto de la Universidad Iberoamericana del Ecuador y la Normativa de Elecciones de los Representantes de los Estamentos Universitarios al Órgano del Cogobierno. En la ciudad de Quito, D.M., a ${generationDateLong}, se reune el Tribunal Electoral integrado por:`;
 
     const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionEndTime} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
 
