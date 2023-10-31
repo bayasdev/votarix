@@ -176,3 +176,12 @@ export type ElectionData = {
   endTime: string;
   positions: ElectionDataPosition[];
 };
+
+export type DashboardData = {
+  totalUsers: number;
+  totalElections: number;
+  totalActiveElections: number;
+  totalCandidates: number;
+  totalParties: number;
+  totalCertificates: number;
+};
