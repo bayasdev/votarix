@@ -50,7 +50,7 @@ export async function PUT(request: Request, { params }: IParams) {
       }
     }
 
-    const updatedCandidate = await prisma.candidate.update({
+    const candidate = await prisma.candidate.update({
       where: {
         id: candidateId,
       },
@@ -61,7 +61,7 @@ export async function PUT(request: Request, { params }: IParams) {
       },
     });
 
-    return new Response(updatedCandidate.id);
+    return new Response(candidate.id);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
