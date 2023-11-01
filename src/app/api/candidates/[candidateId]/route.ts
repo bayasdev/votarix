@@ -4,6 +4,7 @@ import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { CandidateValidator } from '@/lib/validators/candidate';
 import { utapi } from '@/app/api/uploadthing/core';
+import { isCdnUrl, getImageKeyFromUrl } from '@/lib/helpers/uploadthing';
 
 interface IParams {
   params: {
@@ -35,13 +36,18 @@ export async function PUT(request: Request, { params }: IParams) {
       },
     });
 
-    // if there is a new image, delete the old one
-    if (
-      image &&
-      oldCandidate?.imageKey &&
-      oldCandidate?.imageKey !== image.key
-    ) {
-      await utapi.deleteFiles(oldCandidate?.imageKey);
+    if (!oldCandidate) {
+      return new Response('No encontrado', { status: 404 });
+    }
+
+    if (oldCandidate.imageUrl && isCdnUrl(oldCandidate.imageUrl)) {
+      const currentImageKey = getImageKeyFromUrl(oldCandidate.imageUrl);
+
+      if (currentImageKey && currentImageKey !== image.key) {
+        try {
+          await utapi.deleteFiles(currentImageKey);
+        } catch (error) {}
+      }
     }
 
     const updatedCandidate = await prisma.candidate.update({
@@ -93,9 +99,14 @@ export async function DELETE(request: Request, { params }: IParams) {
       return new Response('No encontrado', { status: 404 });
     }
 
-    // if there is a image, delete it
-    if (candidate?.imageKey) {
-      await utapi.deleteFiles(candidate.imageKey);
+    if (candidate.imageUrl && isCdnUrl(candidate.imageUrl)) {
+      const currentImageKey = getImageKeyFromUrl(candidate.imageUrl);
+
+      if (currentImageKey) {
+        try {
+          await utapi.deleteFiles(currentImageKey);
+        } catch (error) {}
+      }
     }
 
     await prisma.candidate.delete({
