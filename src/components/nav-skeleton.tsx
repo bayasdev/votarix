@@ -8,7 +8,7 @@ interface NavSkeletonProps {
 const NavSkeleton = ({ className }: NavSkeletonProps) => {
   return (
     <div className={cn(className)}>
-      <Skeleton className="h-8 w-[50%]" />
+      <Skeleton className="h-8 w-1/2" />
       <Skeleton className="h-8 w-8 rounded-full" />
     </div>
   );
