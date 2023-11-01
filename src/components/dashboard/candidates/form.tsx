@@ -57,7 +57,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
       partyId: initialData?.partyId || '',
       positionId: initialData?.positionId || '',
       image: {
-        key: initialData?.imageUrl || '',
+        key: initialData?.imageKey || '',
         url: initialData?.imageUrl || '',
       },
     },
