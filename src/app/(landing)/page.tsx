@@ -9,9 +9,6 @@ import {
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { getAvailableElectionsForCurrentUser } from '@/actions/election';
-import ElectionCard from '@/components/landing/election-card';
-import EmptyState from '@/components/empty-state';
 import {
   Accordion,
   AccordionContent,
