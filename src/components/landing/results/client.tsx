@@ -17,6 +17,8 @@ import {
 import { toast } from '@/components/ui/use-toast';
 import ElectionResultsViewer from '@/components/results/viewer';
 import EmptyState from '@/components/empty-state';
+import { set } from 'date-fns';
+import LoadingSkeleton from '@/components/loading-skeleton';
 
 interface ResultsClientProps {
   elections: SafeElection[] | null;
@@ -37,6 +39,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
   const [selectedElection, setSelectedElection] = React.useState<string>(
     searchParams?.get('electionId') || '',
   );
+  const [isLoading, setIsLoading] = React.useState(false);
   const [results, setResults] = React.useState<ElectionResults | null>(null);
 
   // Get a new searchParams string by merging the current
@@ -53,6 +56,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
 
   const getResults = React.useCallback(async () => {
     if (!selectedElection) return;
+    setIsLoading(true);
 
     // store selected electionId in URL
     router.push(
@@ -72,6 +76,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
     }
 
     setResults(response);
+    setIsLoading(false);
   }, [createQueryString, getElectionResultsById, router, selectedElection]);
 
   React.useEffect(() => {
@@ -95,7 +100,9 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
           </SelectGroup>
         </SelectContent>
       </Select>
-      {results ? (
+      {isLoading ? (
+        <LoadingSkeleton />
+      ) : results ? (
         <ElectionResultsViewer data={results} />
       ) : (
         <EmptyState
