@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 
 import { toast } from '@/components/ui/use-toast';
 import ElectionResultsViewer from '@/components/results/viewer';
+import GoBack from '@/components/go-back';
 
 interface ElectionResultsClientProps {
   data: ElectionResults | null;
@@ -70,30 +71,32 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
             .locale('es')
             .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}`}
         />
-
-        {isFinished ? (
-          <Button variant="outline" onClick={handleReportDownload}>
-            <FileDownIcon className="mr-2 h-4 w-4" />
-            Descargar acta de escrutinios
-          </Button>
-        ) : (
-          <Button
-            variant={autoRefresh ? 'default' : 'secondary'}
-            onClick={() => setAutoRefresh(!autoRefresh)}
-          >
-            {autoRefresh ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Actualizando cada {refreshInterval} segundos
-              </>
-            ) : (
-              <>
-                <PauseIcon className="mr-2 h-4 w-4" />
-                Actualización automática pausada
-              </>
-            )}
-          </Button>
-        )}
+        <div className="flex flex-wrap gap-4 lg:flex-col lg:items-end">
+          <GoBack />
+          {isFinished ? (
+            <Button variant="destructive" onClick={handleReportDownload}>
+              <FileDownIcon className="mr-2 h-4 w-4" />
+              Descargar acta de escrutinios
+            </Button>
+          ) : (
+            <Button
+              variant={autoRefresh ? 'default' : 'secondary'}
+              onClick={() => setAutoRefresh(!autoRefresh)}
+            >
+              {autoRefresh ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Actualizando cada {refreshInterval} segundos
+                </>
+              ) : (
+                <>
+                  <PauseIcon className="mr-2 h-4 w-4" />
+                  Actualización automática pausada
+                </>
+              )}
+            </Button>
+          )}
+        </div>
       </div>
       <ElectionResultsViewer data={data} />
     </div>

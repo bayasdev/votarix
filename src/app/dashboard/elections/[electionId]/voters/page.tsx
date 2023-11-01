@@ -6,6 +6,7 @@ import Heading from '@/components/heading';
 import EmptyState from '@/components/empty-state';
 import AddVoters from '@/components/dashboard/elections/voters/add-voters';
 import VotersClient from '@/components/dashboard/elections/voters/client';
+import GoBack from '@/components/go-back';
 
 interface ElectionVotersPageProps {
   params: {
@@ -27,7 +28,10 @@ const ElectionVotersPage = async ({ params }: ElectionVotersPageProps) => {
           title="Padrón electoral"
           subtitle={`Administre los votantes de ${election.name}`}
         />
-        <AddVoters electionId={election.id} elegibleVoters={elegibleVoters} />
+        <div className="flex flex-wrap gap-4 lg:flex-col lg:items-end">
+          <GoBack />
+          <AddVoters electionId={election.id} elegibleVoters={elegibleVoters} />
+        </div>
       </div>
       {voters && voters.length > 0 ? (
         <VotersClient electionId={election.id} voters={voters} />
