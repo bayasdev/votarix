@@ -54,6 +54,9 @@ export type SiteConfig = {
   version: string;
   url: string;
   ogImage: string;
+  organizationName: string;
+  organizationAbbreviation: string;
+  organizationUrl: string;
   links: {
     twitter: string;
     github: string;
