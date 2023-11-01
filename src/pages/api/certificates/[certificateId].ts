@@ -5,9 +5,14 @@ import QRCode from 'qrcode';
 import PDFDocument from 'pdfkit';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default async function handler(
   req: NextApiRequest,
@@ -53,6 +58,7 @@ export default async function handler(
 
     const generationDate = dayjs()
       .locale('es')
+      .tz('America/Guayaquil')
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm');
 
     const message = `Este documento acredita que ${
