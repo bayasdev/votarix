@@ -18,14 +18,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import TribunalCard from '@/components/landing/tribunal-card';
 
 export const metadata: Metadata = {
   title: 'Inicio',
 };
 
-const LandingPage = async () => {
-  const elections = await getAvailableElectionsForCurrentUser();
-
+const LandingPage = () => {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
@@ -58,24 +57,25 @@ const LandingPage = async () => {
       >
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            Elecciones en curso
+            Miembros del Tribunal Electoral
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Conoce los procesos electorales en los que puedes participar.
+            El Tribunal Electoral es el órgano encargado de la organización y
+            ejecución de los procesos electorales de la{' '}
+            {siteConfig.organizationName} ({siteConfig.organizationAbbreviation}
+            ).
           </p>
         </div>
-        {elections && elections.length > 0 ? (
-          <div className="mx-auto grid justify-center gap-4 md:max-w-[64rem] lg:grid-cols-3">
-            {elections.map((election) => (
-              <ElectionCard key={election.id} election={election} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="Aquí no hay nada"
-            subtitle="No puedes participar en ninguna elección en este momento"
-          />
-        )}
+        <div className="mx-auto grid justify-center gap-4 md:max-w-[64rem] lg:grid-cols-3">
+          {siteConfig.tribunal.map((member) => (
+            <TribunalCard
+              key={member.name}
+              name={member.name}
+              title={member.title}
+              imageUrl={member.imageUrl}
+            />
+          ))}
+        </div>
       </section>
       <section id="open-source" className="container py-8 md:py-12 lg:py-24">
         <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
