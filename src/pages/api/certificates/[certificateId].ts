@@ -57,8 +57,9 @@ export default async function handler(
     );
 
     const generationDate = dayjs()
-      .locale('es')
+      .utc()
       .tz('America/Guayaquil')
+      .locale('es')
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm');
 
     const message = `Este documento acredita que ${

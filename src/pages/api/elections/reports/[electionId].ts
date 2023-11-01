@@ -83,10 +83,14 @@ export default async function handler(
     const logoPath = path.join(resourcesDir, 'logoUnibeNuevo.png');
 
     const generationDateLong = dayjs()
+      .utc()
+      .tz('America/Guayaquil')
       .locale('es')
       .format('DD [días del mes de] MMMM [de] YYYY [siendo las] HH:mm [horas]');
 
     const electionEndTime = dayjs(election.endTime)
+      .utc()
+      .tz('America/Guayaquil')
       .locale('es')
       .format('DD [de] MMMM [del] YYYY');
 
