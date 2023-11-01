@@ -12,6 +12,8 @@ interface IParams {
   };
 }
 
+export const runtime = 'edge';
+
 export async function PUT(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();

@@ -5,6 +5,8 @@ import prisma from '@/lib/prisma';
 import { SignupValidator } from '@/lib/validators/auth';
 import { siteConfig } from '@/config/site';
 
+export const runtime = 'edge';
+
 export async function POST(request: Request) {
   try {
     if (!siteConfig.signupAllowed) {

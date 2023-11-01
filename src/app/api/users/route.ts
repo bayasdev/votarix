@@ -6,6 +6,8 @@ import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { UserValidator } from '@/lib/validators/user';
 
+export const runtime = 'edge';
+
 export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();

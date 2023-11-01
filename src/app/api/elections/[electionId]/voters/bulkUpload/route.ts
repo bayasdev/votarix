@@ -11,6 +11,8 @@ interface IParams {
   };
 }
 
+export const runtime = 'edge';
+
 export async function POST(request: Request, { params }: IParams) {
   try {
     const currentUser = await getCurrentUser();
