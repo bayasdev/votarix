@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-
 import PDFDocumentWithTables from 'pdfkit-table';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -8,6 +7,7 @@ import 'dayjs/locale/es';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { siteConfig } from '@/config/site';
+import path from 'path';
 
 export default async function handler(
   req: NextApiRequest,
@@ -73,6 +73,8 @@ export default async function handler(
     if (!election) {
       return res.status(404).send('Elección no encontrada');
     }
+
+    const resourcesDir = path.join(process.cwd(), 'public', 'resources');
 
     const generationDateLong = dayjs()
       .locale('es')
@@ -157,7 +159,7 @@ export default async function handler(
       const aspectRatio = 3 / 2;
       const logoWidth = logoHeight * aspectRatio;
       doc.image(
-        'src/assets/images/logoUnibeNuevo.png',
+        path.join(resourcesDir, 'logoUnibeNuevo.png'),
         doc.page.width / 2 - logoWidth / 2,
         doc.y,
         {
