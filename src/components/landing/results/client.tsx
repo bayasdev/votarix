@@ -17,7 +17,6 @@ import {
 import { toast } from '@/components/ui/use-toast';
 import ElectionResultsViewer from '@/components/results/viewer';
 import EmptyState from '@/components/empty-state';
-import { set } from 'date-fns';
 import LoadingSkeleton from '@/components/loading-skeleton';
 
 interface ResultsClientProps {
