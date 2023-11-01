@@ -1,7 +1,7 @@
-import DashboardLoadingSkeleton from '@/components/dashboard/dashboard-loading-skeleton';
+import LoadingSkeleton from '@/components/loading-skeleton';
 
 const Loading = () => {
-  return <DashboardLoadingSkeleton />;
+  return <LoadingSkeleton className="container" />;
 };
 
 export default Loading;
