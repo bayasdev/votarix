@@ -10,9 +10,14 @@ import { Icons } from '@/components/icons';
 interface MobileNavProps {
   items: MainNavItem[];
   children?: React.ReactNode;
+  setShowMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function MobileNav({ items, children }: MobileNavProps) {
+export function MobileNav({
+  items,
+  children,
+  setShowMobileMenu,
+}: MobileNavProps) {
   useLockBody();
 
   return (
@@ -30,6 +35,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
           {items.map((item, index) => (
             <Link
               key={index}
+              onClick={() => setShowMobileMenu(false)}
               href={item.disabled ? '#' : item.href}
               className={cn(
                 'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
