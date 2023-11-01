@@ -1,14 +1,12 @@
+'use server';
+
 import { getServerSession } from 'next-auth/next';
 
 import { SafeUser } from '@/types';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
-export const runtime = 'edge';
-
 export default async function getCurrentUser(): Promise<SafeUser | null> {
-  'use server';
-
   try {
     const session = await getServerSession(authOptions);
 

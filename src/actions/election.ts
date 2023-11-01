@@ -1,3 +1,5 @@
+'use server';
+
 import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 
@@ -13,11 +15,7 @@ export interface IParams {
   electionId?: string;
 }
 
-export const runtime = 'edge';
-
 export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
-  'use server';
-
   try {
     const elections = await prisma.election.findMany({
       orderBy: {
@@ -46,8 +44,6 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
 }
 
 export async function getFinishedElections(): Promise<SafeElection[] | null> {
-  'use server';
-
   try {
     const elections = await prisma.election.findMany({
       where: {
@@ -77,8 +73,6 @@ export async function getFinishedElections(): Promise<SafeElection[] | null> {
 export async function getAvailableElectionsForCurrentUser(): Promise<
   SafeElection[] | null
 > {
-  'use server';
-
   try {
     const currentUser = await getCurrentUser();
 
@@ -134,8 +128,6 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
 export async function getElectionById(
   params: IParams,
 ): Promise<SafeElection | null> {
-  'use server';
-
   const { electionId } = params;
 
   try {
@@ -164,8 +156,6 @@ export async function getElectionById(
 export async function getElectionDataById(
   params: IParams,
 ): Promise<ElectionData | null> {
-  'use server';
-
   const { electionId } = params;
 
   try {
@@ -246,8 +236,6 @@ export async function getElectionResultsById(
   params: IParams,
   showOnlyCompleted: boolean = false,
 ): Promise<ElectionResults | null> {
-  'use server';
-
   const { electionId } = params;
 
   try {

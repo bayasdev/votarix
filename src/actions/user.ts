@@ -1,3 +1,5 @@
+'use server';
+
 import prisma from '@/lib/prisma';
 import { SafeUser } from '@/types';
 
@@ -5,11 +7,7 @@ interface IParams {
   userId?: string;
 }
 
-export const runtime = 'edge';
-
 export async function getUsers(): Promise<SafeUser[] | null> {
-  'use server';
-
   try {
     const users = await prisma.user.findMany({
       orderBy: {
@@ -32,8 +30,6 @@ export async function getUsers(): Promise<SafeUser[] | null> {
 }
 
 export async function getUserById(params: IParams): Promise<SafeUser | null> {
-  'use server';
-
   const { userId } = params;
 
   try {

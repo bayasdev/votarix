@@ -1,3 +1,5 @@
+'use server';
+
 import prisma from '@/lib/prisma';
 import { SafeCandidate, SafeCandidateWithParty } from '@/types';
 
@@ -5,11 +7,7 @@ interface IParams {
   candidateId?: string;
 }
 
-export const runtime = 'edge';
-
 export async function getCandidates(): Promise<SafeCandidate[] | null> {
-  'use server';
-
   try {
     const candidates = await prisma.candidate.findMany({
       orderBy: {
@@ -32,8 +30,6 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
 export async function getCandidatesWithParty(): Promise<
   SafeCandidateWithParty[] | null
 > {
-  'use server';
-
   try {
     const candidates = await prisma.candidate.findMany({
       orderBy: {
@@ -64,8 +60,6 @@ export async function getCandidatesWithParty(): Promise<
 export async function getCandidateById(
   params: IParams,
 ): Promise<SafeCandidate | null> {
-  'use server';
-
   try {
     const { candidateId } = params;
 
@@ -92,8 +86,6 @@ export async function getCandidateById(
 export async function getCandidatesByPartyId(params: {
   partyId?: string;
 }): Promise<SafeCandidate[] | null> {
-  'use server';
-
   const { partyId } = params;
 
   try {
@@ -122,8 +114,6 @@ export async function getCandidatesByPartyId(params: {
 export async function getCandidatesByPositionId(params: {
   positionId?: string;
 }): Promise<SafeCandidateWithParty[] | null> {
-  'use server';
-
   const { positionId } = params;
 
   try {
