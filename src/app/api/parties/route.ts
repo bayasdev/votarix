@@ -4,8 +4,6 @@ import getCurrentUser from '@/actions/getCurrentUser';
 import prisma from '@/lib/prisma';
 import { PartyValidator } from '@/lib/validators/party';
 
-export const runtime = 'edge';
-
 export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
