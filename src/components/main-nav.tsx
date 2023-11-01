@@ -9,6 +9,7 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { MobileNav } from '@/components/mobile-nav';
+import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface MainNavProps {
   currentUser?: SafeUser | null;
@@ -18,7 +19,7 @@ interface MainNavProps {
 
 export function MainNav({ currentUser, items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+  const { showMobileMenu, setShowMobileMenu } = useMobileMenu();
 
   return (
     <div className="flex gap-6 md:gap-10">
@@ -56,9 +57,7 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
         <span className="font-bold">Menu</span>
       </button>
       {showMobileMenu && items && (
-        <MobileNav items={items} setShowMobileMenu={setShowMobileMenu}>
-          {children}
-        </MobileNav>
+        <MobileNav items={items}>{children}</MobileNav>
       )}
     </div>
   );

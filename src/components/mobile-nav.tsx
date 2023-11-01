@@ -6,19 +6,16 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLockBody } from '@/hooks/use-lock-body';
 import { Icons } from '@/components/icons';
+import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface MobileNavProps {
   items: MainNavItem[];
   children?: React.ReactNode;
-  setShowMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function MobileNav({
-  items,
-  children,
-  setShowMobileMenu,
-}: MobileNavProps) {
+export function MobileNav({ items, children }: MobileNavProps) {
   useLockBody();
+  const { setShowMobileMenu } = useMobileMenu();
 
   return (
     <div
@@ -27,7 +24,11 @@ export function MobileNav({
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link
+          onClick={() => setShowMobileMenu(false)}
+          href="/"
+          className="flex items-center space-x-2"
+        >
           <Icons.logo />
           <span className="font-bold">{siteConfig.name}</span>
         </Link>

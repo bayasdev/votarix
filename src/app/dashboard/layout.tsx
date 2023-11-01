@@ -8,6 +8,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { UserAccountNav } from '@/components/user-account-nav';
 import NavSkeleton from '@/components/nav-skeleton';
 import DashboardNavSkeleton from '@/components/dashboard/dashboard-nav-skeleton';
+import MobileMenuProvider from '@/providers/mobile-menu-provider';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -27,9 +28,11 @@ export default async function DashboardLayout({
           }
         >
           <div className="container flex h-16 items-center justify-between py-4">
-            <MainNav items={dashboardConfig.mainNav}>
-              <DashboardNav items={dashboardConfig.sidebarNav} />
-            </MainNav>
+            <MobileMenuProvider>
+              <MainNav items={dashboardConfig.mainNav}>
+                <DashboardNav items={dashboardConfig.sidebarNav} />
+              </MainNav>
+            </MobileMenuProvider>
             <UserAccountNav currentUser={currentUser} />
           </div>
         </Suspense>

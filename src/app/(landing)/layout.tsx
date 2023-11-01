@@ -9,6 +9,7 @@ import { MainNav } from '@/components/main-nav';
 import { SiteFooter } from '@/components/site-footer';
 import { UserAccountNav } from '@/components/user-account-nav';
 import NavSkeleton from '@/components/nav-skeleton';
+import MobileMenuProvider from '@/providers/mobile-menu-provider';
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -26,7 +27,12 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
           }
         >
           <div className="flex h-20 items-center justify-between py-6">
-            <MainNav currentUser={currentUser} items={landingConfig.mainNav} />
+            <MobileMenuProvider>
+              <MainNav
+                currentUser={currentUser}
+                items={landingConfig.mainNav}
+              />
+            </MobileMenuProvider>
             <nav>
               {!currentUser ? (
                 <Link

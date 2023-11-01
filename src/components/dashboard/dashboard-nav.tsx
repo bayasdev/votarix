@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { SidebarNavItem } from '@/types';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
+import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -13,6 +14,7 @@ interface DashboardNavProps {
 
 export function DashboardNav({ items }: DashboardNavProps) {
   const path = usePathname();
+  const { setShowMobileMenu } = useMobileMenu();
 
   if (!items?.length) {
     return null;
@@ -24,7 +26,11 @@ export function DashboardNav({ items }: DashboardNavProps) {
         const Icon = Icons[item.icon || 'arrowRight'];
         return (
           item.href && (
-            <Link key={index} href={item.disabled ? '/' : item.href}>
+            <Link
+              key={index}
+              onClick={() => setShowMobileMenu(false)}
+              href={item.disabled ? '/' : item.href}
+            >
               <span
                 className={cn(
                   'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
