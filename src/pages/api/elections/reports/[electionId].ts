@@ -94,15 +94,13 @@ export default async function handler(
     const tableHeaders = [
       'DIGNIDAD',
       // get all the parties
-      ...election.positions.reduce<string[]>((acc, position) => {
-        const parties = position.candidates.map((candidate) => candidate.party);
-        const uniqueParties = [...new Set(parties)];
-
-        return [
-          ...acc,
-          ...uniqueParties.map((party) => 'VOTOS ' + party.name.toUpperCase()),
-        ];
-      }, []),
+      ...[
+        ...new Set(
+          election.positions
+            .flatMap((position) => position.candidates)
+            .map((candidate) => candidate.party.name),
+        ),
+      ].map((partyName) => `VOTOS ${partyName.toUpperCase()}`),
       'TOTAL SUFRAGANTES',
       'TOTAL AUSENTES',
       'TOTAL EMPADRONADOS',
