@@ -1,15 +1,11 @@
 import { DashboardConfig } from '@/types';
+import { siteConfig } from '@/config/site';
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: 'Documentación',
-      href: '/docs',
-    },
-    {
-      title: 'Soporte',
-      href: '/support',
-      disabled: true,
+      title: siteConfig.organizationAbbreviation,
+      href: siteConfig.organizationUrl,
     },
   ],
   sidebarNav: [

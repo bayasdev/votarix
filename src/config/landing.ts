@@ -1,4 +1,5 @@
 import { LandingConfig } from '@/types';
+import { siteConfig } from '@/config/site';
 
 export const landingConfig: LandingConfig = {
   mainNav: [
@@ -18,6 +19,10 @@ export const landingConfig: LandingConfig = {
       title: 'Mis certificados',
       href: '/certificates',
       role: 'VOTER',
+    },
+    {
+      title: siteConfig.organizationAbbreviation,
+      href: siteConfig.organizationUrl,
     },
   ],
 };
