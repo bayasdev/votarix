@@ -4,7 +4,9 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
-import { Loader2, PauseIcon } from 'lucide-react';
+import { FileDownIcon, Loader2, PauseIcon } from 'lucide-react';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 import { ElectionResults } from '@/types';
 import Heading from '@/components/heading';
@@ -20,7 +22,13 @@ interface ElectionResultsClientProps {
 const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
   data,
 }) => {
-  const [autoRefresh, setAutoRefresh] = React.useState<boolean>(true);
+  const isFinished = React.useMemo(
+    () => dayjs().isAfter(dayjs(data?.endTime)),
+    [data?.endTime],
+  );
+  const [autoRefresh, setAutoRefresh] = React.useState<boolean>(
+    isFinished ? false : true,
+  );
   const refreshInterval = 180;
   const router = useRouter();
 
@@ -30,6 +38,21 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
       title: 'Resultados actualizados',
     });
   }, [router]);
+
+  const handleReportDownload = () => {
+    axios
+      .get(`/api/elections/reports/${data?.electionId}`, {
+        responseType: 'blob',
+      })
+      .then((response) => {
+        saveAs(response.data, `acta_${data?.electionId}.pdf`);
+      })
+      .catch(() => {
+        toast({
+          title: 'Ocurrió un error',
+        });
+      });
+  };
 
   React.useEffect(() => {
     if (autoRefresh) {
@@ -47,22 +70,30 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
             .locale('es')
             .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}`}
         />
-        <Button
-          variant={autoRefresh ? 'default' : 'secondary'}
-          onClick={() => setAutoRefresh(!autoRefresh)}
-        >
-          {autoRefresh ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Actualizando cada {refreshInterval} segundos
-            </>
-          ) : (
-            <>
-              <PauseIcon className="mr-2 h-4 w-4" />
-              Actualización automática pausada
-            </>
-          )}
-        </Button>
+
+        {isFinished ? (
+          <Button variant="outline" onClick={handleReportDownload}>
+            <FileDownIcon className="mr-2 h-4 w-4" />
+            Descargar acta de escrutinios
+          </Button>
+        ) : (
+          <Button
+            variant={autoRefresh ? 'default' : 'secondary'}
+            onClick={() => setAutoRefresh(!autoRefresh)}
+          >
+            {autoRefresh ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Actualizando cada {refreshInterval} segundos
+              </>
+            ) : (
+              <>
+                <PauseIcon className="mr-2 h-4 w-4" />
+                Actualización automática pausada
+              </>
+            )}
+          </Button>
+        )}
       </div>
       <ElectionResultsViewer data={data} />
     </div>
