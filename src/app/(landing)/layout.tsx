@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 
 import getCurrentUser from '@/actions/getCurrentUser';
@@ -7,7 +8,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { MainNav } from '@/components/main-nav';
 import { SiteFooter } from '@/components/site-footer';
 import { UserAccountNav } from '@/components/user-account-nav';
-import ClientOnly from '@/components/client-only';
+import NavSkeleton from '@/components/nav-skeleton';
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -18,8 +19,12 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <ClientOnly>
-        <header className="container z-40 bg-background">
+      <header className="container z-40 bg-background">
+        <Suspense
+          fallback={
+            <NavSkeleton className="flex h-20 items-center justify-between py-6" />
+          }
+        >
           <div className="flex h-20 items-center justify-between py-6">
             <MainNav currentUser={currentUser} items={landingConfig.mainNav} />
             <nav>
@@ -38,10 +43,10 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
               )}
             </nav>
           </div>
-        </header>
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-      </ClientOnly>
+        </Suspense>
+      </header>
+      <main className="flex-1">{children}</main>
+      <SiteFooter />
     </div>
   );
 }
