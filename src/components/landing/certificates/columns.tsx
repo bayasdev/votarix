@@ -15,9 +15,6 @@ const downloadCertificate = (id: string) => {
     .get(`/api/certificates/${id}`, { responseType: 'blob' })
     .then((response) => {
       saveAs(response.data, `certificado_${id}.pdf`);
-      toast({
-        title: 'Descargado correctamente',
-      });
     })
     .catch(() => {
       toast({
