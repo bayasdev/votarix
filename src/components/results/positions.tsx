@@ -17,14 +17,16 @@ const ElectionResultsByPosition: React.FC<ElectionResultsByPositionProps> = ({
         <VoteIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
         Resultados por dignidad
       </div>
-      <Tabs defaultValue={data?.positions[0]?.id} className="w-full">
-        <TabsList>
-          {data?.positions.map((position) => (
-            <TabsTrigger key={position.id} value={position.id}>
-              {position.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <Tabs defaultValue={data?.positions[0]?.id}>
+        <div className="overflow-x-auto">
+          <TabsList>
+            {data?.positions.map((position) => (
+              <TabsTrigger key={position.id} value={position.id}>
+                {position.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
         {data?.positions.map((position) => (
           <TabsContent
             key={position.id}
