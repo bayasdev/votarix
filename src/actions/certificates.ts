@@ -1,5 +1,3 @@
-'use server';
-
 import prisma from '@/lib/prisma';
 
 import { CertificateResponse } from '@/types';
@@ -8,9 +6,13 @@ interface IParams {
   certificateId?: string;
 }
 
+export const runtime = 'edge';
+
 export async function getCertificateById(
   params: IParams,
 ): Promise<CertificateResponse | null> {
+  'use server';
+
   const { certificateId } = params;
 
   try {

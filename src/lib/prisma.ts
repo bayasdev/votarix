@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaClient as PrismaClientEdge } from '@prisma/client/edge';
 
 declare global {
   // eslint-disable-next-line no-var, no-unused-vars
@@ -7,7 +8,9 @@ declare global {
 
 let prisma: PrismaClient;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.VERCEL) {
+  prisma = new PrismaClientEdge();
+} else if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient();
 } else {
   if (!global.cachedPrisma) {

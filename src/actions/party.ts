@@ -1,5 +1,3 @@
-'use server';
-
 import prisma from '@/lib/prisma';
 import { SafeParty } from '@/types';
 
@@ -7,7 +5,11 @@ interface IParams {
   partyId?: string;
 }
 
+export const runtime = 'edge';
+
 export async function getParties(): Promise<SafeParty[] | null> {
+  'use server';
+
   try {
     const parties = await prisma.party.findMany({
       orderBy: {
@@ -28,6 +30,8 @@ export async function getParties(): Promise<SafeParty[] | null> {
 }
 
 export async function getPartyById(params: IParams): Promise<SafeParty | null> {
+  'use server';
+
   const { partyId } = params;
 
   try {

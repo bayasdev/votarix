@@ -1,5 +1,3 @@
-'use server';
-
 import prisma from '@/lib/prisma';
 
 import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
@@ -9,7 +7,11 @@ interface IParams {
   electionId?: string;
 }
 
+export const runtime = 'edge';
+
 export async function getCanUserVote(params: IParams): Promise<boolean> {
+  'use server';
+
   const { electionId } = params;
 
   const currentUser = await getCurrentUser();
@@ -58,6 +60,8 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
 export async function getElegibleVoters(
   params: IParams,
 ): Promise<SafeUser[] | null> {
+  'use server';
+
   const { electionId } = params;
   // where role is VOTER and not in electionId
   try {
@@ -93,6 +97,8 @@ export async function getElegibleVoters(
 export async function getVotersByElectionId(
   params: IParams,
 ): Promise<SafeUserWithHasVoted[] | null> {
+  'use server';
+
   const { electionId } = params;
 
   try {
@@ -136,6 +142,8 @@ export async function getVotersByElectionId(
 export async function getVoterCertificates(): Promise<
   CertificateResponse[] | null
 > {
+  'use server';
+
   try {
     const currentUser = await getCurrentUser();
 

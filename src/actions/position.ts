@@ -1,5 +1,3 @@
-'use server';
-
 import prisma from '@/lib/prisma';
 import { SafePosition, SafePositionWithElection } from '@/types';
 
@@ -7,9 +5,13 @@ interface IParams {
   positionId?: string;
 }
 
+export const runtime = 'edge';
+
 export async function getPositions(): Promise<
   SafePositionWithElection[] | null
 > {
+  'use server';
+
   try {
     const positions = await prisma.position.findMany({
       orderBy: {
@@ -32,6 +34,8 @@ export async function getPositions(): Promise<
 export async function getPositionsWithElection(): Promise<
   SafePositionWithElection[] | null
 > {
+  'use server';
+
   try {
     const positions = await prisma.position.findMany({
       orderBy: {
@@ -64,6 +68,8 @@ export async function getPositionsWithElection(): Promise<
 export async function getPositionById(
   params: IParams,
 ): Promise<SafePosition | null> {
+  'use server';
+
   const { positionId } = params;
 
   try {
@@ -90,6 +96,8 @@ export async function getPositionById(
 export async function getPositionsByElectionId(params: {
   electionId?: string;
 }): Promise<SafePosition[] | null> {
+  'use server';
+
   const { electionId } = params;
 
   try {
