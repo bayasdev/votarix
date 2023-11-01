@@ -45,6 +45,7 @@ export default async function handler(
     }
 
     const resourcesDir = path.join(process.cwd(), 'public', 'resources');
+    const logoPath = path.join(resourcesDir, 'logoUnibeNuevo.png');
 
     const qrImage = await QRCode.toBuffer(
       `${process.env.NEXTAUTH_URL}/validateCertificate/${certificate.id}`,
@@ -82,15 +83,10 @@ export default async function handler(
       const logoHeight = 80;
       const aspectRatio = 3 / 2;
       const logoWidth = logoHeight * aspectRatio;
-      doc.image(
-        path.join(resourcesDir, 'logoUnibeNuevo.png'),
-        doc.page.width / 2 - logoWidth / 2,
-        doc.y,
-        {
-          fit: [logoWidth, logoHeight],
-          align: 'center',
-        },
-      );
+      doc.image(logoPath, doc.page.width / 2 - logoWidth / 2, doc.y, {
+        fit: [logoWidth, logoHeight],
+        align: 'center',
+      });
       doc.moveDown(2);
 
       doc.font('Helvetica-Bold').fontSize(14).text('CERTIFICADO DE VOTACIÓN', {
@@ -138,7 +134,6 @@ export default async function handler(
 
     return res.status(200).send(pdfBuffer);
   } catch (error) {
-    console.error(error);
     return res.status(500).send('Error al generar el certificado');
   }
 }

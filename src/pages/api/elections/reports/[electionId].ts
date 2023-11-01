@@ -75,6 +75,7 @@ export default async function handler(
     }
 
     const resourcesDir = path.join(process.cwd(), 'public', 'resources');
+    const logoPath = path.join(resourcesDir, 'logoUnibeNuevo.png');
 
     const generationDateLong = dayjs()
       .locale('es')
@@ -158,15 +159,10 @@ export default async function handler(
       const logoHeight = 80;
       const aspectRatio = 3 / 2;
       const logoWidth = logoHeight * aspectRatio;
-      doc.image(
-        path.join(resourcesDir, 'logoUnibeNuevo.png'),
-        doc.page.width / 2 - logoWidth / 2,
-        doc.y,
-        {
-          fit: [logoWidth, logoHeight],
-          align: 'center',
-        },
-      );
+      doc.image(logoPath, doc.page.width / 2 - logoWidth / 2, doc.y, {
+        fit: [logoWidth, logoHeight],
+        align: 'center',
+      });
       doc.moveDown(1);
 
       doc.font('Helvetica-Bold').fontSize(12).text('TRIBUNAL ELECTORAL', {
@@ -267,7 +263,6 @@ export default async function handler(
 
     return res.status(200).send(pdfBuffer);
   } catch (error) {
-    console.error(error);
     return res.status(500).send('Error al generar el acta');
   }
 }
