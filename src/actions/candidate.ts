@@ -22,7 +22,7 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
     }));
 
     return safeCandidates;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -52,7 +52,7 @@ export async function getCandidatesWithParty(): Promise<
     }));
 
     return safeCandidates as SafeCandidateWithParty[];
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -78,7 +78,7 @@ export async function getCandidateById(
       createdAt: candidate.createdAt.toISOString(),
       updatedAt: candidate.updatedAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -106,7 +106,7 @@ export async function getCandidatesByPartyId(params: {
     }));
 
     return safeCandidates;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -142,7 +142,7 @@ export async function getCandidatesByPositionId(params: {
     }));
 
     return safeCandidates as SafeCandidateWithParty[];
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }

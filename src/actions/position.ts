@@ -24,7 +24,7 @@ export async function getPositions(): Promise<
     }));
 
     return safePositions;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -56,7 +56,7 @@ export async function getPositionsWithElection(): Promise<
     }));
 
     return safePositions as SafePositionWithElection[];
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -82,7 +82,7 @@ export async function getPositionById(
       createdAt: position.createdAt.toISOString(),
       updatedAt: position.updatedAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -109,7 +109,7 @@ export async function getPositionsByElectionId(params: {
     }));
 
     return safePositions;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }

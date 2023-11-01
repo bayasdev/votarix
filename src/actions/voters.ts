@@ -50,7 +50,7 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
     }
 
     return true;
-  } catch (error: any) {
+  } catch (error) {
     return false;
   }
 }
@@ -85,7 +85,7 @@ export async function getElegibleVoters(
     }));
 
     return safeVoters;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -128,7 +128,7 @@ export async function getVotersByElectionId(
     }));
 
     return safeVoters;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -162,7 +162,7 @@ export async function getVoterCertificates(): Promise<
       voterName: currentUser.name,
       voterDocument: currentUser.document || '',
     }));
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }

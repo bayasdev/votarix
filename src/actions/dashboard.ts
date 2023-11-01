@@ -29,7 +29,7 @@ export async function getDashboardData(): Promise<DashboardData | null> {
       totalParties,
       totalCertificates,
     };
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }

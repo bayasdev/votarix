@@ -38,7 +38,7 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
     }));
 
     return safeElections;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -65,7 +65,7 @@ export async function getFinishedElections(): Promise<SafeElection[] | null> {
     }));
 
     return safeElections;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -120,7 +120,7 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
     }));
 
     return safeElections;
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
@@ -148,7 +148,7 @@ export async function getElectionById(
       createdAt: election.createdAt.toISOString(),
       updatedAt: election.updatedAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }

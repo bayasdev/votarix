@@ -34,7 +34,7 @@ export async function getCertificateById(
       voterName: certificate.user.name,
       voterDocument: certificate.user.document || '',
     };
-  } catch (error: any) {
+  } catch (error) {
     return null;
   }
 }
