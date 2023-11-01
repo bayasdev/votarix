@@ -25,12 +25,12 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
 }) => {
   const isFinished = React.useMemo(
     () => dayjs().isAfter(dayjs(data?.endTime)),
-    [data?.endTime],
+    [data],
   );
   const [autoRefresh, setAutoRefresh] = React.useState<boolean>(
     isFinished ? false : true,
   );
-  const refreshInterval = 180;
+  const refreshInterval = 60;
   const router = useRouter();
 
   const handleRefresh = React.useCallback(() => {
