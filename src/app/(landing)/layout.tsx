@@ -39,9 +39,9 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
             </nav>
           </div>
         </header>
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
       </ClientOnly>
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
     </div>
   );
 }
