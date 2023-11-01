@@ -16,9 +16,10 @@ const downloadCertificate = (id: string) => {
     .then((response) => {
       saveAs(response.data, `certificado_${id}.pdf`);
     })
-    .catch(() => {
+    .catch((error) => {
       toast({
         title: 'Ocurrió un error',
+        description: error?.response?.data,
       });
     });
 };

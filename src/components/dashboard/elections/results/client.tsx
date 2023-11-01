@@ -48,9 +48,10 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
       .then((response) => {
         saveAs(response.data, `acta_${data?.electionId}.pdf`);
       })
-      .catch(() => {
+      .catch((error) => {
         toast({
           title: 'Ocurrió un error',
+          description: error?.response?.data,
         });
       });
   };
