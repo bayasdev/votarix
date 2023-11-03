@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 import { getPositionsWithElection } from '@/lib/data/position';
 import PositionsClient from '@/components/dashboard/positions/client';
-import Heading from '@/components/heading';
+import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
-import EmptyState from '@/components/empty-state';
+import { Icons } from '@/components/shared/icons';
+import EmptyState from '@/components/shared/empty-state';
 
 const PositionsPage = async () => {
   const positions = await getPositionsWithElection();

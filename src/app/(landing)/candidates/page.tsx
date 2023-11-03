@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
-import Heading from '@/components/heading';
-import EmptyState from '@/components/empty-state';
+import Heading from '@/components/shared/heading';
+import EmptyState from '@/components/shared/empty-state';
 
 export const metadata: Metadata = {
   title: 'Candidatos',

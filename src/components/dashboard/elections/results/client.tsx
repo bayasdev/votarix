@@ -9,12 +9,12 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 
 import { ElectionResults } from '@/types';
-import Heading from '@/components/heading';
+import Heading from '@/components/shared/heading';
 import { Button } from '@/components/ui/button';
 
 import { toast } from '@/components/ui/use-toast';
 import ElectionResultsViewer from '@/components/results/viewer';
-import GoBack from '@/components/go-back';
+import GoBack from '@/components/shared/go-back';
 
 interface ElectionResultsClientProps {
   data: ElectionResults | null;

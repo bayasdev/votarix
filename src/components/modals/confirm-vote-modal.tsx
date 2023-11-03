@@ -2,7 +2,7 @@
 
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 
 interface ConfirmVoteModalProps {
   isOpen: boolean;

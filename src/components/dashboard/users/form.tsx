@@ -12,7 +12,7 @@ import { UserRequest, UserValidator } from '@/lib/validators/user';
 import { toast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 import {
   Select,
   SelectContent,

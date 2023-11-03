@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 import { getCandidatesWithParty } from '@/lib/data/candidate';
 import CandidatesClient from '@/components/dashboard/candidates/client';
-import Heading from '@/components/heading';
+import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
-import EmptyState from '@/components/empty-state';
+import { Icons } from '@/components/shared/icons';
+import EmptyState from '@/components/shared/empty-state';
 
 const CandidatesPage = async () => {
   const candidates = await getCandidatesWithParty();

@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
 import { getAvailableElectionsForCurrentUser } from '@/lib/data/election';
-import Heading from '@/components/heading';
+import Heading from '@/components/shared/heading';
 import ElectionCard from '@/components/landing/election-card';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/shared/empty-state';
 
 export const metadata: Metadata = {
   title: 'Elecciones',

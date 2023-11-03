@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getCertificateById } from '@/lib/data/certificates';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/shared/empty-state';
 
 interface ValidateCertificatePageProps {
   params: {

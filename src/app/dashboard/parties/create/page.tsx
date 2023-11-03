@@ -1,5 +1,5 @@
-import GoBack from '@/components/go-back';
-import Heading from '@/components/heading';
+import GoBack from '@/components/shared/go-back';
+import Heading from '@/components/shared/heading';
 import PartyForm from '@/components/dashboard/parties/form';
 
 const CreatePartyPage = () => {

@@ -10,7 +10,7 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 import { CandidatePhoto } from '@/components/landing/vote/candidate-photo';
 
 interface CandidateResultCardProps {

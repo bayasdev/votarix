@@ -1,6 +1,6 @@
-import { Icons } from '@/components/icons';
-import Heading from '@/components/heading';
-import GoBack from '@/components/go-back';
+import { Icons } from '@/components/shared/icons';
+import Heading from '@/components/shared/heading';
+import GoBack from '@/components/shared/go-back';
 
 interface EmptyStateProps {
   title?: string;

@@ -2,11 +2,11 @@ import { Suspense } from 'react';
 
 import { dashboardConfig } from '@/config/dashboard';
 import { getCurrentUser } from '@/lib/session';
-import { MainNav } from '@/components/main-nav';
+import { MainNav } from '@/components/layout/main-nav';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
-import { SiteFooter } from '@/components/site-footer';
-import { UserAccountNav } from '@/components/user-account-nav';
-import NavSkeleton from '@/components/nav-skeleton';
+import { SiteFooter } from '@/components/layout/site-footer';
+import { UserAccountNav } from '@/components/layout/user-account-nav';
+import NavSkeleton from '@/components/shared/nav-skeleton';
 import DashboardNavSkeleton from '@/components/dashboard/dashboard-nav-skeleton';
 import MobileMenuProvider from '@/providers/mobile-menu-provider';
 

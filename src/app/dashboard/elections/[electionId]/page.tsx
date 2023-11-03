@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
 import { getElectionById } from '@/lib/data/election';
-import GoBack from '@/components/go-back';
-import Heading from '@/components/heading';
+import GoBack from '@/components/shared/go-back';
+import Heading from '@/components/shared/heading';
 import ElectionForm from '@/components/dashboard/elections/form';
 
 interface UpdateElectionPageProps {

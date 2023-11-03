@@ -9,10 +9,10 @@ import { SafeUser } from '@/types';
 import { cn } from '@/lib/utils';
 import { Modal } from '@/components/ui/modal';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import AddVotersClient from '@/components/dashboard/elections/add-voters/client';
+import AddVotersClient from '@/components/dashboard/elections/voters/add-voters-modal/client';
 import { Label } from '@/components/ui/label';
 
 interface AddVotersModalProps {

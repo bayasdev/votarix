@@ -1,7 +1,7 @@
 import { AvatarProps } from '@radix-ui/react-avatar';
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 import { ElectionDataCandidate } from '@/types';
 
 interface CandidatePhotoProps extends AvatarProps {

@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 
 interface SignupFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

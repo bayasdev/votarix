@@ -2,11 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { getElectionById } from '@/lib/data/election';
 import { getElegibleVoters, getVotersByElectionId } from '@/lib/data/voters';
-import Heading from '@/components/heading';
-import EmptyState from '@/components/empty-state';
-import AddVoters from '@/components/dashboard/elections/voters/add-voters';
 import VotersClient from '@/components/dashboard/elections/voters/client';
-import GoBack from '@/components/go-back';
 
 interface ElectionVotersPageProps {
   params: {
@@ -22,23 +18,11 @@ const ElectionVotersPage = async ({ params }: ElectionVotersPageProps) => {
   if (!election) return notFound();
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <Heading
-          title="Padrón electoral"
-          subtitle={`Administre los votantes de ${election.name}`}
-        />
-        <div className="flex flex-wrap gap-4 lg:flex-col lg:items-end">
-          <GoBack />
-          <AddVoters electionId={election.id} elegibleVoters={elegibleVoters} />
-        </div>
-      </div>
-      {voters && voters.length > 0 ? (
-        <VotersClient electionId={election.id} voters={voters} />
-      ) : (
-        <EmptyState />
-      )}
-    </div>
+    <VotersClient
+      election={election}
+      voters={voters}
+      elegibleVoters={elegibleVoters}
+    />
   );
 };
 

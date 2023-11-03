@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import CellActions from '@/components/dashboard/candidates/cell-actions';
-import { UserAvatar } from '@/components/user-avatar';
+import { UserAvatar } from '@/components/shared/user-avatar';
 
 export const columns: ColumnDef<SafeCandidateWithParty>[] = [
   {

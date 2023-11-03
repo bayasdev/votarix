@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
 import ElectionResultsViewer from '@/components/results/viewer';
-import EmptyState from '@/components/empty-state';
-import LoadingSkeleton from '@/components/loading-skeleton';
+import EmptyState from '@/components/shared/empty-state';
+import LoadingSkeleton from '@/components/shared/loading-skeleton';
 
 interface ResultsClientProps {
   elections: SafeElection[] | null;

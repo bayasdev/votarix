@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import { getElectionDataById } from '@/lib/data/election';
 import VoteForm from '@/components/landing/vote/form';
 import { getCanUserVote } from '@/lib/data/voters';
-import EmptyState from '@/components/empty-state';
-import Heading from '@/components/heading';
+import EmptyState from '@/components/shared/empty-state';
+import Heading from '@/components/shared/heading';
 
 interface VotePageProps {
   params: {

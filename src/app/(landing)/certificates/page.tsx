@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 import { getVoterCertificates } from '@/lib/data/voters';
-import EmptyState from '@/components/empty-state';
-import Heading from '@/components/heading';
+import EmptyState from '@/components/shared/empty-state';
+import Heading from '@/components/shared/heading';
 import CertificatesClient from '@/components/landing/certificates/client';
 
 export const metadata: Metadata = {

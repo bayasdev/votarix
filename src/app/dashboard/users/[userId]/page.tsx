@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
 import { getUserById } from '@/lib/data/user';
-import GoBack from '@/components/go-back';
-import Heading from '@/components/heading';
+import GoBack from '@/components/shared/go-back';
+import Heading from '@/components/shared/heading';
 import UserForm from '@/components/dashboard/users/form';
 
 interface UpdateUserPageProps {

@@ -2,10 +2,10 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Icons } from '@/components/shared/icons';
 import { SignupForm } from '@/components/auth/signup-form';
 import { siteConfig } from '@/config/site';
-import Heading from '@/components/heading';
+import Heading from '@/components/shared/heading';
 
 export const metadata = {
   title: 'Crear cuenta',

@@ -1,4 +1,4 @@
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/shared/empty-state';
 
 const NotFoundPage = () => {
   return (

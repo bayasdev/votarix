@@ -8,8 +8,8 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
-import { Icons } from '@/components/icons';
-import { MobileNav } from '@/components/mobile-nav';
+import { Icons } from '@/components/shared/icons';
+import { MobileNav } from '@/components/layout/mobile-nav';
 import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface MainNavProps {

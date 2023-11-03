@@ -1,6 +1,6 @@
 import { getElectionResultsById } from '@/lib/data/election';
 import ElectionResultsClient from '@/components/dashboard/elections/results/client';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/shared/empty-state';
 
 interface ElectionResultsPageProps {
   params: {
