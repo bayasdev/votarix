@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { ElectionResults, SafeElection } from '@/types';
-import { IParams as ActionParams } from '@/actions/election';
+import { IParams as ActionParams } from '@/lib/data/election';
 import {
   Select,
   SelectContent,

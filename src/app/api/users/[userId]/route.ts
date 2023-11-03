@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import { z } from 'zod';
 
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { UserValidator } from '@/lib/validators/user';
 
 interface IParams {

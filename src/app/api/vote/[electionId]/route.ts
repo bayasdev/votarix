@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { VoteValidator } from '@/lib/validators/vote';
 
 interface IParams {

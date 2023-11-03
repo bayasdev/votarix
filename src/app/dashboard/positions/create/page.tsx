@@ -1,4 +1,4 @@
-import { getElections } from '@/actions/election';
+import { getElections } from '@/lib/data/election';
 import GoBack from '@/components/go-back';
 import Heading from '@/components/heading';
 import PositionForm from '@/components/dashboard/positions/form';

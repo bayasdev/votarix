@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 
 import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
 import { getCurrentUser } from '@/lib/session';

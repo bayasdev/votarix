@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { VotersDisconnectValidator } from '@/lib/validators/voters-disconnect';
 
 interface IParams {

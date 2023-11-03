@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getPositionsWithElection } from '@/actions/position';
+import { getPositionsWithElection } from '@/lib/data/position';
 import PositionsClient from '@/components/dashboard/positions/client';
 import Heading from '@/components/heading';
 import { cn } from '@/lib/utils';

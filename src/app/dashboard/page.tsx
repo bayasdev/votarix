@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { getDashboardData } from '@/actions/dashboard';
+import { getDashboardData } from '@/lib/data/dashboard';
 import Heading from '@/components/heading';
 import DashboardClient from '@/components/dashboard/home/client';
 import { siteConfig } from '@/config/site';

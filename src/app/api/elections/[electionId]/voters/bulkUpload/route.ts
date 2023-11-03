@@ -3,7 +3,7 @@ import { parse } from 'papaparse';
 import { hashSync } from 'bcrypt';
 
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 
 interface IParams {
   params: {

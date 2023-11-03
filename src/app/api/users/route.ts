@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { hash } from 'bcrypt';
 
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { UserValidator } from '@/lib/validators/user';
 
 export async function POST(request: Request) {

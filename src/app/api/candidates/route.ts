@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { getCurrentUser } from '@/lib/session';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { CandidateValidator } from '@/lib/validators/candidate';
 
 export async function POST(request: Request) {

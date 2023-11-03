@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getPositionById } from '@/actions/position';
-import { getElections } from '@/actions/election';
+import { getPositionById } from '@/lib/data/position';
+import { getElections } from '@/lib/data/election';
 import GoBack from '@/components/go-back';
 import Heading from '@/components/heading';
 import PositionForm from '@/components/dashboard/positions/form';

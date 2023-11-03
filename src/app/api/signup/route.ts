@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt';
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { SignupValidator } from '@/lib/validators/auth';
 import { siteConfig } from '@/config/site';
 
