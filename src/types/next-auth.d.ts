@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
-import 'next-auth';
 
-import { Role } from '@prisma/client';
 import { DefaultSession, DefaultUser } from 'next-auth';
 import { DefaultJWT } from 'next-auth/jwt';
+import { Role } from '@prisma/client';
 
 declare module 'next-auth' {
   interface User extends DefaultUser {
