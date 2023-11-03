@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { User } from 'next-auth';
 import Link from 'next/link';
 
 import { MainNavItem } from '@/types';
@@ -9,11 +10,12 @@ import { Icons } from '@/components/icons';
 import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface MobileNavProps {
+  currentUser?: User | undefined;
   items: MainNavItem[];
   children?: React.ReactNode;
 }
 
-export function MobileNav({ items, children }: MobileNavProps) {
+export function MobileNav({ currentUser, items, children }: MobileNavProps) {
   useLockBody();
   const { setShowMobileMenu } = useMobileMenu();
 
@@ -41,6 +43,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
               className={cn(
                 'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
                 item.disabled && 'cursor-not-allowed opacity-60',
+                item?.role && item.role !== currentUser?.role && 'hidden',
               )}
             >
               {item.title}
