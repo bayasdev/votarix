@@ -7,6 +7,13 @@ import prisma from '@/lib/prisma';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt',
+  },
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -38,7 +45,10 @@ export const authOptions: AuthOptions = {
           throw new Error('Credenciales incorrectas');
         }
 
-        return user;
+        return {
+          ...user,
+          document: user.document as string,
+        };
       },
     }),
   ],
@@ -46,23 +56,26 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.name = user.name;
+        token.document = user.document;
+        token.email = user.email;
         token.role = user.role;
       }
+
       return token;
     },
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.role = token.role;
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.document = token.document;
+        session.user.email = token.email;
+        session.user.role = token.role;
+      }
+
       return session;
     },
   },
-  pages: {
-    signIn: '/login',
-    error: '/login',
-  },
   debug: process.env.NODE_ENV === 'development',
-  session: {
-    strategy: 'jwt',
-  },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 
-import getCurrentUser from '@/actions/getCurrentUser';
+import { getCurrentUser } from '@/lib/session';
 import { landingConfig } from '@/config/landing';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';

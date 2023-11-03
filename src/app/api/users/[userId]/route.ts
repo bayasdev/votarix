@@ -1,7 +1,7 @@
 import { Role } from '@prisma/client';
 import { z } from 'zod';
 
-import getCurrentUser from '@/actions/getCurrentUser';
+import { getCurrentUser } from '@/lib/session';
 import prisma from '@/lib/prisma';
 import { UserValidator } from '@/lib/validators/user';
 

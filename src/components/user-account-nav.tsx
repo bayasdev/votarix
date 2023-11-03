@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { SafeUser } from '@/types';
+import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 
 import {
@@ -15,7 +15,7 @@ import { UserAvatar } from '@/components/user-avatar';
 import { Badge } from '@/components/ui/badge';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  currentUser: SafeUser | null;
+  currentUser: User | undefined;
 }
 
 export function UserAccountNav({ currentUser }: UserAccountNavProps) {

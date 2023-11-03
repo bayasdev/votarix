@@ -1,10 +1,11 @@
 'use client';
 
 import * as React from 'react';
+import { User } from 'next-auth';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
-import { MainNavItem, SafeUser } from '@/types';
+import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
@@ -12,7 +13,7 @@ import { MobileNav } from '@/components/mobile-nav';
 import { useMobileMenu } from '@/hooks/use-mobile-menu';
 
 interface MainNavProps {
-  currentUser?: SafeUser | null;
+  currentUser?: User | undefined;
   items?: MainNavItem[];
   children?: React.ReactNode;
 }

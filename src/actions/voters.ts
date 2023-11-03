@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 
 import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
-import getCurrentUser from '@/actions/getCurrentUser';
+import { getCurrentUser } from '@/lib/session';
 
 interface IParams {
   electionId?: string;
@@ -159,7 +159,7 @@ export async function getVoterCertificates(): Promise<
     return certificates.map((item) => ({
       id: item.id,
       electionName: item.election.name,
-      voterName: currentUser.name,
+      voterName: currentUser.name || '',
       voterDocument: currentUser.document || '',
     }));
   } catch (error) {

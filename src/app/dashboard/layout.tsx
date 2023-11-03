@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { dashboardConfig } from '@/config/dashboard';
-import getCurrentUser from '@/actions/getCurrentUser';
+import { getCurrentUser } from '@/lib/session';
 import { MainNav } from '@/components/main-nav';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
 import { SiteFooter } from '@/components/site-footer';
