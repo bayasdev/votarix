@@ -14,3 +14,12 @@ export const UserValidator = z.object({
 });
 
 export type UserRequest = z.infer<typeof UserValidator>;
+
+export const UserPasswordValidator = z.object({
+  password: z
+    .string()
+    .min(1, 'Ingrese una contraseña')
+    .min(8, 'La contraseña debe contener al menos 8 caracteres'),
+});
+
+export type UserPasswordRequest = z.infer<typeof UserPasswordValidator>;

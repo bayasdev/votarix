@@ -2,7 +2,13 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { CopyIcon, MoreHorizontal, PencilIcon, Trash2Icon } from 'lucide-react';
+import {
+  CopyIcon,
+  KeyRoundIcon,
+  MoreHorizontal,
+  PencilIcon,
+  Trash2Icon,
+} from 'lucide-react';
 import axios from 'axios';
 
 import { SafeUser } from '@/types';
@@ -36,6 +42,10 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
 
   const handleUpdate = () => {
     router.push(`/dashboard/users/${data.id}`);
+  };
+
+  const handleChangePassword = () => {
+    router.push(`/dashboard/users/${data.id}/password`);
   };
 
   const handleDelete = () => {
@@ -85,6 +95,10 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => handleUpdate()}>
             <PencilIcon className="mr-2 h-4 w-4" />
             Editar
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleChangePassword()}>
+            <KeyRoundIcon className="mr-2 h-4 w-4" />
+            Cambiar contraseña
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
