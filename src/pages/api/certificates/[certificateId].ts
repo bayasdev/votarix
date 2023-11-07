@@ -69,6 +69,8 @@ export default async function handler(
     } sufragó en el proceso electoral denominado "${
       certificate.election.name
     }" el día ${dayjs(certificate.createdAt)
+      .utc()
+      .tz('America/Guayaquil')
       .locale('es')
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}.`;
 
