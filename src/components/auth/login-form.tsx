@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { Icons } from '@/components/shared/icons';
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,6 +31,8 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
       password: '',
     },
   });
+
+  const [isLoading, setIsLoading] = React.useState(false);
   const searchParams = useSearchParams();
 
   React.useMemo(() => {
@@ -43,11 +46,15 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     }
   }, [searchParams]);
 
-  const onSubmit: SubmitHandler<LoginRequest> = (data) => {
-    signIn('credentials', {
+  const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
+    setIsLoading(true);
+
+    await signIn('credentials', {
       ...data,
       callbackUrl: searchParams?.get('from') || '/dashboard',
     });
+
+    setIsLoading(false);
   };
 
   return (
@@ -91,7 +98,12 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Iniciar Sesión</Button>
+            <Button type="submit">
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Iniciar Sesión
+            </Button>
           </div>
         </form>
       </Form>
