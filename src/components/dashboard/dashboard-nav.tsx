@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { SidebarNavItem } from '@/types';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import { useMobileMenu } from '@/hooks/use-mobile-menu';
+import { useMobileMenuStore } from '@/hooks/use-mobile-menu-store';
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -14,7 +14,7 @@ interface DashboardNavProps {
 
 export function DashboardNav({ items }: DashboardNavProps) {
   const path = usePathname();
-  const { setShowMobileMenu } = useMobileMenu();
+  const { toggleMobileMenu } = useMobileMenuStore();
 
   if (!items?.length) {
     return null;
@@ -28,7 +28,7 @@ export function DashboardNav({ items }: DashboardNavProps) {
           item.href && (
             <Link
               key={index}
-              onClick={() => setShowMobileMenu(false)}
+              onClick={toggleMobileMenu}
               href={item.disabled ? '/' : item.href}
             >
               <span

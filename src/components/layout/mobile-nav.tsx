@@ -7,7 +7,7 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLockBody } from '@/hooks/use-lock-body';
 import { Icons } from '@/components/shared/icons';
-import { useMobileMenu } from '@/hooks/use-mobile-menu';
+import { useMobileMenuStore } from '@/hooks/use-mobile-menu-store';
 
 interface MobileNavProps {
   currentUser?: User | undefined;
@@ -17,7 +17,7 @@ interface MobileNavProps {
 
 export function MobileNav({ currentUser, items, children }: MobileNavProps) {
   useLockBody();
-  const { setShowMobileMenu } = useMobileMenu();
+  const { toggleMobileMenu } = useMobileMenuStore();
 
   return (
     <div
@@ -27,7 +27,7 @@ export function MobileNav({ currentUser, items, children }: MobileNavProps) {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
         <Link
-          onClick={() => setShowMobileMenu(false)}
+          onClick={toggleMobileMenu}
           href="/"
           className="flex items-center space-x-2"
         >
@@ -38,7 +38,7 @@ export function MobileNav({ currentUser, items, children }: MobileNavProps) {
           {items.map((item, index) => (
             <Link
               key={index}
-              onClick={() => setShowMobileMenu(false)}
+              onClick={toggleMobileMenu}
               href={item.disabled ? '#' : item.href}
               className={cn(
                 'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
