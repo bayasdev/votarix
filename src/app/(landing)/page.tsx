@@ -84,7 +84,7 @@ const LandingPage = () => {
             {siteConfig.name}.
           </p>
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="reglamento">
+            <AccordionItem value="elections-regulation">
               <AccordionTrigger>
                 Reglamento de elecciones de representantes ante el órgano de
                 Cogobierno UNIB.E
@@ -98,6 +98,18 @@ const LandingPage = () => {
                 >
                   <FileDownIcon className="mr-2 h-4 w-4" />
                   Descargar PDF
+                </Link>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="privacy-policy">
+              <AccordionTrigger>Política de privacidad</AccordionTrigger>
+              <AccordionContent>
+                <Link
+                  href="/privacy"
+                  className={cn(buttonVariants({ variant: 'outline' }))}
+                >
+                  <ArrowRightCircleIcon className="mr-2 h-4 w-4" />
+                  Leer política de privacidad
                 </Link>
               </AccordionContent>
             </AccordionItem>
