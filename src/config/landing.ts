@@ -21,6 +21,10 @@ export const landingConfig: LandingConfig = {
       role: 'VOTER',
     },
     {
+      title: 'Política de privacidad',
+      href: '/privacy',
+    },
+    {
       title: siteConfig.organizationAbbreviation,
       href: siteConfig.organizationUrl,
     },

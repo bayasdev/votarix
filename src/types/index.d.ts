@@ -57,6 +57,8 @@ export type SiteConfig = {
   organizationName: string;
   organizationAbbreviation: string;
   organizationUrl: string;
+  organizationAddress: string;
+  organizationEmail: string;
   links: {
     twitter: string;
     github: string;

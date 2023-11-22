@@ -8,7 +8,9 @@ export const siteConfig: SiteConfig = {
   ogImage: 'https://tx.shadcn.com/og.jpg',
   organizationName: 'Universidad Iberoamericana del Ecuador',
   organizationAbbreviation: 'UNIB.E',
-  organizationUrl: 'https://www.unibe.edu.ec',
+  organizationUrl: 'https://unibe.edu.ec',
+  organizationAddress: 'José Queri y Av. Eloy Alfaro, Quito, Ecuador',
+  organizationEmail: 'info@unibe.edu.ec',
   links: {
     twitter: 'https://twitter.com/victorbayas',
     github: 'https://github.com/bayasdev/votarix',
