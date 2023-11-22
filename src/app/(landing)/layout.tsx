@@ -27,21 +27,19 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
         >
           <div className="flex h-20 items-center justify-between py-6">
             <MainNav currentUser={currentUser} items={landingConfig.mainNav} />
-            <nav>
-              {!currentUser ? (
-                <Link
-                  href="/login"
-                  className={cn(
-                    buttonVariants({ variant: 'secondary', size: 'sm' }),
-                    'px-4',
-                  )}
-                >
-                  Iniciar sesión
-                </Link>
-              ) : (
-                <UserAccountNav currentUser={currentUser} />
-              )}
-            </nav>
+            {!currentUser ? (
+              <Link
+                href="/login"
+                className={cn(
+                  buttonVariants({ variant: 'secondary', size: 'sm' }),
+                  'px-4',
+                )}
+              >
+                Iniciar sesión
+              </Link>
+            ) : (
+              <UserAccountNav currentUser={currentUser} />
+            )}
           </div>
         </Suspense>
       </header>
