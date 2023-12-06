@@ -96,7 +96,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: JSON.stringify(error?.response?.data),
+            description: JSON.stringify(JSON.stringify(error?.response?.data)),
             variant: 'destructive',
           });
         })
@@ -116,7 +116,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: JSON.stringify(error?.response?.data),
+            description: JSON.stringify(JSON.stringify(error?.response?.data)),
             variant: 'destructive',
           });
         })

@@ -63,7 +63,7 @@ const PositionForm: React.FC<PositionFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: error?.response?.data,
+            description: JSON.stringify(error?.response?.data),
             variant: 'destructive',
           });
         })
@@ -83,7 +83,7 @@ const PositionForm: React.FC<PositionFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: error?.response?.data,
+            description: JSON.stringify(error?.response?.data),
             variant: 'destructive',
           });
         })

@@ -50,7 +50,7 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
       .catch((error) => {
         toast({
           title: 'Ocurrió un error',
-          description: error?.response?.data,
+          description: JSON.stringify(error?.response?.data),
         });
       })
       .finally(() => {

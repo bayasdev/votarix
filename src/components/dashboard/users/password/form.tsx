@@ -66,7 +66,7 @@ const UserPasswordForm: React.FC<UserPasswordFormProps> = ({
       .catch((error) => {
         toast({
           title: 'Ocurrió un error',
-          description: error?.response?.data,
+          description: JSON.stringify(error?.response?.data),
           variant: 'destructive',
         });
       })
