@@ -6,7 +6,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 
-import { SafeCandidate, SafeParty, SafePosition } from '@/types';
+import {
+  CandidateProposal,
+  SafeCandidate,
+  SafeParty,
+  SafePosition,
+} from '@/types';
 import {
   CandidateRequest,
   CandidateValidator,
@@ -32,6 +37,8 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadDropzone } from '@/lib/uploadthing';
+import { useProposalsStore } from '@/hooks/use-proposals-store';
+import { Label } from '@/components/ui/label';
 
 interface CandidateFormProps {
   initialData?: SafeCandidate | null;
@@ -46,6 +53,12 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [newProposal, setNewProposal] = useState<CandidateProposal>({
+    name: '',
+    description: '',
+  });
+  const { proposals, addProposal, updateProposal, removeProposal } =
+    useProposalsStore();
 
   const form = useForm<CandidateRequest>({
     resolver: zodResolver(CandidateValidator),
@@ -53,9 +66,10 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
       name: initialData?.name || '',
       email: initialData?.email || '',
       document: initialData?.document || '',
-      proposals: initialData?.proposals || '',
       partyId: initialData?.partyId || '',
       positionId: initialData?.positionId || '',
+      alternateCandidateName: initialData?.alternateCandidateName || '',
+      proposals: JSON.parse(initialData?.proposals || '[]'),
       image: {
         key: initialData?.imageKey || '',
         url: initialData?.imageUrl || '',
@@ -65,6 +79,10 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
 
   const onSubmit: SubmitHandler<CandidateRequest> = (data) => {
     setIsLoading(true);
+
+    // Set proposals from store
+    data.proposals = proposals;
+
     if (initialData) {
       axios
         .put(`/api/candidates/${initialData?.id}`, data)
@@ -78,7 +96,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: error?.response?.data,
+            description: JSON.stringify(error?.response?.data),
             variant: 'destructive',
           });
         })
@@ -98,7 +116,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
         .catch((error) => {
           toast({
             title: 'Ocurrió un error',
-            description: error?.response?.data,
+            description: JSON.stringify(error?.response?.data),
             variant: 'destructive',
           });
         })
@@ -147,23 +165,42 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Correo electrónico</FormLabel>
-              <FormControl>
-                <Input
-                  disabled={isLoading}
-                  placeholder="juan.perez@gmail.com"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid gap-6 md:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Correo electrónico</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    placeholder="juan.perez@gmail.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="alternateCandidateName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre del alterno</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    placeholder="Alberto Flores"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
@@ -230,24 +267,84 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="proposals"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Propuestas</FormLabel>
-              <FormControl>
-                <Textarea
-                  disabled={isLoading}
-                  placeholder="Propuestas del candidato"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Label className="inline-flex">Propuestas del candidato</Label>
+        {proposals?.map((proposal, index) => (
+          <div key={index} className="grid gap-6 md:grid-cols-3">
+            <Input
+              disabled={isLoading}
+              placeholder="Nombre de la propuesta"
+              className="w-full"
+              value={proposal.name}
+              onChange={(e) => {
+                updateProposal(index, {
+                  ...proposal,
+                  name: e.target.value,
+                });
+              }}
+            />
+            <Textarea
+              disabled={isLoading}
+              placeholder="Descripción de la propuesta"
+              className="w-full"
+              value={proposal.description}
+              onChange={(e) => {
+                updateProposal(index, {
+                  ...proposal,
+                  description: e.target.value,
+                });
+              }}
+            />
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => {
+                removeProposal(index);
+              }}
+            >
+              <Icons.trash className="mr-2 h-4 w-4" />
+              Eliminar
+            </Button>
+          </div>
+        ))}
+        <div className="grid gap-6 md:grid-cols-3">
+          <Input
+            disabled={isLoading}
+            placeholder="Nombre de la propuesta"
+            className="w-full"
+            value={newProposal.name}
+            onChange={(e) => {
+              setNewProposal({
+                ...newProposal,
+                name: e.target.value,
+              });
+            }}
+          />
+          <Textarea
+            disabled={isLoading}
+            placeholder="Descripción de la propuesta"
+            className="w-full"
+            value={newProposal.description}
+            onChange={(e) => {
+              setNewProposal({
+                ...newProposal,
+                description: e.target.value,
+              });
+            }}
+          />
+          <Button
+            type="button"
+            onClick={() => {
+              addProposal(newProposal);
+              setNewProposal({
+                name: '',
+                description: '',
+              });
+            }}
+          >
+            <Icons.add className="mr-2 h-4 w-4" />
+            Agregar
+          </Button>
+        </div>
         <FormField
           control={form.control}
           name="image"

@@ -90,7 +90,24 @@ async function main() {
       name: 'Juan Pérez',
       document: '1799999999',
       email: 'jperez@ejemplo.com',
-      proposals: 'Generaré 10000 nuevos empleos en el área de STEM',
+      alternateCandidateName: 'Eduardo Andrade',
+      proposals: [
+        {
+          name: 'Propuesta 1',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 2',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 3',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+      ],
       partyId: party1.id,
       positionId: position1.id,
     },
@@ -101,7 +118,24 @@ async function main() {
       name: 'María González',
       document: '1799999998',
       email: 'mgonzales@bayas.dev',
-      proposals: 'Mejoraré el transporte público',
+      alternateCandidateName: 'Damián Chiriboga',
+      proposals: [
+        {
+          name: 'Propuesta 1',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 2',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 3',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+      ],
       partyId: party2.id,
       positionId: position1.id,
     },

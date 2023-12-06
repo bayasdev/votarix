@@ -17,6 +17,7 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
+      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -42,6 +43,7 @@ export async function getCandidatesWithParty(): Promise<
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
+      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
       party: {
@@ -75,6 +77,7 @@ export async function getCandidateById(
 
     return {
       ...candidate,
+      proposals: JSON.stringify(candidate.proposals),
       createdAt: candidate.createdAt.toISOString(),
       updatedAt: candidate.updatedAt.toISOString(),
     };
@@ -101,6 +104,7 @@ export async function getCandidatesByPartyId(params: {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
+      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -132,6 +136,7 @@ export async function getCandidatesByPositionId(params: {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
+      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
       party: {

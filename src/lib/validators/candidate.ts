@@ -17,7 +17,13 @@ export const CandidateValidator = z.object({
     .or(z.literal('')),
   partyId: z.string().min(1, 'El campo es requerido'),
   positionId: z.string().min(1, 'El campo es requerido'),
-  proposals: z.string().optional(),
+  alternateCandidateName: z.string().min(1, 'El campo es requerido'),
+  proposals: z.array(
+    z.object({
+      name: z.string().min(1, 'El campo es requerido').optional(),
+      description: z.string().min(1, 'El campo es requerido').optional(),
+    }),
+  ),
   image: z.object({
     key: z.string().optional(),
     url: z.string().optional(),

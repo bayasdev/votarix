@@ -95,7 +95,9 @@ export type SafeUserWithHasVoted = SafeUser & {
 
 export type SafeParty = Safe<Party>;
 
-export type SafeCandidate = Safe<Candidate>;
+export type SafeCandidate = Omit<Safe<Candidate>, 'proposals'> & {
+  proposals?: string;
+};
 
 export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
   party?: SafeParty;
@@ -114,6 +116,11 @@ export type SafePosition = Safe<Position>;
 
 export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
   election?: SafeElection;
+};
+
+export type CandidateProposal = {
+  name?: string;
+  description?: string;
 };
 
 export type CertificateResponse = {
