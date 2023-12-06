@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 
@@ -37,7 +37,6 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadDropzone } from '@/lib/uploadthing';
-import { useProposalsStore } from '@/hooks/use-proposals-store';
 import { Label } from '@/components/ui/label';
 
 interface CandidateFormProps {
@@ -57,8 +56,6 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
     name: '',
     description: '',
   });
-  const { proposals, addProposal, updateProposal, removeProposal } =
-    useProposalsStore();
 
   const form = useForm<CandidateRequest>({
     resolver: zodResolver(CandidateValidator),
@@ -77,11 +74,14 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
     },
   });
 
+  // The useFieldArray hook from react-hook-form manages the dynamic fields for the proposals array
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'proposals',
+  });
+
   const onSubmit: SubmitHandler<CandidateRequest> = (data) => {
     setIsLoading(true);
-
-    // Set proposals from store
-    data.proposals = proposals;
 
     if (initialData) {
       axios
@@ -268,37 +268,50 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           />
         </div>
         <Label className="inline-flex">Propuestas del candidato</Label>
-        {proposals?.map((proposal, index) => (
-          <div key={index} className="grid gap-6 md:grid-cols-3">
-            <Input
-              disabled={isLoading}
-              placeholder="Nombre de la propuesta"
-              className="w-full"
-              value={proposal.name}
-              onChange={(e) => {
-                updateProposal(index, {
-                  ...proposal,
-                  name: e.target.value,
-                });
-              }}
+        {/* Existing proposals from initialData */}
+        {fields?.map((proposal, index) => (
+          <div key={proposal.id} className="grid gap-6 lg:grid-cols-6">
+            <FormField
+              control={form.control}
+              name={`proposals.${index}.name`}
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Nombre de la propuesta</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Nombre de la propuesta"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <Textarea
-              disabled={isLoading}
-              placeholder="Descripción de la propuesta"
-              className="w-full"
-              value={proposal.description}
-              onChange={(e) => {
-                updateProposal(index, {
-                  ...proposal,
-                  description: e.target.value,
-                });
-              }}
+            <FormField
+              control={form.control}
+              name={`proposals.${index}.description`}
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Descripción de la propuesta</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      disabled={isLoading}
+                      placeholder="Descripción de la propuesta"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <Button
               type="button"
               variant="destructive"
+              className="self-center"
               onClick={() => {
-                removeProposal(index);
+                remove(index);
               }}
             >
               <Icons.trash className="mr-2 h-4 w-4" />
@@ -306,11 +319,13 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             </Button>
           </div>
         ))}
-        <div className="grid gap-6 md:grid-cols-3">
+        {/* New proposal inputs */}
+        <Label className="inline-flex">Agregar propuesta</Label>
+        <div className="grid gap-6 md:grid-cols-6">
           <Input
             disabled={isLoading}
             placeholder="Nombre de la propuesta"
-            className="w-full"
+            className="col-span-2"
             value={newProposal.name}
             onChange={(e) => {
               setNewProposal({
@@ -322,7 +337,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           <Textarea
             disabled={isLoading}
             placeholder="Descripción de la propuesta"
-            className="w-full"
+            className="col-span-3 resize-none"
             value={newProposal.description}
             onChange={(e) => {
               setNewProposal({
@@ -333,8 +348,9 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           />
           <Button
             type="button"
+            className="self-center"
             onClick={() => {
-              addProposal(newProposal);
+              append(newProposal);
               setNewProposal({
                 name: '',
                 description: '',
