@@ -100,7 +100,7 @@ export async function getVotersByElectionId(
       where: {
         role: 'VOTER',
         elections: {
-          some: {
+          every: {
             id: electionId,
           },
         },
