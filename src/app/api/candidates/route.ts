@@ -16,8 +16,16 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name, email, document, image, proposals, partyId, positionId } =
-      CandidateValidator.parse(body);
+    const {
+      name,
+      email,
+      document,
+      image,
+      alternateCandidateName,
+      proposals,
+      partyId,
+      positionId,
+    } = CandidateValidator.parse(body);
 
     const candidate = await prisma.candidate.create({
       data: {
@@ -26,6 +34,7 @@ export async function POST(request: Request) {
         document,
         imageUrl: image.url,
         imageKey: image.key,
+        alternateCandidateName,
         proposals,
         partyId,
         positionId,
