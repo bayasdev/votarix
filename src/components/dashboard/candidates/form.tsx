@@ -267,99 +267,111 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             )}
           />
         </div>
-        <Label className="inline-flex">Propuestas del candidato</Label>
         {/* Existing proposals from initialData */}
-        {fields?.map((proposal, index) => (
-          <div key={proposal.id} className="grid gap-6 lg:grid-cols-6">
-            <FormField
-              control={form.control}
-              name={`proposals.${index}.name`}
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Nombre de la propuesta</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="Nombre de la propuesta"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+        {fields?.length > 0 && (
+          <>
+            <Label className="inline-flex">Propuestas del candidato</Label>
+            {fields?.map((proposal, index) => (
+              <div key={proposal.id} className="grid gap-6 lg:grid-cols-8">
+                <FormField
+                  control={form.control}
+                  name={`proposals.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem className="col-span-full lg:col-span-3">
+                      <FormLabel>Nombre de la propuesta</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          placeholder="Nombre de la propuesta"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`proposals.${index}.description`}
+                  render={({ field }) => (
+                    <FormItem className="col-span-full lg:col-span-4">
+                      <FormLabel>Descripción de la propuesta</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={isLoading}
+                          placeholder="Descripción de la propuesta"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  className="self-center"
+                  onClick={() => {
+                    remove(index);
+                  }}
+                >
+                  <Icons.trash className="mr-2 h-4 w-4" />
+                  Eliminar
+                </Button>
+              </div>
+            ))}
+          </>
+        )}
+        {/* New proposal inputs */}
+        <Label className="inline-flex">Crear nueva propuesta</Label>
+        <div className="grid gap-6 md:grid-cols-8">
+          <div className="col-span-full space-y-2 lg:col-span-3">
+            <Label>Nombre de la propuesta</Label>
+            <Input
+              disabled={isLoading}
+              placeholder="Nombre de la propuesta"
+              className=""
+              value={newProposal.name}
+              onChange={(e) => {
+                setNewProposal({
+                  ...newProposal,
+                  name: e.target.value,
+                });
+              }}
             />
-            <FormField
-              control={form.control}
-              name={`proposals.${index}.description`}
-              render={({ field }) => (
-                <FormItem className="col-span-3">
-                  <FormLabel>Descripción de la propuesta</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      disabled={isLoading}
-                      placeholder="Descripción de la propuesta"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="col-span-full space-y-2 lg:col-span-4">
+            <Label>Descripción de la propuesta</Label>
+            <Textarea
+              disabled={isLoading}
+              placeholder="Descripción de la propuesta"
+              className="resize-none"
+              value={newProposal.description}
+              onChange={(e) => {
+                setNewProposal({
+                  ...newProposal,
+                  description: e.target.value,
+                });
+              }}
             />
+          </div>
+          <div className="col-span-full self-center lg:col-span-1">
             <Button
               type="button"
-              variant="destructive"
-              className="self-center"
+              className="w-full"
               onClick={() => {
-                remove(index);
+                append(newProposal);
+                setNewProposal({
+                  name: '',
+                  description: '',
+                });
               }}
             >
-              <Icons.trash className="mr-2 h-4 w-4" />
-              Eliminar
+              <Icons.add className="mr-2 h-4 w-4" />
+              Agregar
             </Button>
           </div>
-        ))}
-        {/* New proposal inputs */}
-        <Label className="inline-flex">Agregar propuesta</Label>
-        <div className="grid gap-6 md:grid-cols-6">
-          <Input
-            disabled={isLoading}
-            placeholder="Nombre de la propuesta"
-            className="col-span-2"
-            value={newProposal.name}
-            onChange={(e) => {
-              setNewProposal({
-                ...newProposal,
-                name: e.target.value,
-              });
-            }}
-          />
-          <Textarea
-            disabled={isLoading}
-            placeholder="Descripción de la propuesta"
-            className="col-span-3 resize-none"
-            value={newProposal.description}
-            onChange={(e) => {
-              setNewProposal({
-                ...newProposal,
-                description: e.target.value,
-              });
-            }}
-          />
-          <Button
-            type="button"
-            className="self-center"
-            onClick={() => {
-              append(newProposal);
-              setNewProposal({
-                name: '',
-                description: '',
-              });
-            }}
-          >
-            <Icons.add className="mr-2 h-4 w-4" />
-            Agregar
-          </Button>
         </div>
         <FormField
           control={form.control}
