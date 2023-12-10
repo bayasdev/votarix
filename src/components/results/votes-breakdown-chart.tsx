@@ -10,7 +10,6 @@ import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-import { ElectionResults } from '@/types';
 
 interface VotesBreakdownChartProps {
   validVotes: number;
