@@ -235,7 +235,7 @@ export async function getElectionResultsById(
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
-        endTime: showOnlyCompleted ? { lt: new Date() } : undefined,
+        endTime: showOnlyCompleted ? { lte: new Date() } : undefined,
       },
       include: {
         _count: {
