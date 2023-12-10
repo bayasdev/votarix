@@ -115,7 +115,7 @@ export default async function handler(
       'VOTOS BLANCOS',
       'SUFRAGANTES',
       'AUSENTES',
-      'EMPADRONADOS',
+      'INSCRITOS',
     ];
 
     const tableRows = positions.map((position) => {
