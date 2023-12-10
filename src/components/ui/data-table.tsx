@@ -33,9 +33,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[] | null;
   searchKey?: string;
   showViewOptions?: boolean;
-  rowSelection?: {};
+  selectedRows?: {};
   // eslint-disable-next-line no-unused-vars
-  setRowSelection?: (updater: Updater<RowSelectionState>) => void;
+  setSelectedRows?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
   setSelectedData?: (data: TData[]) => void;
   showRowSelection?: boolean;
@@ -47,8 +47,8 @@ export function DataTable<TData, TValue>({
   data,
   searchKey = 'name',
   showViewOptions = true,
-  rowSelection = {},
-  setRowSelection = () => {},
+  selectedRows = {},
+  setSelectedRows = () => {},
   setSelectedData = () => {},
   showRowSelection = false,
   selectActions,
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  // const [rowSelection, setRowSelection] = React.useState({});
+  // const [selectedRows, setSelectedRows] = React.useState({});
 
   const table = useReactTable({
     data: data || [],
@@ -71,12 +71,12 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: setSelectedRows,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
+      rowSelection: selectedRows,
     },
   });
 
@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
     setSelectedData(
       table.getSelectedRowModel().flatRows.map((row) => row.original),
     );
-  }, [setSelectedData, table]);
+  }, [selectedRows, setSelectedData, table]);
 
   return (
     <div>

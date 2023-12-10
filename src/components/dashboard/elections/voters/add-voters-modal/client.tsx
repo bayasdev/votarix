@@ -6,25 +6,25 @@ import { SafeUser } from '@/types';
 
 interface AddVotersClientProps {
   elegibleVoters: SafeUser[] | null;
-  rowSelection: {};
+  selectedRows: {};
   // eslint-disable-next-line no-unused-vars
-  setRowSelection?: (updater: Updater<RowSelectionState>) => void;
+  setSelectedRows?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
   setSelectedData?: (data: SafeUser[]) => void;
 }
 
 const AddVotersClient: React.FC<AddVotersClientProps> = ({
   elegibleVoters,
-  rowSelection,
-  setRowSelection,
+  selectedRows,
+  setSelectedRows,
   setSelectedData,
 }) => {
   return (
     <DataTable
       columns={columns}
       data={elegibleVoters}
-      rowSelection={rowSelection}
-      setRowSelection={setRowSelection}
+      selectedRows={selectedRows}
+      setSelectedRows={setSelectedRows}
       setSelectedData={setSelectedData}
       showViewOptions={false}
       showRowSelection

@@ -33,8 +33,8 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
     setIsOpen,
     isLoading,
     setIsLoading,
-    rowSelection,
-    setRowSelection,
+    selectedRows,
+    setSelectedRows,
     setSelectedData,
     selectedData,
   } = useAddVotersModalStore((state) => state);
@@ -59,10 +59,10 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
 
     axios
       .post(`/api/elections/${electionId}/voters/bulkConnect`, selectedIds)
-      .then(() => {
+      .then((response) => {
         toast({
-          title: 'Votante(s) agregado(s) correctamente',
-          description: `${selectedIds.length} registros`,
+          title: 'Votantes agregados',
+          description: response?.data,
         });
         router.refresh();
       })
@@ -75,7 +75,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
       })
       .finally(() => {
         setIsLoading(false);
-        setRowSelection({});
+        setSelectedRows({});
         setIsManualUploadAlertModalOpen(false);
         setIsOpen(false);
       });
@@ -101,7 +101,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
       .post(`/api/elections/${electionId}/voters/bulkUpload`, file)
       .then((response) => {
         toast({
-          title: 'Votante(s) agregado(s) correctamente',
+          title: 'Votantes agregados',
           description: response?.data,
         });
         router.refresh();
@@ -156,8 +156,8 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
             >
               <AddVotersClient
                 elegibleVoters={elegibleVoters}
-                rowSelection={rowSelection}
-                setRowSelection={setRowSelection}
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
                 setSelectedData={setSelectedData}
               />
               <div className="flex w-full items-center justify-end space-x-2">
@@ -178,6 +178,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
                   Agregar votantes
                 </Button>
               </div>
+              {JSON.stringify(selectedData, null, 2)}
             </TabsContent>
             <TabsContent value="upload" className="flex flex-col gap-6">
               <Link

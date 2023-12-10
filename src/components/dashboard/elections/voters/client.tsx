@@ -56,9 +56,10 @@ const VotersClient: React.FC<VotersClientProps> = ({
 
     axios
       .post(`/api/elections/${election?.id}/voters/bulkDisconnect`, selectedIds)
-      .then(() => {
+      .then((response) => {
         toast({
-          title: 'Votante(s) removido(s) correctamente',
+          title: 'Votantes removidos',
+          description: response?.data,
         });
         router.refresh();
       })
@@ -92,11 +93,8 @@ const VotersClient: React.FC<VotersClientProps> = ({
 
   // add voters
 
-  const {
-    isOpen: isAddVotersModalOpen,
-    setIsOpen: setIsAddVotersModalOpen,
-    setIsLoading: setIsAddVotersModalLoading,
-  } = useAddVotersModalStore();
+  const { isOpen: isAddVotersModalOpen, setIsOpen: setIsAddVotersModalOpen } =
+    useAddVotersModalStore();
 
   return (
     <>
@@ -143,8 +141,8 @@ const VotersClient: React.FC<VotersClientProps> = ({
           <DataTable
             columns={columns}
             data={voters}
-            rowSelection={disconnectRowSelection}
-            setRowSelection={setDisconnectRowSelection}
+            selectedRows={disconnectRowSelection}
+            setSelectedRows={setDisconnectRowSelection}
             setSelectedData={setDisconnectSelectedData}
             showRowSelection
             selectActions={selectActions}

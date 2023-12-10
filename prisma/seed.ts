@@ -61,7 +61,7 @@ async function main() {
       name: 'Elecciones 1',
       description:
         'Elecciones de representantes estudiantiles al honorable consejo universitario',
-      startTime: new Date(),
+      startTime: dayjs(new Date()).add(1, 'hour').toDate(),
       endTime: dayjs(new Date()).add(12, 'hour').toDate(),
     },
   });

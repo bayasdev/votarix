@@ -9,12 +9,12 @@ interface AddVotersModalStore {
   isLoading: boolean;
   // eslint-disable-next-line no-unused-vars
   setIsLoading: (isLoading: boolean) => void;
-  rowSelection: {};
+  selectedRows: {};
   // eslint-disable-next-line no-unused-vars
-  setRowSelection: (value: {}) => void;
+  setSelectedRows: (selectedRows: {}) => void;
   selectedData: SafeUser[];
   // eslint-disable-next-line no-unused-vars
-  setSelectedData: (value: SafeUser[]) => void;
+  setSelectedData: (selectedData: SafeUser[]) => void;
 }
 
 export const useAddVotersModalStore = create<AddVotersModalStore>(
@@ -23,14 +23,16 @@ export const useAddVotersModalStore = create<AddVotersModalStore>(
     setIsOpen: (isOpen) => set(() => ({ isOpen })),
     isLoading: false,
     setIsLoading: (isLoading) => set(() => ({ isLoading })),
-    rowSelection: {},
-    setRowSelection: (state) => {
+    selectedRows: {},
+    setSelectedRows: (selectedRows) => {
       set({
-        rowSelection:
-          typeof state === 'function' ? state(get().rowSelection) : state,
+        selectedRows:
+          typeof selectedRows === 'function'
+            ? selectedRows(get().selectedRows)
+            : selectedRows,
       });
     },
     selectedData: [],
-    setSelectedData: (value) => set(() => ({ selectedData: value })),
+    setSelectedData: (selectedData) => set(() => ({ selectedData })),
   }),
 );
