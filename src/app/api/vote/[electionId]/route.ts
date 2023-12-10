@@ -84,8 +84,6 @@ export async function POST(request: Request, { params }: IParams) {
       return new Response(error.message, { status: 422 });
     }
 
-    console.error(error);
-
     return new Response('Algo salió mal', {
       status: 500,
     });
