@@ -33,8 +33,8 @@ export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
         item.startTime > new Date()
           ? ElectionStatus.NOT_STARTED
           : item.endTime > new Date()
-          ? ElectionStatus.ONGOING
-          : ElectionStatus.FINISHED,
+            ? ElectionStatus.ONGOING
+            : ElectionStatus.FINISHED,
     }));
 
     return safeElections;
@@ -93,16 +93,9 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
             id: currentUser?.id,
           },
         },
-        ballots: {
+        certificates: {
           none: {
             userId: currentUser?.id,
-          },
-        },
-      },
-      include: {
-        ballots: {
-          select: {
-            userId: true,
           },
         },
       },
@@ -338,8 +331,8 @@ export async function getElectionResultsById(
         election.startTime > new Date()
           ? ElectionStatus.NOT_STARTED
           : election.endTime > new Date()
-          ? ElectionStatus.ONGOING
-          : ElectionStatus.FINISHED,
+            ? ElectionStatus.ONGOING
+            : ElectionStatus.FINISHED,
       updatedAt: new Date().toISOString(),
     };
 

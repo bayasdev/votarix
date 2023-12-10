@@ -37,7 +37,7 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
           gt: new Date(),
         },
         // check if user has voted
-        ballots: {
+        certificates: {
           none: {
             userId: currentUser.id,
           },
@@ -100,7 +100,7 @@ export async function getVotersByElectionId(
       where: {
         role: 'VOTER',
         elections: {
-          every: {
+          some: {
             id: electionId,
           },
         },
@@ -108,7 +108,11 @@ export async function getVotersByElectionId(
       include: {
         _count: {
           select: {
-            ballots: true,
+            certificates: {
+              where: {
+                electionId,
+              },
+            },
           },
         },
       },
@@ -124,7 +128,7 @@ export async function getVotersByElectionId(
       updatedAt: item.updatedAt.toISOString(),
       emailVerified: item.emailVerified?.toISOString() || null,
       hashedPassword: null,
-      hasVoted: item._count.ballots > 0,
+      hasVoted: item._count.certificates > 0,
     }));
 
     return safeVoters;

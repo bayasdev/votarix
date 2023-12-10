@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 import { SafeElection, SafeUser, SafeUserWithHasVoted } from '@/types';
 import Heading from '@/components/shared/heading';
@@ -15,6 +16,9 @@ import { toast } from '@/components/ui/use-toast';
 import { UserPlusIcon, UserXIcon } from 'lucide-react';
 import AlertModal from '@/components/modals/alert-modal';
 import AddVotersModal from '@/components/modals/add-voters-modal';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Icons } from '@/components/shared/icons';
+import { useAddVotersModalStore } from '@/store/add-voters-modal';
 
 interface VotersClientProps {
   election: SafeElection | null;
@@ -29,6 +33,10 @@ const VotersClient: React.FC<VotersClientProps> = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const isElectionOnGoing =
+    dayjs().isAfter(dayjs(election?.startTime)) &&
+    dayjs().isBefore(dayjs(election?.endTime));
 
   // disconnect voters
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] =
@@ -72,6 +80,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
       {disconnectSelectedData.length > 0 && (
         <Button
           variant="destructive"
+          disabled={isElectionOnGoing}
           onClick={() => setIsDisconnectModalOpen(true)}
         >
           <UserXIcon className="mr-2 h-4 w-4" />
@@ -83,84 +92,31 @@ const VotersClient: React.FC<VotersClientProps> = ({
 
   // add voters
 
-  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
-  const [isAddModalLoading, setIsAddModalLoading] = React.useState(false);
-  const [addModalRowSelection, setAddModalRowSelection] = React.useState({});
-  const [addModalSelectedData, setAddModalSelectedData] = React.useState<
-    SafeUser[]
-  >([]);
-
-  const handleManualVotersUpload = () => {
-    setIsAddModalLoading(true);
-
-    // make an array of {id: string} from selectedData
-    const selectedIds = addModalSelectedData.map((user) => ({ id: user.id }));
-
-    axios
-      .post(`/api/elections/${election?.id}/voters/bulkConnect`, selectedIds)
-      .then(() => {
-        toast({
-          title: 'Votante(s) agregado(s) correctamente',
-          description: `${selectedIds.length} registros`,
-        });
-        router.refresh();
-      })
-      .catch((error) => {
-        toast({
-          title: 'Ocurrió un error',
-          description: error?.response?.data,
-        });
-      })
-      .finally(() => {
-        setIsAddModalLoading(false);
-        setAddModalRowSelection({});
-        setIsAddModalOpen(false);
-      });
-  };
-
-  const handleFileVotersUpload = (file: File | null) => {
-    setIsAddModalLoading(true);
-
-    if (!file || file.type !== 'text/csv') {
-      toast({
-        title: 'Ocurrió un error',
-        description: 'El archivo debe ser de tipo CSV',
-        variant: 'destructive',
-      });
-      setIsAddModalLoading(false);
-      return;
-    }
-
-    axios
-      .post(`/api/elections/${election?.id}/voters/bulkUpload`, file)
-      .then((response) => {
-        toast({
-          title: 'Votante(s) agregado(s) correctamente',
-          description: response?.data,
-        });
-        router.refresh();
-      })
-      .catch((error) => {
-        toast({
-          title: 'Ocurrió un error',
-          description: error?.response?.data,
-        });
-      })
-      .finally(() => {
-        setIsAddModalLoading(false);
-        setIsAddModalOpen(false);
-      });
-  };
+  const {
+    isOpen: isAddVotersModalOpen,
+    setIsOpen: setIsAddVotersModalOpen,
+    setIsLoading: setIsAddVotersModalLoading,
+  } = useAddVotersModalStore();
 
   return (
     <>
       <AlertModal
+        description="Al modificar el padrón electoral se pondrá en cero el proceso electoral. Esta acción no se puede deshacer."
+        confirmText="Aceptar"
         isOpen={isDisconnectModalOpen}
         onClose={() => setIsDisconnectModalOpen(false)}
         onConfirm={() => handleVotersDisconnect()}
         isLoading={isLoading}
       />
       <div className="space-y-8">
+        <Alert variant="destructive">
+          <Icons.warning className="h-4 w-4" />
+          <AlertTitle>¡Atención!</AlertTitle>
+          <AlertDescription>
+            Cualquier cambio que realice en el padrón electoral pondrá en cero
+            el conteo de votos y los certificados de votación generados.
+          </AlertDescription>
+        </Alert>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Heading
             title="Padrón electoral"
@@ -170,17 +126,13 @@ const VotersClient: React.FC<VotersClientProps> = ({
             <GoBack />
             <>
               <AddVotersModal
-                isOpen={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                handleManualUpload={handleManualVotersUpload}
-                handleFileUpload={handleFileVotersUpload}
-                rowSelection={addModalRowSelection}
-                setRowSelection={setAddModalRowSelection}
-                setSelectedData={setAddModalSelectedData}
-                isLoading={isAddModalLoading}
+                electionId={election?.id || ''}
                 elegibleVoters={elegibleVoters}
               />
-              <Button onClick={() => setIsAddModalOpen(true)}>
+              <Button
+                disabled={isElectionOnGoing || isAddVotersModalOpen}
+                onClick={() => setIsAddVotersModalOpen(true)}
+              >
                 <UserPlusIcon className="mr-2 h-4 w-4" />
                 Agregar votantes
               </Button>
@@ -193,7 +145,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
             data={voters}
             rowSelection={disconnectRowSelection}
             setRowSelection={setDisconnectRowSelection}
-            onSelectedRowsChange={setDisconnectSelectedData}
+            setSelectedData={setDisconnectSelectedData}
             showRowSelection
             selectActions={selectActions}
           />

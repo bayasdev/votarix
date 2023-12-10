@@ -44,7 +44,7 @@ export async function POST(request: Request, { params }: IParams) {
           gt: new Date(),
         },
         // check if user has voted
-        ballots: {
+        certificates: {
           none: {
             userId: currentUser.id,
           },

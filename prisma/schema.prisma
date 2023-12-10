@@ -39,7 +39,6 @@ model User {
   hashedPassword String?
   role           Role          @default(VOTER)
   accounts       Account[]
-  ballots        Ballot[]
   certificates   Certificate[]
   elections      Election[]
 
@@ -109,20 +108,17 @@ model Candidate {
 }
 
 model Ballot {
-  id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  candidateId String
-  position    Position  @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  id          String     @id @default(cuid())
+  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId String?
+  position    Position   @relation(fields: [positionId], references: [id], onDelete: Cascade)
   positionId  String
-  election    Election  @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  election    Election   @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId  String
+  isNull      Boolean    @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@unique([userId, positionId, electionId])
 }
 
 model Certificate {
@@ -134,4 +130,6 @@ model Certificate {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, electionId])
 }

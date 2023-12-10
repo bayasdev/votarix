@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/shared/icons';
 
 interface AlertModalProps {
+  title?: string;
+  description?: string;
+  confirmText?: string;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -12,6 +15,9 @@ interface AlertModalProps {
 }
 
 const AlertModal: React.FC<AlertModalProps> = ({
+  title = '¿Estás seguro?',
+  description = 'Esta acción no se puede deshacer.',
+  confirmText = 'Eliminar',
   isOpen,
   onClose,
   onConfirm,
@@ -19,8 +25,8 @@ const AlertModal: React.FC<AlertModalProps> = ({
 }) => {
   return (
     <Modal
-      title="¿Estás seguro?"
-      description="Esta acción no se puede deshacer"
+      title={title}
+      description={description}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -30,7 +36,7 @@ const AlertModal: React.FC<AlertModalProps> = ({
         </Button>
         <Button disabled={isLoading} variant="destructive" onClick={onConfirm}>
           {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Eliminar
+          {confirmText}
         </Button>
       </div>
     </Modal>
