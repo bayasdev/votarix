@@ -178,7 +178,6 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
                   Agregar votantes
                 </Button>
               </div>
-              {JSON.stringify(selectedData, null, 2)}
             </TabsContent>
             <TabsContent value="upload" className="flex flex-col gap-6">
               <Link
