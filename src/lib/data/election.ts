@@ -270,6 +270,11 @@ export async function getElectionResultsById(
             },
             party: true,
           },
+          orderBy: {
+            ballots: {
+              _count: 'desc',
+            },
+          },
         },
         ballots: true,
       },
