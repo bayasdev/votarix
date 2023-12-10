@@ -39,36 +39,9 @@ export default async function handler(
         },
       },
       include: {
-        positions: {
-          include: {
-            candidates: {
-              include: {
-                party: true,
-                _count: {
-                  select: {
-                    ballots: true,
-                  },
-                },
-              },
-              orderBy: {
-                party: {
-                  name: 'asc',
-                },
-              },
-            },
-            _count: {
-              select: {
-                ballots: true,
-              },
-            },
-          },
-          orderBy: {
-            name: 'asc',
-          },
-        },
         _count: {
           select: {
-            ballots: true,
+            certificates: true,
             voters: true,
           },
         },
@@ -78,6 +51,34 @@ export default async function handler(
     if (!election) {
       return res.status(404).send('Elección no encontrada');
     }
+
+    const totalVoters = election._count?.voters || 0;
+    const totalVotes = election._count?.certificates || 0;
+    const absentVoters = totalVoters - totalVotes;
+
+    const positions = await prisma.position.findMany({
+      where: {
+        electionId: election.id,
+      },
+      include: {
+        candidates: {
+          include: {
+            _count: {
+              select: {
+                ballots: true,
+              },
+            },
+            party: true,
+          },
+          orderBy: {
+            party: {
+              name: 'asc',
+            },
+          },
+        },
+        ballots: true,
+      },
+    });
 
     const resourcesDir = path.join(process.cwd(), 'public', 'resources');
     const logoPath = path.join(resourcesDir, 'logoUnibeNuevo.png');
@@ -102,38 +103,43 @@ export default async function handler(
 
     const tableHeaders = [
       'DIGNIDAD',
-      // get all the parties
-      ...[
-        ...new Set(
-          election.positions
-            .flatMap((position) => position.candidates)
-            .map((candidate) => candidate.party.name),
-        ),
-      ].map((partyName) => `VOTOS ${partyName.toUpperCase()}`),
-      'TOTAL SUFRAGANTES',
-      'TOTAL AUSENTES',
-      'TOTAL EMPADRONADOS',
+      // get all the unique parties name in uppercase
+      ...positions
+        .map((position) =>
+          position.candidates.map((candidate) => candidate.party),
+        )
+        .flat()
+        .map((party) => party.name.toUpperCase())
+        .filter((value, index, self) => self.indexOf(value) === index),
+      'VOTOS NULOS',
+      'VOTOS BLANCOS',
+      'SUFRAGANTES',
+      'AUSENTES',
+      'EMPADRONADOS',
     ];
 
-    // get the position name, then the count of ballots for each party, then count of certificates, then count of absent voters, then total voters
-    const tableRows = election.positions.map((position) => {
+    const tableRows = positions.map((position) => {
       const parties = position.candidates.map((candidate) => candidate.party);
       const uniqueParties = [...new Set(parties)];
 
       return [
         position.name.toUpperCase(),
+        // get only valid votes so ballot.candidateId != null and ballot.isNull = false
         ...uniqueParties.map((party) => {
-          const candidates = position.candidates.filter(
-            (candidate) => candidate.party.id === party.id,
-          );
+          const votes = position.candidates
+            .filter((candidate) => candidate.partyId === party.id)
+            .map((candidate) => candidate._count?.ballots || 0)
+            .reduce((accumulator, currentValue) => accumulator + currentValue);
 
-          return candidates
-            .reduce((acc, candidate) => acc + candidate._count.ballots, 0)
-            .toString();
+          return votes.toString();
         }),
-        position._count.ballots.toString(),
-        (election._count.voters - position._count.ballots).toString(),
-        election._count.voters.toString(),
+        position.ballots.filter((ballot) => ballot.isNull).length.toString(),
+        position.ballots
+          .filter((ballot) => !ballot.candidateId && !ballot.isNull)
+          .length.toString(),
+        totalVotes.toString(),
+        absentVoters.toString(),
+        totalVoters.toString(),
       ];
     });
 
