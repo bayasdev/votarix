@@ -63,7 +63,6 @@ export async function POST(request: Request, { params }: IParams) {
     const ballotsData = ballots.map((ballot) => ({
       ...ballot,
       electionId: electionId,
-      userId: currentUser.id,
     }));
 
     // create ballots
@@ -84,6 +83,8 @@ export async function POST(request: Request, { params }: IParams) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }
+
+    console.error(error);
 
     return new Response('Algo salió mal', {
       status: 500,
