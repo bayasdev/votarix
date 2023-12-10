@@ -10,7 +10,7 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { useMobileMenuStore } from '@/hooks/use-mobile-menu-store';
+import { useMobileMenuStore } from '@/store/mobile-menu';
 
 interface MainNavProps {
   currentUser?: User | undefined;

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { SidebarNavItem } from '@/types';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import { useMobileMenuStore } from '@/hooks/use-mobile-menu-store';
+import { useMobileMenuStore } from '@/store/mobile-menu';
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
