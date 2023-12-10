@@ -147,6 +147,9 @@ export type ElectionResultsPosition = {
   id: string;
   name: string;
   candidates: ElectionResultsCandidate[];
+  validVotes: number;
+  nullVotes: number;
+  blankVotes: number;
 };
 
 export type ElectionResults = {

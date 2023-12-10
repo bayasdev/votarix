@@ -1,8 +1,17 @@
-import { VoteIcon } from 'lucide-react';
+import { PieChartIcon, VoteIcon } from 'lucide-react';
 
 import { ElectionResults } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import CandidateResultCard from '@/components/results/candidate-card';
+import VotesBreakdownChart from '@/components/results/votes-breakdown-chart';
 
 interface ElectionResultsByPositionProps {
   data: ElectionResults | null;
@@ -36,6 +45,37 @@ const ElectionResultsByPosition: React.FC<ElectionResultsByPositionProps> = ({
             {position?.candidates.map((candidate) => (
               <CandidateResultCard key={candidate.id} candidate={candidate} />
             ))}
+            <div className="font-medium tracking-tight">
+              <PieChartIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
+              Resumen de votos
+            </div>
+            <div className="flex flex-wrap justify-between gap-6">
+              <div className="flex-grow overflow-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Votos válidos</TableHead>
+                      <TableHead>Votos nulos</TableHead>
+                      <TableHead>Votos blancos</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>{position.validVotes}</TableCell>
+                      <TableCell>{position.nullVotes}</TableCell>
+                      <TableCell>{position.blankVotes}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+              <div>
+                <VotesBreakdownChart
+                  validVotes={position.validVotes}
+                  nullVotes={position.nullVotes}
+                  blankVotes={position.blankVotes}
+                />
+              </div>
+            </div>
           </TabsContent>
         ))}
       </Tabs>

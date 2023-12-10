@@ -4,9 +4,8 @@ export const VoteValidator = z.object({
   ballots: z.array(
     z.object({
       positionId: z.string(),
-      candidateId: z.string({
-        required_error: 'Debe seleccionar un candidato',
-      }),
+      candidateId: z.string().optional(),
+      isNull: z.boolean().optional(),
     }),
   ),
 });

@@ -59,6 +59,38 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
       });
   };
 
+  const handleNullVote = () => {
+    setIsLoading(true);
+
+    const data = {
+      ballots: electionData?.positions.map((position) => ({
+        positionId: position.id,
+        isNull: true,
+      })),
+    };
+
+    axios
+      .post(`/api/vote/${electionData?.id}`, data)
+      .then(() => {
+        toast({
+          title: 'Voto anulado',
+          description: 'Gracias por participar',
+        });
+        router.replace('/certificates');
+        router.refresh();
+      })
+      .catch((error) => {
+        toast({
+          title: 'Ocurrió un error',
+          description: JSON.stringify(error?.response?.data),
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsOpen(false);
+      });
+  };
+
   return (
     <>
       <ConfirmVoteModal
@@ -118,7 +150,14 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
               )}
             />
           ))}
-          <div className="flex w-full justify-end">
+          <div className="flex w-full justify-end space-x-2">
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleNullVote}
+            >
+              Anular mi voto
+            </Button>
             <Button type="submit">
               <CheckIcon className="mr-2 h-4 w-4" />
               Votar

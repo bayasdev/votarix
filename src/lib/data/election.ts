@@ -237,53 +237,11 @@ export async function getElectionResultsById(
         id: electionId,
         endTime: showOnlyCompleted ? { lt: new Date() } : undefined,
       },
-      select: {
-        id: true,
-        name: true,
-        positions: {
-          select: {
-            id: true,
-            name: true,
-            candidates: {
-              select: {
-                id: true,
-                name: true,
-                imageUrl: true,
-                party: {
-                  select: {
-                    id: true,
-                    name: true,
-                    imageUrl: true,
-                  },
-                },
-                _count: {
-                  select: {
-                    ballots: true,
-                  },
-                },
-              },
-              orderBy: {
-                ballots: {
-                  _count: 'desc',
-                },
-              },
-            },
-            _count: {
-              select: {
-                ballots: true,
-              },
-            },
-          },
-          orderBy: {
-            name: 'asc',
-          },
-        },
-        startTime: true,
-        endTime: true,
+      include: {
         _count: {
           select: {
-            voters: true,
             certificates: true,
+            voters: true,
           },
         },
       },
@@ -293,19 +251,37 @@ export async function getElectionResultsById(
       return null;
     }
 
-    const totalVoters = election._count.voters;
-    // for each voter, there is one certificate
-    const totalVotes = election._count.certificates;
-
+    const totalVoters = election._count?.voters || 0;
+    const totalVotes = election._count?.certificates || 0;
     const absentVoters = totalVoters - totalVotes;
-    const absentPercentage = (absentVoters / totalVoters) * 100 || 0;
+    const absentPercentage = (absentVoters / totalVoters) * 100;
+
+    const positions = await prisma.position.findMany({
+      where: {
+        electionId: election.id,
+      },
+      include: {
+        candidates: {
+          include: {
+            _count: {
+              select: {
+                ballots: true,
+              },
+            },
+            party: true,
+          },
+        },
+        ballots: true,
+      },
+    });
 
     const electionResults: ElectionResults = {
       electionId: election.id,
       electionName: election.name,
       startTime: election.startTime.toISOString(),
       endTime: election.endTime.toISOString(),
-      positions: election.positions.map((position) => ({
+      // TODO: implement
+      positions: positions.map((position) => ({
         id: position.id,
         name: position.name,
         candidates: position.candidates.map((candidate) => ({
@@ -317,11 +293,25 @@ export async function getElectionResultsById(
             name: candidate.party.name,
             imageUrl: candidate.party.imageUrl || '',
           },
-          votes: candidate._count.ballots,
-          // percentage is relative to the total votes for a position
+          votes: candidate._count?.ballots || 0,
+          // percentage is relative to validVotes
           percentage:
-            (candidate._count.ballots / position._count.ballots) * 100 || 0,
+            ((candidate._count?.ballots || 0) /
+              (position.ballots.filter(
+                (ballot) => !ballot.isNull && ballot.candidateId,
+              ).length || 1)) *
+            100,
         })),
+        // validVotes where ballot.isNull = false and ballot.candidateId != null
+        validVotes: position.ballots.filter(
+          (ballot) => !ballot.isNull && ballot.candidateId,
+        ).length,
+        // nullVotes where ballot.isNull = true
+        nullVotes: position.ballots.filter((ballot) => ballot.isNull).length,
+        // blankVotes where ballot.candidateId = null and ballot.isNull = false
+        blankVotes: position.ballots.filter(
+          (ballot) => !ballot.candidateId && !ballot.isNull,
+        ).length,
       })),
       totalVoters,
       totalVotes,
