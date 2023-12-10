@@ -38,7 +38,6 @@ interface DataTableProps<TData, TValue> {
   setRowSelection?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
   onSelectedRowsChange?: (data: TData[]) => void;
-  resetRowSelection?: () => void;
   showRowSelection?: boolean;
   selectActions?: React.ReactNode;
 }
