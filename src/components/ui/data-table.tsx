@@ -37,7 +37,7 @@ interface DataTableProps<TData, TValue> {
   // eslint-disable-next-line no-unused-vars
   setRowSelection?: (updater: Updater<RowSelectionState>) => void;
   // eslint-disable-next-line no-unused-vars
-  onSelectedRowsChange?: (data: TData[]) => void;
+  setSelectedData?: (data: TData[]) => void;
   showRowSelection?: boolean;
   selectActions?: React.ReactNode;
 }
@@ -49,7 +49,7 @@ export function DataTable<TData, TValue>({
   showViewOptions = true,
   rowSelection = {},
   setRowSelection = () => {},
-  onSelectedRowsChange = () => {},
+  setSelectedData = () => {},
   showRowSelection = false,
   selectActions,
 }: DataTableProps<TData, TValue>) {
@@ -81,10 +81,10 @@ export function DataTable<TData, TValue>({
   });
 
   React.useEffect(() => {
-    onSelectedRowsChange(
+    setSelectedData(
       table.getSelectedRowModel().flatRows.map((row) => row.original),
     );
-  }, [rowSelection, table, onSelectedRowsChange]);
+  }, [setSelectedData, table]);
 
   return (
     <div>
