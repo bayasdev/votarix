@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db';
 
 import {
   ElectionData,
+  ElectionDataWithProposals,
   ElectionResults,
   SafeElection,
   SafeElectionWithStatus,
@@ -15,7 +16,31 @@ export interface IParams {
   electionId?: string;
 }
 
-export async function getElections(): Promise<SafeElectionWithStatus[] | null> {
+export async function getElections(): Promise<SafeElection[] | null> {
+  try {
+    const elections = await prisma.election.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const safeElections = elections.map((item) => ({
+      ...item,
+      startTime: item.startTime.toISOString(),
+      endTime: item.endTime.toISOString(),
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return safeElections;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getElectionsWithStatus(): Promise<
+  SafeElectionWithStatus[] | null
+> {
   try {
     const elections = await prisma.election.findMany({
       orderBy: {
@@ -156,28 +181,12 @@ export async function getElectionDataById(
       where: {
         id: electionId,
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        startTime: true,
-        endTime: true,
+      include: {
         positions: {
-          select: {
-            id: true,
-            name: true,
+          include: {
             candidates: {
-              select: {
-                id: true,
-                name: true,
-                imageUrl: true,
-                party: {
-                  select: {
-                    id: true,
-                    name: true,
-                    imageUrl: true,
-                  },
-                },
+              include: {
+                party: true,
               },
               orderBy: {
                 party: {
@@ -209,12 +218,79 @@ export async function getElectionDataById(
         candidates: position.candidates.map((candidate) => ({
           id: candidate.id,
           name: candidate.name,
+          alternateCandidateName: candidate.alternateCandidateName,
           imageUrl: candidate.imageUrl || '',
           party: {
             id: candidate.party.id,
             name: candidate.party.name,
             imageUrl: candidate.party.imageUrl || '',
           },
+        })),
+      })),
+    };
+
+    return electionData;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getElectionDataWithProposalsById(
+  params: IParams,
+): Promise<ElectionDataWithProposals | null> {
+  const { electionId } = params;
+
+  try {
+    const election = await prisma.election.findUnique({
+      where: {
+        id: electionId,
+      },
+      include: {
+        positions: {
+          include: {
+            candidates: {
+              include: {
+                party: true,
+              },
+              orderBy: {
+                party: {
+                  name: 'asc',
+                },
+              },
+            },
+          },
+          orderBy: {
+            name: 'asc',
+          },
+        },
+      },
+    });
+
+    if (!election) {
+      return null;
+    }
+
+    const electionData: ElectionDataWithProposals = {
+      ...election,
+      id: election.id,
+      name: election.name,
+      description: election.description,
+      startTime: election.startTime.toISOString(),
+      endTime: election.endTime.toISOString(),
+      positions: election.positions.map((position) => ({
+        id: position.id,
+        name: position.name,
+        candidates: position.candidates.map((candidate) => ({
+          id: candidate.id,
+          name: candidate.name,
+          alternateCandidateName: candidate.alternateCandidateName,
+          imageUrl: candidate.imageUrl || '',
+          party: {
+            id: candidate.party.id,
+            name: candidate.party.name,
+            imageUrl: candidate.party.imageUrl || '',
+          },
+          proposals: JSON.stringify(candidate.proposals || []),
         })),
       })),
     };
