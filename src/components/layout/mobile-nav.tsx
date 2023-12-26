@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { User } from 'next-auth';
 import Link from 'next/link';
 
@@ -7,7 +6,6 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useLockBody } from '@/hooks/use-lock-body';
 import { Icons } from '@/components/shared/icons';
-import { useMobileMenuStore } from '@/store/mobile-menu';
 
 interface MobileNavProps {
   currentUser?: User | undefined;
@@ -17,7 +15,6 @@ interface MobileNavProps {
 
 export function MobileNav({ currentUser, items, children }: MobileNavProps) {
   useLockBody();
-  const { toggleMobileMenu } = useMobileMenuStore();
 
   return (
     <div
@@ -26,11 +23,7 @@ export function MobileNav({ currentUser, items, children }: MobileNavProps) {
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link
-          onClick={toggleMobileMenu}
-          href="/"
-          className="flex items-center space-x-2"
-        >
+        <Link href="/" className="flex items-center space-x-2">
           <Icons.logo />
           <span className="font-bold">{siteConfig.name}</span>
         </Link>
@@ -38,7 +31,6 @@ export function MobileNav({ currentUser, items, children }: MobileNavProps) {
           {items.map((item, index) => (
             <Link
               key={index}
-              onClick={toggleMobileMenu}
               href={item.disabled ? '#' : item.href}
               className={cn(
                 'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',

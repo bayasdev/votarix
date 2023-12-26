@@ -1,16 +1,16 @@
 'use client';
 
-import * as React from 'react';
 import { User } from 'next-auth';
 import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 
 import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { useMobileMenuStore } from '@/store/mobile-menu';
+import { useMobileNavStore } from '@/store/mobile-nav';
+import { useEffect } from 'react';
 
 interface MainNavProps {
   currentUser?: User | undefined;
@@ -20,7 +20,12 @@ interface MainNavProps {
 
 export function MainNav({ currentUser, items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
-  const { isMobileMenuOpen, toggleMobileMenu } = useMobileMenuStore();
+  const pathname = usePathname();
+  const { isMobileNavOpen, setIsMobileNavOpen } = useMobileNavStore();
+
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+  }, [pathname, setIsMobileNavOpen]);
 
   return (
     <div className="flex gap-6 md:gap-10">
@@ -52,12 +57,12 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
       ) : null}
       <button
         className="flex items-center space-x-2 md:hidden"
-        onClick={toggleMobileMenu}
+        onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
       >
-        {isMobileMenuOpen ? <Icons.close /> : <Icons.logo />}
+        {isMobileNavOpen ? <Icons.close /> : <Icons.logo />}
         <span className="font-bold">Menu</span>
       </button>
-      {isMobileMenuOpen && items && (
+      {isMobileNavOpen && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
     </div>
