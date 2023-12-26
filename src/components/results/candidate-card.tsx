@@ -1,10 +1,10 @@
+import Image from 'next/image';
 import { Flag, User } from 'lucide-react';
 
 import { ElectionResultsCandidate } from '@/types';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
-import Image from 'next/image';
 
 interface CandidateResultCardProps {
   candidate: ElectionResultsCandidate | null;

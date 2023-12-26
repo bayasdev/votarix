@@ -9,7 +9,7 @@ export const landingConfig: LandingConfig = {
     },
     {
       title: 'Conoce al candidato',
-      href: '/candidates',
+      href: '/proposals',
     },
     {
       title: 'Resultados',

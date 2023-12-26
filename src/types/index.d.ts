@@ -192,9 +192,11 @@ export type ElectionData = {
   positions: ElectionDataPosition[];
 };
 
-export type ElectionDataWithProposals = ElectionData & {
-  positions: (ElectionDataPosition & {
-    proposals?: string;
+export type ElectionDataWithProposals = Omit<ElectionData, 'positions'> & {
+  positions: (Omit<ElectionDataPosition, 'candidates'> & {
+    candidates: (Omit<ElectionDataCandidate, 'proposals'> & {
+      proposals: string;
+    })[];
   })[];
 };
 

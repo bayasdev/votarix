@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Conoce al candidato',
 };
 
-const CandidatesPage = async () => {
+const ProposalsPage = async () => {
   const elections = await getElections();
 
   return (
@@ -36,4 +36,4 @@ const CandidatesPage = async () => {
   );
 };
 
-export default CandidatesPage;
+export default ProposalsPage;

@@ -10,7 +10,7 @@ interface ElectionLinkProps {
 
 const ElectionLink: React.FC<ElectionLinkProps> = ({ election }) => {
   return (
-    <Link href={`/candidates/${election?.id}`}>
+    <Link href={`/proposals/${election?.id}`}>
       <Card className="p-4 hover:bg-accent">
         <CardHeader>
           <Vote className="h-12 w-12" />
