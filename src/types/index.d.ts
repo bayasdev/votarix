@@ -51,7 +51,6 @@ export type TribunalMember = {
 export type SiteConfig = {
   name: string;
   description: string;
-  version: string;
   url: string;
   ogImage: string;
   organizationName: string;
@@ -169,6 +168,7 @@ export type ElectionResults = {
 export type ElectionDataCandidate = {
   id: string;
   name: string;
+  alternateCandidateName: string;
   imageUrl?: string;
   party: {
     id: string;
@@ -190,6 +190,12 @@ export type ElectionData = {
   startTime: string;
   endTime: string;
   positions: ElectionDataPosition[];
+};
+
+export type ElectionDataWithProposals = ElectionData & {
+  positions: (ElectionDataPosition & {
+    proposals?: string;
+  })[];
 };
 
 export type DashboardData = {

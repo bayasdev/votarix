@@ -1,28 +1,28 @@
-import * as React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 
-export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
+export function SiteFooter() {
   return (
-    <footer className={cn(className)}>
-      <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <Icons.logo />
-          <p className="text-center text-sm leading-loose md:text-left">
-            {siteConfig.name} {siteConfig.version} / Developed by{' '}
-            <a
-              href="https://codestrats.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Codestrats SAS
-            </a>
-            .
-          </p>
-        </div>
+    <footer className="container flex flex-col items-center justify-between gap-4 py-6 md:flex-row">
+      <div className="flex flex-col items-center gap-2 md:flex-row">
+        <Icons.logo />
+        <p className="text-center text-sm leading-loose md:text-left">
+          Sistema {siteConfig.name} ({siteConfig.organizationAbbreviation})
+        </p>
+      </div>
+      <div className="flex flex-col items-center gap-1 md:items-start">
+        <span className="text-xs text-muted-foreground">Developed by</span>
+        <Link href="https://codestrats.com" target="_blank">
+          <Image
+            src="/codestrats.svg"
+            width={100}
+            height={0}
+            alt="Codestrats"
+          />
+        </Link>
       </div>
     </footer>
   );
