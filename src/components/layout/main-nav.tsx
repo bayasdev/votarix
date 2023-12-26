@@ -1,16 +1,15 @@
 'use client';
 
-import { User } from 'next-auth';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
+import { User } from 'next-auth';
 
 import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { useMobileNavStore } from '@/store/mobile-nav';
-import { useEffect } from 'react';
 
 interface MainNavProps {
   currentUser?: User | undefined;
@@ -21,11 +20,11 @@ interface MainNavProps {
 export function MainNav({ currentUser, items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const pathname = usePathname();
-  const { isMobileNavOpen, setIsMobileNavOpen } = useMobileNavStore();
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   useEffect(() => {
     setIsMobileNavOpen(false);
-  }, [pathname, setIsMobileNavOpen]);
+  }, [pathname]);
 
   return (
     <div className="flex gap-6 md:gap-10">
