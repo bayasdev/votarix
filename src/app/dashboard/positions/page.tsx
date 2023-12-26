@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { getPositionsWithElection } from '@/lib/data/position';
-import PositionsClient from '@/components/dashboard/positions/client';
+import PositionsClient from '@/app/dashboard/positions/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';

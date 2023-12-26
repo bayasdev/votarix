@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { getParties } from '@/lib/data/party';
-import PartiesClient from '@/components/dashboard/parties/client';
+import PartiesClient from '@/app/dashboard/parties/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';

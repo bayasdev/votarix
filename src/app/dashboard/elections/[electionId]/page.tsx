@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getElectionById } from '@/lib/data/election';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import ElectionForm from '@/components/dashboard/elections/form';
+import ElectionForm from '@/app/dashboard/elections/_components/form';
 
 interface UpdateElectionPageProps {
   params: {

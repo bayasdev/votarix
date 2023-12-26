@@ -1,9 +1,4 @@
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  ArrowUpDownIcon,
-  EyeOffIcon,
-} from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, EyeOff } from 'lucide-react';
 import { Column } from '@tanstack/react-table';
 
 import { cn } from '@/lib/utils';
@@ -42,26 +37,26 @@ export function DataTableColumnHeader<TData, TValue>({
           >
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
+              <ArrowDown className="ml-2 h-4 w-4" />
             ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
+              <ArrowUp className="ml-2 h-4 w-4" />
             ) : (
-              <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+              <ArrowUpDown className="ml-2 h-4 w-4" />
             )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            <ArrowUp className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Ascendente
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            <ArrowDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Descendente
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOffIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Ocultar
           </DropdownMenuItem>
         </DropdownMenuContent>

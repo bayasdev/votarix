@@ -4,7 +4,7 @@ import { getPositionById } from '@/lib/data/position';
 import { getElections } from '@/lib/data/election';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import PositionForm from '@/components/dashboard/positions/form';
+import PositionForm from '@/app/dashboard/positions/_components/form';
 
 interface UpdatePositionPageProps {
   params: {

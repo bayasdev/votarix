@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { getUsers } from '@/lib/data/user';
-import UsersClient from '@/components/dashboard/users/client';
+import UsersClient from '@/app/dashboard/users/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';

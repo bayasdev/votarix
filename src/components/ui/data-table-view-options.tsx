@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Settings2Icon } from 'lucide-react';
+import { Settings2 } from 'lucide-react';
 import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -28,7 +28,7 @@ export function DataTableViewOptions<TData>({
           size="sm"
           className="ml-auto hidden h-8 lg:flex"
         >
-          <Settings2Icon className="mr-2 h-4 w-4" />
+          <Settings2 className="mr-2 h-4 w-4" />
           Vista
         </Button>
       </DropdownMenuTrigger>

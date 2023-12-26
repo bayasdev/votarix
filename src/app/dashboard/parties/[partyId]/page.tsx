@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPartyById } from '@/lib/data/party';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import PartyForm from '@/components/dashboard/parties/form';
+import PartyForm from '@/app/dashboard/parties/_components/form';
 
 interface UpdatePartyPageProps {
   params: {

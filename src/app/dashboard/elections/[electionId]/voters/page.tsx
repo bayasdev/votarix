@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { getElectionById } from '@/lib/data/election';
 import { getElegibleVoters, getVotersByElectionId } from '@/lib/data/voters';
-import VotersClient from '@/components/dashboard/elections/voters/client';
+import VotersClient from '@/app/dashboard/elections/[electionId]/voters/_components/client';
 
 interface ElectionVotersPageProps {
   params: {

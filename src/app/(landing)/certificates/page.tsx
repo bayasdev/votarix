@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { getVoterCertificates } from '@/lib/data/voters';
 import EmptyState from '@/components/shared/empty-state';
 import Heading from '@/components/shared/heading';
-import CertificatesClient from '@/components/landing/certificates/client';
+import CertificatesClient from '@/app/(landing)/certificates/_components/client';
 
 export const metadata: Metadata = {
   title: 'Mis certificados',

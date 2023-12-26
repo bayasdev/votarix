@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FileDownIcon } from 'lucide-react';
+import { FileDown } from 'lucide-react';
 import axios from 'axios';
 
 import { SafeUser } from '@/types';
@@ -13,7 +13,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/shared/icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import AddVotersClient from '@/components/dashboard/elections/voters/add-voters-modal/client';
+import AddVotersClient from '@/app/dashboard/elections/[electionId]/voters/_components/modal/client';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import AlertModal from '@/components/modals/alert-modal';
@@ -184,7 +184,7 @@ const AddVotersModal: React.FC<AddVotersModalProps> = ({
                 href="/resources/modelo_votantes.csv"
                 className={cn(buttonVariants({ variant: 'secondary' }))}
               >
-                <FileDownIcon className="mr-2 h-4 w-4" />
+                <FileDown className="mr-2 h-4 w-4" />
                 Descargar modelo CSV
               </Link>
               <form

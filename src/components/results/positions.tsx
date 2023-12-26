@@ -1,4 +1,4 @@
-import { PieChartIcon, VoteIcon } from 'lucide-react';
+import { PieChart, Vote } from 'lucide-react';
 
 import { ElectionResults } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -23,7 +23,7 @@ const ElectionResultsByPosition: React.FC<ElectionResultsByPositionProps> = ({
   return (
     <div className="flex flex-col gap-6">
       <div className="font-medium tracking-tight">
-        <VoteIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
+        <Vote className="-mt-1 mr-2 inline-block h-5 w-5" />
         Resultados por dignidad
       </div>
       <Tabs defaultValue={data?.positions[0]?.id}>
@@ -46,7 +46,7 @@ const ElectionResultsByPosition: React.FC<ElectionResultsByPositionProps> = ({
               <CandidateResultCard key={candidate.id} candidate={candidate} />
             ))}
             <div className="font-medium tracking-tight">
-              <PieChartIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
+              <PieChart className="-mt-1 mr-2 inline-block h-5 w-5" />
               Resumen de votos
             </div>
             <div className="flex flex-wrap justify-between gap-6">

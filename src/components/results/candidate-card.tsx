@@ -1,4 +1,4 @@
-import { FlagIcon, UserIcon } from 'lucide-react';
+import { Flag, User } from 'lucide-react';
 
 import { ElectionResultsCandidate } from '@/types';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
@@ -22,7 +22,7 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
           ) : (
             <AvatarFallback>
               <span className="sr-only">{candidate?.name}</span>
-              <UserIcon className="h-10 w-10" />
+              <User className="h-10 w-10" />
             </AvatarFallback>
           )}
         </Avatar>
@@ -39,7 +39,7 @@ const CandidateResultCard: React.FC<CandidateResultCardProps> = ({
                 className="h-4 w-auto"
               />
             ) : (
-              <FlagIcon className="h-4 w-4" />
+              <Flag className="h-4 w-4" />
             )}
             <div className="text-sm text-muted-foreground">
               {candidate?.party.name}

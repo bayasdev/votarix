@@ -3,11 +3,11 @@ import { Suspense } from 'react';
 import { dashboardConfig } from '@/config/dashboard';
 import { getCurrentUser } from '@/lib/session';
 import { MainNav } from '@/components/layout/main-nav';
-import { DashboardNav } from '@/components/dashboard/dashboard-nav';
+import { DashboardNav } from '@/app/dashboard/_components/dashboard-nav';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { UserAccountNav } from '@/components/layout/user-account-nav';
 import NavSkeleton from '@/components/shared/nav-skeleton';
-import DashboardNavSkeleton from '@/components/dashboard/dashboard-nav-skeleton';
+import DashboardNavSkeleton from '@/app/dashboard/_components/dashboard-nav-skeleton';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;

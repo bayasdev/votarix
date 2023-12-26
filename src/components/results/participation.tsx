@@ -1,4 +1,4 @@
-import { UsersIcon } from 'lucide-react';
+import { Users } from 'lucide-react';
 import dayjs from 'dayjs';
 
 import { ElectionResults } from '@/types';
@@ -24,7 +24,7 @@ const ElectionParticipation: React.FC<ElectionParticipationProps> = ({
   return (
     <div className="flex flex-col gap-6">
       <div className="font-medium tracking-tight">
-        <UsersIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
+        <Users className="-mt-1 mr-2 inline-block h-5 w-5" />
         Participación electoral
       </div>
       <div className="flex flex-wrap justify-between gap-6">
@@ -54,15 +54,15 @@ const ElectionParticipation: React.FC<ElectionParticipationProps> = ({
                       data?.status === ElectionStatus.ONGOING
                         ? 'default'
                         : data?.status === ElectionStatus.NOT_STARTED
-                        ? 'secondary'
-                        : 'destructive'
+                          ? 'secondary'
+                          : 'destructive'
                     }
                   >
                     {data?.status === ElectionStatus.ONGOING
                       ? 'En curso'
                       : data?.status === ElectionStatus.NOT_STARTED
-                      ? 'No iniciada'
-                      : 'Finalizada'}
+                        ? 'No iniciada'
+                        : 'Finalizada'}
                   </Badge>
                 </TableCell>
                 <TableCell>{data?.totalVotes}</TableCell>

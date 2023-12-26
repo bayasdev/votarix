@@ -1,6 +1,6 @@
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import ElectionForm from '@/components/dashboard/elections/form';
+import ElectionForm from '@/app/dashboard/elections/_components/form';
 
 const CreateElectionPage = () => {
   return (

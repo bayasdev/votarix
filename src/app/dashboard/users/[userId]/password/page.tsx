@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getUserById } from '@/lib/data/user';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import UserPasswordForm from '@/components/dashboard/users/password/form';
+import UserPasswordForm from '@/app/dashboard/users/_components/password/form';
 import { getCurrentUser } from '@/lib/session';
 
 interface UpdateUserPageProps {

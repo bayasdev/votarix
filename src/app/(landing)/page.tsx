@@ -1,10 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  ArrowRightCircleIcon,
-  BarChartBigIcon,
-  FileDownIcon,
-} from 'lucide-react';
+import { ArrowRightCircle, BarChartBig, FileDown } from 'lucide-react';
 
 import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
@@ -15,10 +11,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import TribunalCard from '@/components/landing/tribunal-card';
+import TribunalCard from '@/app/(landing)/_components/tribunal-card';
 
 export const metadata: Metadata = {
-  title: 'Inicio',
+  title: 'Sistema web de votación electrónica',
 };
 
 const LandingPage = () => {
@@ -35,14 +31,14 @@ const LandingPage = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/vote" className={cn(buttonVariants({ size: 'lg' }))}>
-              <ArrowRightCircleIcon className="mr-2 h-5 w-5" />
+              <ArrowRightCircle className="mr-2 h-5 w-5" />
               Procesos electorales
             </Link>
             <Link
               href="/results"
               className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
             >
-              <BarChartBigIcon className="mr-2 h-5 w-5" />
+              <BarChartBig className="mr-2 h-5 w-5" />
               Resultados
             </Link>
           </div>
@@ -96,7 +92,7 @@ const LandingPage = () => {
                   rel="noreferrer"
                   className={cn(buttonVariants({ variant: 'outline' }))}
                 >
-                  <FileDownIcon className="mr-2 h-4 w-4" />
+                  <FileDown className="mr-2 h-4 w-4" />
                   Descargar PDF
                 </Link>
               </AccordionContent>
@@ -108,7 +104,7 @@ const LandingPage = () => {
                   href="/privacy"
                   className={cn(buttonVariants({ variant: 'outline' }))}
                 >
-                  <ArrowRightCircleIcon className="mr-2 h-4 w-4" />
+                  <ArrowRightCircle className="mr-2 h-4 w-4" />
                   Leer política de privacidad
                 </Link>
               </AccordionContent>

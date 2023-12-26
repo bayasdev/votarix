@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { getCandidatesWithParty } from '@/lib/data/candidate';
-import CandidatesClient from '@/components/dashboard/candidates/client';
+import CandidatesClient from '@/app/dashboard/candidates/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';

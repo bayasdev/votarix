@@ -5,7 +5,7 @@ import {
   getFinishedElections,
   getElectionResultsById,
 } from '@/lib/data/election';
-import ResultsClient from '@/components/landing/results/client';
+import ResultsClient from '@/app/(landing)/results/_components/client';
 
 export const metadata: Metadata = {
   title: 'Resultados de las elecciones',

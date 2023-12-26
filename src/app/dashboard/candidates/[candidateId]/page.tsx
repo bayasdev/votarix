@@ -5,7 +5,7 @@ import { getParties } from '@/lib/data/party';
 import { getPositions } from '@/lib/data/position';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
-import CandidateForm from '@/components/dashboard/candidates/form';
+import CandidateForm from '@/app/dashboard/candidates/_components/form';
 
 interface UpdateCandidatePageProps {
   params: {
