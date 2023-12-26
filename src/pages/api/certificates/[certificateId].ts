@@ -62,17 +62,7 @@ export default async function handler(
       .locale('es')
       .format('DD [de] MMMM [del] YYYY [a las] HH:mm');
 
-    const message = `Este documento acredita que ${
-      certificate.user.name
-    } portador/a de la cédula de ciudadanía ecuatoriana # ${
-      certificate.user.document
-    } sufragó en el proceso electoral denominado "${
-      certificate.election.name
-    }" el día ${dayjs(certificate.createdAt)
-      .utc()
-      .tz('America/Guayaquil')
-      .locale('es')
-      .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}.`;
+    const message = `Este documento acredita que ${certificate.user.name} portador/a de la cédula de ciudadanía ecuatoriana # ${certificate.user.document} sufragó en el proceso electoral denominado "${certificate.election.name}".`;
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
       const verticalMargin = 20;

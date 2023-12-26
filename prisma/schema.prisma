@@ -118,9 +118,6 @@ model Ballot {
   election    Election   @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId  String
   isNull      Boolean    @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Certificate {
@@ -129,9 +126,6 @@ model Certificate {
   userId     String
   election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@unique([userId, electionId])
 }
