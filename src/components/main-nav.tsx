@@ -9,7 +9,8 @@ import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import { MobileNav } from '@/components/layout/mobile-nav';
+import { MobileNav } from '@/components/mobile-nav';
+import { Skeleton } from './ui/skeleton';
 
 interface MainNavProps {
   currentUser?: User | undefined;
@@ -17,7 +18,7 @@ interface MainNavProps {
   children?: React.ReactNode;
 }
 
-export function MainNav({ currentUser, items, children }: MainNavProps) {
+export const MainNav = ({ currentUser, items, children }: MainNavProps) => {
   const segment = useSelectedLayoutSegment();
   const pathname = usePathname();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -27,7 +28,7 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
   }, [pathname]);
 
   return (
-    <div className="flex gap-6 md:gap-10">
+    <nav className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.logo />
         <span className="hidden font-bold sm:inline-block">
@@ -35,11 +36,12 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
         </span>
       </Link>
       {items?.length ? (
-        <nav className="hidden gap-6 md:flex">
+        <div className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
             <Link
               key={index}
               href={item.disabled ? '#' : item.href}
+              target={item.external ? '_blank' : undefined}
               className={cn(
                 'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm',
                 item.href.startsWith(`/${segment}`)
@@ -52,7 +54,7 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
               {item.title}
             </Link>
           ))}
-        </nav>
+        </div>
       ) : null}
       <button
         className="flex items-center space-x-2 md:hidden"
@@ -64,6 +66,10 @@ export function MainNav({ currentUser, items, children }: MainNavProps) {
       {isMobileNavOpen && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-    </div>
+    </nav>
   );
-}
+};
+
+export const MainNavSkeleton = () => {
+  return <Skeleton className="h-8 w-32" />;
+};

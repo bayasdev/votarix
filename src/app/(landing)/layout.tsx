@@ -1,14 +1,16 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 
+import { cn } from '@/lib/utils';
 import { getCurrentUser } from '@/lib/session';
 import { landingConfig } from '@/config/landing';
-import { cn } from '@/lib/utils';
+import { MainNav, MainNavSkeleton } from '@/components/main-nav';
+import {
+  UserAccountNav,
+  UserAccountNavSkeleton,
+} from '@/components/user-account-nav';
 import { buttonVariants } from '@/components/ui/button';
-import { MainNav } from '@/components/layout/main-nav';
-import { SiteFooter } from '@/components/layout/site-footer';
-import { UserAccountNav } from '@/components/layout/user-account-nav';
-import NavSkeleton from '@/components/shared/nav-skeleton';
+import { SiteFooter } from '@/components/site-footer';
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -22,7 +24,10 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
       <header className="container z-40 bg-background">
         <Suspense
           fallback={
-            <NavSkeleton className="flex h-16 items-center justify-between py-6" />
+            <div className="flex h-16 items-center justify-between py-6">
+              <MainNavSkeleton />
+              <UserAccountNavSkeleton />
+            </div>
           }
         >
           <div className="flex h-16 items-center justify-between py-6">

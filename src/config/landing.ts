@@ -27,6 +27,7 @@ export const landingConfig: LandingConfig = {
     {
       title: siteConfig.organizationAbbreviation,
       href: siteConfig.organizationUrl,
+      external: true,
     },
   ],
 };

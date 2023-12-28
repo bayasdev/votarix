@@ -2,12 +2,16 @@ import { Suspense } from 'react';
 
 import { dashboardConfig } from '@/config/dashboard';
 import { getCurrentUser } from '@/lib/session';
-import { MainNav } from '@/components/layout/main-nav';
-import { DashboardNav } from '@/app/dashboard/_components/dashboard-nav';
-import { SiteFooter } from '@/components/layout/site-footer';
-import { UserAccountNav } from '@/components/layout/user-account-nav';
-import NavSkeleton from '@/components/shared/nav-skeleton';
-import DashboardNavSkeleton from '@/app/dashboard/_components/dashboard-nav-skeleton';
+import { MainNav, MainNavSkeleton } from '@/components/main-nav';
+import {
+  UserAccountNav,
+  UserAccountNavSkeleton,
+} from '@/components/user-account-nav';
+import {
+  DashboardNav,
+  DashboardNavSkeleton,
+} from '@/app/dashboard/_components/dashboard-nav';
+import { SiteFooter } from '@/components/site-footer';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -23,7 +27,10 @@ export default async function DashboardLayout({
       <header className="sticky top-0 z-40 border-b bg-background">
         <Suspense
           fallback={
-            <NavSkeleton className="container flex h-16 items-center justify-between py-4" />
+            <div className="container flex h-16 items-center justify-between py-4">
+              <MainNavSkeleton />
+              <UserAccountNavSkeleton />
+            </div>
           }
         >
           <div className="container flex h-16 items-center justify-between py-4">
