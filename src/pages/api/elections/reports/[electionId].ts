@@ -151,7 +151,7 @@ export default async function handler(
     const secondPoint = `2.- Dar inicio a la fase de impugnación de resultados, acorde al cronograma establecido para el efecto.`;
 
     const secretaryName =
-      siteConfig.tribunal.find((member) => member.title === 'Secretario')
+      siteConfig.tribunalMembers.find((member) => member.title === 'Secretario')
         ?.name || '';
 
     const pdfBuffer = await new Promise<Buffer>((resolve) => {
@@ -214,7 +214,9 @@ export default async function handler(
       doc.moveDown(1);
 
       doc.list(
-        siteConfig.tribunal.map((member) => member.name + ', ' + member.title),
+        siteConfig.tribunalMembers.map(
+          (member) => member.name + ', ' + member.title,
+        ),
         {
           listType: 'bullet',
           bulletRadius: 3,

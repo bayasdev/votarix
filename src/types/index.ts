@@ -1,44 +1,30 @@
-/* eslint-disable no-unused-vars */
-
 import {
   Candidate,
   Election,
   Party,
   Position,
-  Role,
   User,
+  Role,
 } from '@prisma/client';
-import type { Icon } from 'lucide-react';
 
 import { Icons } from '@/components/shared/icons';
 import { ElectionStatus } from '@/constants';
 
 // ui
 
-export type NavItem = {
+export type MainNavItem = {
   title: string;
   href: string;
   disabled?: boolean;
   role?: Role;
 };
 
-export type MainNavItem = NavItem;
-
 export type SidebarNavItem = {
   title: string;
+  href: string;
   disabled?: boolean;
-  external?: boolean;
   icon?: keyof typeof Icons;
-} & (
-  | {
-      href: string;
-      items?: never;
-    }
-  | {
-      href?: string;
-      items: NavLink[];
-    }
-);
+};
 
 // configs
 
@@ -59,7 +45,7 @@ export type SiteConfig = {
   organizationAddress: string;
   organizationEmail: string;
   signupAllowed: boolean;
-  tribunal: TribunalMember[];
+  tribunalMembers: TribunalMember[];
 };
 
 export type LandingConfig = {
@@ -71,14 +57,10 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
-// safe generic
-
 type Safe<T> = Omit<T, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };
-
-// prisma
 
 export type SafeUser = Safe<Omit<User, 'emailVerified'>> & {
   emailVerified: string | null;

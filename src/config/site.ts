@@ -11,7 +11,7 @@ export const siteConfig: SiteConfig = {
   organizationAddress: 'José Queri y Av. Eloy Alfaro, Quito, Ecuador',
   organizationEmail: 'info@unibe.edu.ec',
   signupAllowed: false,
-  tribunal: [
+  tribunalMembers: [
     {
       name: 'Mgst. Myriam Álvarez',
       title: 'Presidente',

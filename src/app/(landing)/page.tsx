@@ -60,7 +60,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="mx-auto grid justify-center gap-4 md:max-w-[64rem] lg:grid-cols-3">
-          {siteConfig.tribunal.map((member) => (
+          {siteConfig.tribunalMembers.map((member) => (
             <TribunalCard
               key={member.name}
               name={member.name}
