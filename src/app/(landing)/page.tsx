@@ -32,7 +32,7 @@ const LandingPage = () => {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/vote" className={cn(buttonVariants({ size: 'lg' }))}>
               <ArrowRightCircle className="mr-2 h-5 w-5" />
-              Procesos electorales
+              Ir a votar
             </Link>
             <Link
               href="/results"

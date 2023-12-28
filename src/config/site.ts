@@ -10,10 +10,6 @@ export const siteConfig: SiteConfig = {
   organizationUrl: 'https://unibe.edu.ec',
   organizationAddress: 'José Queri y Av. Eloy Alfaro, Quito, Ecuador',
   organizationEmail: 'info@unibe.edu.ec',
-  links: {
-    twitter: 'https://twitter.com/victorbayas',
-    github: 'https://github.com/bayasdev/votarix',
-  },
   signupAllowed: false,
   tribunal: [
     {

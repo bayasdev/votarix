@@ -15,11 +15,11 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
     >
       <div className="flex flex-col items-center gap-2 md:flex-row">
         <Icons.logo />
-        <p className="text-center text-sm leading-loose md:text-left">
-          Sistema {siteConfig.name} ({siteConfig.organizationAbbreviation})
+        <p className="text-center text-sm md:text-left">
+          {siteConfig.name} E-Voting System
         </p>
       </div>
-      <div className="flex flex-col items-center gap-1 md:items-start">
+      <div className="flex items-center gap-2">
         <span className="text-xs text-muted-foreground">Developed by</span>
         <Link href="https://codestrats.com" target="_blank">
           <Image

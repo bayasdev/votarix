@@ -22,10 +22,10 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
       <header className="container z-40 bg-background">
         <Suspense
           fallback={
-            <NavSkeleton className="flex h-20 items-center justify-between py-6" />
+            <NavSkeleton className="flex h-16 items-center justify-between py-6" />
           }
         >
-          <div className="flex h-20 items-center justify-between py-6">
+          <div className="flex h-16 items-center justify-between py-6">
             <MainNav currentUser={currentUser} items={landingConfig.mainNav} />
             {!currentUser ? (
               <Link

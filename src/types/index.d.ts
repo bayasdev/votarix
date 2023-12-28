@@ -58,10 +58,6 @@ export type SiteConfig = {
   organizationUrl: string;
   organizationAddress: string;
   organizationEmail: string;
-  links: {
-    twitter: string;
-    github: string;
-  };
   signupAllowed: boolean;
   tribunal: TribunalMember[];
 };
