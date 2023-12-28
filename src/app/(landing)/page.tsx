@@ -14,7 +14,7 @@ import {
 import TribunalCard from '@/app/(landing)/_components/tribunal-card';
 
 export const metadata: Metadata = {
-  title: 'Sistema web de votación electrónica',
+  title: 'Inicio',
 };
 
 const LandingPage = () => {
