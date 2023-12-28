@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/shared/user-avatar';
 import { Badge } from '@/components/ui/badge';
-import { Skeleton } from './ui/skeleton';
+import { Skeleton } from '../ui/skeleton';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   currentUser: User | undefined;

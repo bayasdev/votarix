@@ -18,7 +18,7 @@ import AlertModal from '@/components/modals/alert-modal';
 import AddVotersModal from '@/components/modals/add-voters-modal';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Icons } from '@/components/shared/icons';
-import { useAddVotersModalStore } from '@/store/add-voters-modal';
+import { useAddVotersModalStore } from '@/stores/add-voters-modal';
 
 interface VotersClientProps {
   election: SafeElection | null;

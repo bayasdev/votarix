@@ -17,7 +17,7 @@ import AddVotersClient from '@/app/dashboard/elections/[electionId]/voters/_comp
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import AlertModal from '@/components/modals/alert-modal';
-import { useAddVotersModalStore } from '@/store/add-voters-modal';
+import { useAddVotersModalStore } from '@/stores/add-voters-modal';
 
 interface AddVotersModalProps {
   electionId: string;

@@ -2,16 +2,16 @@ import { Suspense } from 'react';
 
 import { dashboardConfig } from '@/config/dashboard';
 import { getCurrentUser } from '@/lib/session';
-import { MainNav, MainNavSkeleton } from '@/components/main-nav';
+import { MainNav, MainNavSkeleton } from '@/components/layout/main-nav';
 import {
   UserAccountNav,
   UserAccountNavSkeleton,
-} from '@/components/user-account-nav';
+} from '@/components/layout/user-account-nav';
 import {
   DashboardNav,
   DashboardNavSkeleton,
 } from '@/app/dashboard/_components/dashboard-nav';
-import { SiteFooter } from '@/components/site-footer';
+import { SiteFooter } from '@/components/layout/site-footer';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;

@@ -9,8 +9,8 @@ import { MainNavItem } from '@/types';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import { MobileNav } from '@/components/mobile-nav';
-import { Skeleton } from './ui/skeleton';
+import { MobileNav } from '@/components/layout/mobile-nav';
+import { Skeleton } from '../ui/skeleton';
 
 interface MainNavProps {
   currentUser?: User | undefined;
