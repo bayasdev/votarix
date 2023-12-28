@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,10 +32,10 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     },
   });
 
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
 
-  React.useMemo(() => {
+  useMemo(() => {
     const error = searchParams?.get('error');
 
     if (error) {

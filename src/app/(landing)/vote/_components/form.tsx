@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -28,8 +28,8 @@ interface VoteFormProps {
 
 const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<VoteRequest>({
     resolver: zodResolver(VoteValidator),

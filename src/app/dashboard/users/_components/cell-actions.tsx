@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Copy, KeyRound, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import axios from 'axios';
@@ -24,8 +24,8 @@ interface CellActionsProps {
 
 const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard?.writeText(data.id);

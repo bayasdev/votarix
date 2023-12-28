@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { ElectionResults, SafeElection } from '@/types';
@@ -35,15 +35,15 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedElection, setSelectedElection] = React.useState<string>(
+  const [selectedElection, setSelectedElection] = useState<string>(
     searchParams?.get('electionId') || '',
   );
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [results, setResults] = React.useState<ElectionResults | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [results, setResults] = useState<ElectionResults | null>(null);
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
-  const createQueryString = React.useCallback(
+  const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams || '');
       params.set(name, value);
@@ -53,7 +53,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
     [searchParams],
   );
 
-  const getResults = React.useCallback(async () => {
+  const getResults = useCallback(async () => {
     if (!selectedElection) return;
     setIsLoading(true);
 
@@ -78,7 +78,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
     setIsLoading(false);
   }, [createQueryString, getElectionResultsById, router, selectedElection]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getResults();
   }, [getResults, selectedElection]);
 

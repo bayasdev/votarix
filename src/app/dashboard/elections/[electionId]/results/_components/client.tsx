@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
@@ -23,17 +23,17 @@ interface ElectionResultsClientProps {
 const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
   data,
 }) => {
-  const isFinished = React.useMemo(
+  const isFinished = useMemo(
     () => dayjs().isAfter(dayjs(data?.endTime)),
     [data],
   );
-  const [autoRefresh, setAutoRefresh] = React.useState<boolean>(
+  const [autoRefresh, setAutoRefresh] = useState<boolean>(
     isFinished ? false : true,
   );
   const refreshInterval = 60;
   const router = useRouter();
 
-  const handleRefresh = React.useCallback(() => {
+  const handleRefresh = useCallback(() => {
     router.refresh();
     toast({
       title: 'Resultados actualizados',
@@ -56,7 +56,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
       });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (autoRefresh) {
       const interval = setInterval(handleRefresh, refreshInterval * 1000);
       return () => clearInterval(interval);

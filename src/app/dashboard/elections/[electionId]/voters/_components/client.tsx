@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -32,19 +32,16 @@ const VotersClient: React.FC<VotersClientProps> = ({
   elegibleVoters,
 }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isElectionOnGoing =
     dayjs().isAfter(dayjs(election?.startTime)) &&
     dayjs().isBefore(dayjs(election?.endTime));
 
   // disconnect voters
-  const [isDisconnectModalOpen, setIsDisconnectModalOpen] =
-    React.useState(false);
-  const [disconnectRowSelection, setDisconnectRowSelection] = React.useState(
-    {},
-  );
-  const [disconnectSelectedData, setDisconnectSelectedData] = React.useState<
+  const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
+  const [disconnectRowSelection, setDisconnectRowSelection] = useState({});
+  const [disconnectSelectedData, setDisconnectSelectedData] = useState<
     SafeUserWithHasVoted[]
   >([]);
 
