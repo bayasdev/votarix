@@ -24,7 +24,7 @@ const ElectionParticipation: React.FC<ElectionParticipationProps> = ({
   return (
     <div className="flex flex-col gap-6">
       <div className="font-medium tracking-tight">
-        <Users className="-mt-1 mr-2 inline-block h-5 w-5" />
+        <Users className="mr-2 inline-block h-5 w-5" />
         Participación electoral
       </div>
       <div className="flex flex-wrap justify-between gap-6">
