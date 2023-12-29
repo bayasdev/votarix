@@ -1,20 +1,14 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Flag, ListChecks, User } from 'lucide-react';
+import { Flag, ListChecks, User, UsersRound } from 'lucide-react';
 
 import { getElectionDataWithProposalsById } from '@/lib/data/election';
 import { CandidateProposal } from '@/types';
 import Heading from '@/components/shared/heading';
+import GoBack from '@/components/shared/go-back';
 import EmptyState from '@/components/shared/empty-state';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 
@@ -24,6 +18,10 @@ interface ProposalsByElectionPageProps {
   };
 }
 
+export const metadata: Metadata = {
+  title: 'Propuestas de los candidatos',
+};
+
 const ProposalsByElectionPage: React.FC<ProposalsByElectionPageProps> = async ({
   params,
 }) => {
@@ -32,15 +30,19 @@ const ProposalsByElectionPage: React.FC<ProposalsByElectionPageProps> = async ({
 
   return (
     <div className="container flex flex-col gap-6">
-      <Heading
-        title={data.name as string}
-        subtitle="Conoce las propuestas de los candidatos que participan en esta elección"
-      />
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Heading
+          title={data.name as string}
+          subtitle="Conoce las propuestas de los candidatos que participan en esta elección"
+        />
+        <GoBack />
+      </div>
       {data.positions && data.positions.length >= 0 ? (
-        <div className="space-y-2">
-          <h2 className="font-medium tracking-tight">
+        <>
+          <div className="font-medium tracking-tight">
+            <UsersRound className="mr-2 inline-block h-5 w-5" />
             Selecciona una dignidad
-          </h2>
+          </div>
           <Tabs defaultValue={data.positions[0]?.id}>
             <div className="overflow-x-auto">
               <TabsList>
@@ -119,7 +121,7 @@ const ProposalsByElectionPage: React.FC<ProposalsByElectionPageProps> = async ({
               </TabsContent>
             ))}
           </Tabs>
-        </div>
+        </>
       ) : (
         <EmptyState
           title="No hay dignidades en esta elección"
