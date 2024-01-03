@@ -27,15 +27,15 @@ export const MainNav = ({ currentUser, items, children }: MainNavProps) => {
   }, [pathname]);
 
   return (
-    <nav className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
+    <nav className="flex gap-6 lg:gap-10">
+      <Link href="/" className="hidden items-center space-x-2 lg:flex">
         <Icons.logo />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
         </span>
       </Link>
       {items?.length ? (
-        <div className="hidden gap-6 md:flex">
+        <div className="hidden gap-6 lg:flex">
           {items?.map((item, index) => (
             <Link
               key={index}
@@ -56,7 +56,7 @@ export const MainNav = ({ currentUser, items, children }: MainNavProps) => {
         </div>
       ) : null}
       <button
-        className="flex items-center space-x-2 md:hidden"
+        className="flex items-center space-x-2 lg:hidden"
         onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
       >
         {isMobileNavOpen ? <Icons.close /> : <Icons.logo />}
