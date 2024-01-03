@@ -10,7 +10,6 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 import { MobileNav } from '@/components/layout/mobile-nav';
-import { Skeleton } from '../ui/skeleton';
 
 interface MainNavProps {
   currentUser?: User | undefined;
@@ -68,8 +67,4 @@ export const MainNav = ({ currentUser, items, children }: MainNavProps) => {
       )}
     </nav>
   );
-};
-
-export const MainNavSkeleton = () => {
-  return <Skeleton className="h-8 w-32" />;
 };

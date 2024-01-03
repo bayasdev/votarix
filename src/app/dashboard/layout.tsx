@@ -2,15 +2,12 @@ import { Suspense } from 'react';
 
 import { dashboardConfig } from '@/config/dashboard';
 import { getCurrentUser } from '@/lib/session';
-import { MainNav, MainNavSkeleton } from '@/components/layout/main-nav';
-import {
-  UserAccountNav,
-  UserAccountNavSkeleton,
-} from '@/components/layout/user-account-nav';
-import {
-  DashboardNav,
-  DashboardNavSkeleton,
-} from '@/app/dashboard/_components/dashboard-nav';
+import { MainNav } from '@/components/layout/main-nav';
+import { MainNavSkeleton } from '@/components/layout/main-nav-skeleton';
+import { UserAccountNav } from '@/components/layout/user-account-nav';
+import { UserAccountNavSkeleton } from '@/components/layout/user-account-nav-skeleton';
+import { DashboardNav } from '@/app/dashboard/_components/dashboard-nav';
+import { DashboardNavSkeleton } from '@/app/dashboard/_components/dashboard-nav-skeleton';
 import { SiteFooter } from '@/components/layout/site-footer';
 
 interface DashboardLayoutProps {

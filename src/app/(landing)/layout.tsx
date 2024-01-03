@@ -4,11 +4,10 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { getCurrentUser } from '@/lib/session';
 import { landingConfig } from '@/config/landing';
-import { MainNav, MainNavSkeleton } from '@/components/layout/main-nav';
-import {
-  UserAccountNav,
-  UserAccountNavSkeleton,
-} from '@/components/layout/user-account-nav';
+import { MainNav } from '@/components/layout/main-nav';
+import { MainNavSkeleton } from '@/components/layout/main-nav-skeleton';
+import { UserAccountNav } from '@/components/layout/user-account-nav';
+import { UserAccountNavSkeleton } from '@/components/layout/user-account-nav-skeleton';
 import { buttonVariants } from '@/components/ui/button';
 import { SiteFooter } from '@/components/layout/site-footer';
 

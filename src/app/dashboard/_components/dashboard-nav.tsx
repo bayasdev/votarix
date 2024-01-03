@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { SidebarNavItem } from '@/types';
 import { Icons } from '@/components/shared/icons';
-import { Skeleton } from '@/components/ui/skeleton';
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -41,21 +40,5 @@ export const DashboardNav = ({ items }: DashboardNavProps) => {
         );
       })}
     </nav>
-  );
-};
-
-export const DashboardNavSkeleton = () => {
-  return (
-    <aside className="hidden w-[200px] flex-col md:flex">
-      <nav className="grid items-start gap-2">
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
-      </nav>
-    </aside>
   );
 };

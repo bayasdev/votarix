@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 
-const DashboardNavSkeleton = () => {
+export const DashboardNavSkeleton = () => {
   return (
     <aside className="hidden w-[200px] flex-col md:flex">
       <nav className="grid items-start gap-2">
@@ -15,5 +15,3 @@ const DashboardNavSkeleton = () => {
     </aside>
   );
 };
-
-export default DashboardNavSkeleton;

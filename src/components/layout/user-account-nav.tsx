@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/shared/user-avatar';
 import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '../ui/skeleton';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   currentUser: User | undefined;
@@ -78,7 +77,3 @@ export function UserAccountNav({ currentUser }: UserAccountNavProps) {
     </DropdownMenu>
   );
 }
-
-export const UserAccountNavSkeleton = () => {
-  return <Skeleton className="h-8 w-8 rounded-full" />;
-};
