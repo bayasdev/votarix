@@ -83,6 +83,9 @@ model User {
   elections    Election[]
   auditLogs    AuditLog[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("users")
 }
 
@@ -98,6 +101,9 @@ model Election {
   certificates Certificate[]
   report       ElectionReport?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("elections")
 }
 
@@ -107,6 +113,9 @@ model ElectionReport {
 
   electionId String   @unique
   election   Election @relation(fields: [electionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("election_reports")
 }
@@ -124,6 +133,9 @@ model Party {
   candidates Candidate[]
   ballots    Ballot[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("parties")
 }
 
@@ -138,6 +150,9 @@ model Candidate {
 
   party   Party  @relation(fields: [partyId], references: [id])
   partyId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([partyId, type])
   @@map("candidates")
@@ -161,6 +176,9 @@ model Certificate {
   election   Election @relation(fields: [electionId], references: [id])
   electionId String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([userId, electionId])
   @@map("certificates")
 }
@@ -176,6 +194,7 @@ model AuditLog {
   userName   String
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 
