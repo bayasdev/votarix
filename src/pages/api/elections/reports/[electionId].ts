@@ -34,7 +34,7 @@ export default async function handler(
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
-        endTime: {
+        endsAt: {
           lte: new Date(),
         },
       },
@@ -89,7 +89,7 @@ export default async function handler(
       .locale('es')
       .format('DD [días del mes de] MMMM [de] YYYY [siendo las] HH:mm [horas]');
 
-    const electionEndTime = dayjs(election.endTime)
+    const electionendsAt = dayjs(election.endsAt)
       .utc()
       .tz('America/Guayaquil')
       .locale('es')
@@ -97,7 +97,7 @@ export default async function handler(
 
     const intro = `En cumplimiento a lo que dispone la Constitución de la República del Ecuador; la Ley Orgánica de Educación Superior - LOES; y, desarrollado en el Estatuto de la ${siteConfig.organizationName} y la Normativa de Elecciones de los Representantes de los Estamentos Universitarios al Órgano del Cogobierno. En la ciudad de Quito, D.M., a ${generationDateLong}, se reune el Tribunal Electoral integrado por:`;
 
-    const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionEndTime} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
+    const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionendsAt} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
 
     const firstPoint = `1.- Verificar los escrutinios totales y levantar la presente ACTA DE RESULTADOS con los siguientes resultados:`;
 

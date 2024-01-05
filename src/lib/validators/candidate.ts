@@ -1,5 +1,5 @@
 import { z } from 'zod';
-// import validateDni from '@/lib/helpers/validateDni';
+// import validateDocument from '@/lib/helpers/validateDocument';
 
 export const CandidateValidator = z.object({
   name: z.string().min(1, 'El campo es requerido'),
@@ -10,7 +10,7 @@ export const CandidateValidator = z.object({
     .or(z.literal('')),
   document: z
     .string()
-    // .refine((value) => validateDni(value || ''), {
+    // .refine((value) => validateDocument(value || ''), {
     //   message: 'El número de cédula ingresado no es válido',
     // })
     .optional()

@@ -17,10 +17,9 @@ export async function getUsers(): Promise<SafeUser[] | null> {
 
     const safeUsers = users.map((item) => ({
       ...item,
+      hashedPassword: '',
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      emailVerified: item.emailVerified?.toISOString() || null,
-      hashedPassword: null,
     }));
 
     return safeUsers;
@@ -45,10 +44,9 @@ export async function getUserById(params: IParams): Promise<SafeUser | null> {
 
     return {
       ...user,
+      hashedPassword: '',
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
-      emailVerified: user.emailVerified?.toISOString() || null,
-      hashedPassword: null,
     };
   } catch (error) {
     return null;

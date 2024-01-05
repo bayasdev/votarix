@@ -142,8 +142,8 @@ model Party {
 model Candidate {
   id       String        @id @default(cuid())
   name     String
-  email    String
-  document String
+  email    String        @unique
+  document String        @unique
   imageKey String?
   imageUrl String?
   type     CandidateType

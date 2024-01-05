@@ -9,10 +9,10 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     const totalElections = await prisma.election.count();
     const totalActiveElections = await prisma.election.count({
       where: {
-        startTime: {
+        startsAt: {
           lte: new Date(),
         },
-        endTime: {
+        endsAt: {
           gte: new Date(),
         },
       },

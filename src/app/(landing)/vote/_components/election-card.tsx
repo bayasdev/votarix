@@ -27,9 +27,9 @@ const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
         <CardTitle className="tracking-tight">{election.name}</CardTitle>
         <CardDescription className="flex flex-wrap items-center gap-2">
           <CalendarClock className="h-4 w-4" />
-          {dayjs(election.startTime).format('DD/MM/YYYY HH:mm')}
+          {dayjs(election.startsAt).format('DD/MM/YYYY HH:mm')}
           {' - '}
-          {dayjs(election.endTime).format('DD/MM/YYYY HH:mm')}
+          {dayjs(election.endsAt).format('DD/MM/YYYY HH:mm')}
         </CardDescription>
       </CardHeader>
       <CardContent>{election.description}</CardContent>

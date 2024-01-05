@@ -21,24 +21,24 @@ export const columns: ColumnDef<SafeElectionWithStatus>[] = [
     ),
   },
   {
-    accessorKey: 'startTime',
+    accessorKey: 'startsAt',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Fecha de inicio" />
     ),
     cell: ({ row }) => {
       return (
-        <span>{dayjs(row.original.startTime).format('DD/MM/YYYY HH:mm')}</span>
+        <span>{dayjs(row.original.startsAt).format('DD/MM/YYYY HH:mm')}</span>
       );
     },
   },
   {
-    accessorKey: 'endTime',
+    accessorKey: 'endsAt',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Fecha de finalización" />
     ),
     cell: ({ row }) => {
       return (
-        <span>{dayjs(row.original.endTime).format('DD/MM/YYYY HH:mm')}</span>
+        <span>{dayjs(row.original.endsAt).format('DD/MM/YYYY HH:mm')}</span>
       );
     },
   },

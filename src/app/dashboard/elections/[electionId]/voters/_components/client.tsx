@@ -35,8 +35,8 @@ const VotersClient: React.FC<VotersClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const isElectionOnGoing =
-    dayjs().isAfter(dayjs(election?.startTime)) &&
-    dayjs().isBefore(dayjs(election?.endTime));
+    dayjs().isAfter(dayjs(election?.startsAt)) &&
+    dayjs().isBefore(dayjs(election?.endsAt));
 
   // disconnect voters
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);

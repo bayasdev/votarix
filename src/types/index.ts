@@ -1,11 +1,4 @@
-import {
-  Candidate,
-  Election,
-  Party,
-  Position,
-  User,
-  Role,
-} from '@prisma/client';
+import { Candidate, Election, Party, User, Role } from '@prisma/client';
 
 import { Icons } from '@/components/shared/icons';
 import { ElectionStatus } from '@/constants';
@@ -63,15 +56,15 @@ type Safe<T> = Omit<T, 'createdAt' | 'updatedAt'> & {
   updatedAt: string;
 };
 
-export type SafeUser = Safe<Omit<User, 'emailVerified'>> & {
-  emailVerified: string | null;
-};
+export type SafeUser = Safe<User>;
 
 export type SafeUserWithHasVoted = SafeUser & {
   hasVoted: boolean;
 };
 
-export type SafeParty = Safe<Party>;
+export type SafeParty = Safe<Omit<Party, 'proposals'>> & {
+  proposals: string;
+};
 
 export type SafeCandidate = Omit<Safe<Candidate>, 'proposals'> & {
   proposals?: string;
@@ -81,19 +74,13 @@ export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
   party?: SafeParty;
 };
 
-export type SafeElection = Safe<Omit<Election, 'startTime' | 'endTime'>> & {
-  startTime: string;
-  endTime: string;
+export type SafeElection = Safe<Omit<Election, 'startsAt' | 'endsAt'>> & {
+  startsAt: string;
+  endsAt: string;
 };
 
 export type SafeElectionWithStatus = SafeElection & {
   status: ElectionStatus;
-};
-
-export type SafePosition = Safe<Position>;
-
-export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
-  election?: SafeElection;
 };
 
 export type CandidateProposal = {
@@ -133,8 +120,8 @@ export type ElectionResultsPosition = {
 export type ElectionResults = {
   electionId: string;
   electionName: string;
-  startTime: string;
-  endTime: string;
+  startsAt: string;
+  endsAt: string;
   positions: ElectionResultsPosition[];
   totalVoters: number;
   totalVotes: number;
@@ -166,8 +153,8 @@ export type ElectionData = {
   id: string;
   name: string;
   description: string;
-  startTime: string;
-  endTime: string;
+  startsAt: string;
+  endsAt: string;
   positions: ElectionDataPosition[];
 };
 

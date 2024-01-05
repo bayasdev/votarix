@@ -43,10 +43,10 @@ const ElectionParticipation: React.FC<ElectionParticipationProps> = ({
             <TableBody>
               <TableRow>
                 <TableCell>
-                  {dayjs(data?.startTime).format('DD/MM/YYYY HH:mm')}
+                  {dayjs(data?.startsAt).format('DD/MM/YYYY HH:mm')}
                 </TableCell>
                 <TableCell>
-                  {dayjs(data?.endTime).format('DD/MM/YYYY HH:mm')}
+                  {dayjs(data?.endsAt).format('DD/MM/YYYY HH:mm')}
                 </TableCell>
                 <TableCell>
                   <Badge

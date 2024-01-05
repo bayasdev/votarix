@@ -40,13 +40,13 @@ export async function POST(request: Request, { params }: IParams) {
     }
 
     // If election is ongoing, do not allow to modify voters
-    // check startTime and endTime
+    // check startsAt and endsAt
     if (
       election &&
-      election.startTime &&
-      election.endTime &&
-      election.startTime < new Date() &&
-      election.endTime > new Date()
+      election.startsAt &&
+      election.endsAt &&
+      election.startsAt < new Date() &&
+      election.endsAt > new Date()
     ) {
       return new Response(
         'No se puede modificar el padrón en una elección en curso',

@@ -24,7 +24,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
   data,
 }) => {
   const isFinished = useMemo(
-    () => dayjs().isAfter(dayjs(data?.endTime)),
+    () => dayjs().isAfter(dayjs(data?.endsAt)),
     [data],
   );
   const [autoRefresh, setAutoRefresh] = useState<boolean>(

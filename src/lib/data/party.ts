@@ -17,6 +17,7 @@ export async function getParties(): Promise<SafeParty[] | null> {
 
     const safeParties = parties.map((item) => ({
       ...item,
+      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -43,6 +44,7 @@ export async function getPartyById(params: IParams): Promise<SafeParty | null> {
 
     return {
       ...party,
+      proposals: JSON.stringify(party.proposals),
       createdAt: party.createdAt.toISOString(),
       updatedAt: party.updatedAt.toISOString(),
     };

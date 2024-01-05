@@ -17,7 +17,7 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
-      proposals: JSON.stringify(item.proposals),
+
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -43,11 +43,11 @@ export async function getCandidatesWithParty(): Promise<
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
-      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
       party: {
         ...item.party,
+        proposals: JSON.stringify(item.party?.proposals),
         createdAt: item.party?.createdAt.toISOString(),
         updatedAt: item.party?.updatedAt.toISOString(),
       },
@@ -77,7 +77,6 @@ export async function getCandidateById(
 
     return {
       ...candidate,
-      proposals: JSON.stringify(candidate.proposals),
       createdAt: candidate.createdAt.toISOString(),
       updatedAt: candidate.updatedAt.toISOString(),
     };
@@ -104,49 +103,11 @@ export async function getCandidatesByPartyId(params: {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
-      proposals: JSON.stringify(item.proposals),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
 
     return safeCandidates;
-  } catch (error) {
-    return null;
-  }
-}
-
-export async function getCandidatesByPositionId(params: {
-  positionId?: string;
-}): Promise<SafeCandidateWithParty[] | null> {
-  const { positionId } = params;
-
-  try {
-    const candidates = await prisma.candidate.findMany({
-      where: {
-        positionId,
-      },
-      include: {
-        party: true,
-      },
-    });
-
-    if (!candidates) {
-      return null;
-    }
-
-    const safeCandidates = candidates.map((item) => ({
-      ...item,
-      proposals: JSON.stringify(item.proposals),
-      createdAt: item.createdAt.toISOString(),
-      updatedAt: item.updatedAt.toISOString(),
-      party: {
-        ...item.party,
-        createdAt: item.party?.createdAt.toISOString(),
-        updatedAt: item.party?.updatedAt.toISOString(),
-      },
-    }));
-
-    return safeCandidates as SafeCandidateWithParty[];
   } catch (error) {
     return null;
   }

@@ -37,10 +37,10 @@ export async function POST(request: Request, { params }: IParams) {
           },
         },
         // check if election is ongoing
-        startTime: {
+        startsAt: {
           lt: new Date(),
         },
-        endTime: {
+        endsAt: {
           gt: new Date(),
         },
         // check if user has voted

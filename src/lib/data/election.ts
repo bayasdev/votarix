@@ -26,8 +26,8 @@ export async function getElections(): Promise<SafeElection[] | null> {
 
     const safeElections = elections.map((item) => ({
       ...item,
-      startTime: item.startTime.toISOString(),
-      endTime: item.endTime.toISOString(),
+      startsAt: item.startsAt.toISOString(),
+      endsAt: item.endsAt.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -50,14 +50,14 @@ export async function getElectionsWithStatus(): Promise<
 
     const safeElections = elections.map((item) => ({
       ...item,
-      startTime: item.startTime.toISOString(),
-      endTime: item.endTime.toISOString(),
+      startsAt: item.startsAt.toISOString(),
+      endsAt: item.endsAt.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
       status:
-        item.startTime > new Date()
+        item.startsAt > new Date()
           ? ElectionStatus.NOT_STARTED
-          : item.endTime > new Date()
+          : item.endsAt > new Date()
             ? ElectionStatus.ONGOING
             : ElectionStatus.FINISHED,
     }));
@@ -72,19 +72,19 @@ export async function getFinishedElections(): Promise<SafeElection[] | null> {
   try {
     const elections = await prisma.election.findMany({
       where: {
-        endTime: {
+        endsAt: {
           lt: new Date(),
         },
       },
       orderBy: {
-        endTime: 'desc',
+        endsAt: 'desc',
       },
     });
 
     const safeElections = elections.map((item) => ({
       ...item,
-      startTime: item.startTime.toISOString(),
-      endTime: item.endTime.toISOString(),
+      startsAt: item.startsAt.toISOString(),
+      endsAt: item.endsAt.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -107,10 +107,10 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
 
     const elections = await prisma.election.findMany({
       where: {
-        startTime: {
+        startsAt: {
           lt: new Date(),
         },
-        endTime: {
+        endsAt: {
           gt: new Date(),
         },
         voters: {
@@ -131,8 +131,8 @@ export async function getAvailableElectionsForCurrentUser(): Promise<
 
     const safeElections = elections.map((item) => ({
       ...item,
-      startTime: item.startTime.toISOString(),
-      endTime: item.endTime.toISOString(),
+      startsAt: item.startsAt.toISOString(),
+      endsAt: item.endsAt.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -161,8 +161,8 @@ export async function getElectionById(
 
     return {
       ...election,
-      startTime: election.startTime.toISOString(),
-      endTime: election.endTime.toISOString(),
+      startsAt: election.startsAt.toISOString(),
+      endsAt: election.endsAt.toISOString(),
       createdAt: election.createdAt.toISOString(),
       updatedAt: election.updatedAt.toISOString(),
     };
@@ -210,8 +210,8 @@ export async function getElectionDataById(
       id: election.id,
       name: election.name,
       description: election.description,
-      startTime: election.startTime.toISOString(),
-      endTime: election.endTime.toISOString(),
+      startsAt: election.startsAt.toISOString(),
+      endsAt: election.endsAt.toISOString(),
       positions: election.positions.map((position) => ({
         id: position.id,
         name: position.name,
@@ -275,8 +275,8 @@ export async function getElectionDataWithProposalsById(
       id: election.id,
       name: election.name,
       description: election.description,
-      startTime: election.startTime.toISOString(),
-      endTime: election.endTime.toISOString(),
+      startsAt: election.startsAt.toISOString(),
+      endsAt: election.endsAt.toISOString(),
       positions: election.positions.map((position) => ({
         id: position.id,
         name: position.name,
@@ -311,7 +311,7 @@ export async function getElectionResultsById(
     const election = await prisma.election.findUnique({
       where: {
         id: electionId,
-        endTime: showOnlyCompleted ? { lte: new Date() } : undefined,
+        endsAt: showOnlyCompleted ? { lte: new Date() } : undefined,
       },
       include: {
         _count: {
@@ -359,8 +359,8 @@ export async function getElectionResultsById(
     const electionResults: ElectionResults = {
       electionId: election.id,
       electionName: election.name,
-      startTime: election.startTime.toISOString(),
-      endTime: election.endTime.toISOString(),
+      startsAt: election.startsAt.toISOString(),
+      endsAt: election.endsAt.toISOString(),
       // TODO: implement
       positions: positions.map((position) => ({
         id: position.id,
@@ -399,9 +399,9 @@ export async function getElectionResultsById(
       absentVoters,
       absentPercentage,
       status:
-        election.startTime > new Date()
+        election.startsAt > new Date()
           ? ElectionStatus.NOT_STARTED
-          : election.endTime > new Date()
+          : election.endsAt > new Date()
             ? ElectionStatus.ONGOING
             : ElectionStatus.FINISHED,
       updatedAt: new Date().toISOString(),
