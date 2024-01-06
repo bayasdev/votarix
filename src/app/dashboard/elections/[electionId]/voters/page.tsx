@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getElectionById } from '@/lib/data/election';
+import { getElectionById } from '@/lib/data/elections';
 import { getElegibleVoters, getVotersByElectionId } from '@/lib/data/voters';
 import VotersClient from '@/app/dashboard/elections/[electionId]/voters/_components/client';
 

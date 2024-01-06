@@ -1,4 +1,12 @@
-import { Candidate, Election, Party, User, Role } from '@prisma/client';
+import {
+  User,
+  Role,
+  Election,
+  Position,
+  Party,
+  Candidate,
+  AuditLog,
+} from '@prisma/client';
 
 import { Icons } from '@/components/shared/icons';
 import { ElectionStatus } from '@/constants';
@@ -62,31 +70,44 @@ export type SafeUserWithHasVoted = SafeUser & {
   hasVoted: boolean;
 };
 
-export type SafeParty = Safe<Omit<Party, 'proposals'>> & {
-  proposals: string;
-};
-
-export type SafeCandidate = Omit<Safe<Candidate>, 'proposals'> & {
-  proposals?: string;
-};
-
-export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
-  party?: SafeParty;
-};
-
 export type SafeElection = Safe<Omit<Election, 'startsAt' | 'endsAt'>> & {
   startsAt: string;
   endsAt: string;
 };
 
-export type SafeElectionWithStatus = SafeElection & {
-  status: ElectionStatus;
+export type SafePosition = Safe<Position>;
+
+export type SafePositionWithElection = Safe<Position> & {
+  electionName: string;
+};
+
+export type SafeParty = Safe<Omit<Party, 'proposals'>> & {
+  proposals: string;
 };
 
 export type PartyProposal = {
   name?: string;
   description?: string;
 };
+
+export type SafePartyWithPositionAndElection = SafeParty & {
+  positionName: string;
+  electionName: string;
+};
+
+export type SafeCandidate = Safe<Candidate>;
+
+export type SafeCandidateWithPartyAndPositionAndElection = SafeCandidate & {
+  partyName: string;
+  positionName: string;
+  electionName: string;
+};
+
+export type SafeElectionWithStatus = SafeElection & {
+  status: ElectionStatus;
+};
+
+export type SafeAuditLog = Safe<AuditLog>;
 
 export type CertificateResponse = {
   id: string;

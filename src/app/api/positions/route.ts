@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
-import { PartyValidator } from '@/lib/validators/party';
-import { createAuditLog } from '@/lib/helpers/create-audit-log';
+import { PositionValidator } from '@/lib/validators/position';
 
 export async function POST(request: Request) {
   try {
@@ -17,29 +16,17 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const { name, image, positionId, proposals } = PartyValidator.parse(body);
+    const { name, electionId } = PositionValidator.parse(body);
 
-    const party = await prisma.party.create({
+    const position = await prisma.position.create({
       data: {
         name,
-        imageKey: image.key,
-        imageUrl: image.url,
-        positionId,
-        proposals,
+        electionId,
       },
     });
 
-    await createAuditLog({
-      action: 'CREATE',
-      entityId: party.id,
-      entityType: 'PARTY',
-      entityName: party.name,
-    });
-
-    return new Response(party.id, { status: 201 });
+    return new Response(position.id, { status: 201 });
   } catch (error) {
-    console.log('[PARTY_CREATE_ERROR]', error);
-
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }

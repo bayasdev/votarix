@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import Heading from '@/components/shared/heading';
-import { getElections } from '@/lib/data/election';
+import { getElections } from '@/lib/data/elections';
 import EmptyState from '@/components/shared/empty-state';
 import ElectionLink from './_components/link';
 

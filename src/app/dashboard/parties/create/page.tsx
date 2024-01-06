@@ -1,8 +1,11 @@
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
+import { getPositionsWithElection } from '@/lib/data/positions';
 import PartyForm from '@/app/dashboard/parties/_components/form';
 
-const CreatePartyPage = () => {
+const CreatePartyPage = async () => {
+  const positions = await getPositionsWithElection();
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -12,7 +15,7 @@ const CreatePartyPage = () => {
         />
         <GoBack />
       </div>
-      <PartyForm />
+      <PartyForm positions={positions} />
     </div>
   );
 };

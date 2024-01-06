@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Flag, ListChecks, User, UsersRound } from 'lucide-react';
 
-import { getElectionDataWithProposalsById } from '@/lib/data/election';
+import { getElectionDataWithProposalsById } from '@/lib/data/elections';
 import { PartyProposal } from '@/types';
 import Heading from '@/components/shared/heading';
 import GoBack from '@/components/shared/go-back';

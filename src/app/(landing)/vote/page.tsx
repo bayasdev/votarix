@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { getAvailableElectionsForCurrentUser } from '@/lib/data/election';
+import { getAvailableElectionsForCurrentUser } from '@/lib/data/elections';
 import Heading from '@/components/shared/heading';
 import ElectionCard from '@/app/(landing)/vote/_components/election-card';
 import EmptyState from '@/components/shared/empty-state';

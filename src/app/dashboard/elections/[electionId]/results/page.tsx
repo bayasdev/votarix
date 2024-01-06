@@ -1,4 +1,4 @@
-import { getElectionResultsById } from '@/lib/data/election';
+import { getElectionResultsById } from '@/lib/data/elections';
 import ElectionResultsClient from '@/app/dashboard/elections/[electionId]/results/_components/client';
 import EmptyState from '@/components/shared/empty-state';
 

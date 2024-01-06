@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getCandidateById } from '@/lib/data/candidate';
-import { getParties } from '@/lib/data/party';
+import { getCandidateById } from '@/lib/data/candidates';
+import { getParties } from '@/lib/data/parties';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import CandidateForm from '@/app/dashboard/candidates/_components/form';

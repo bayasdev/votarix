@@ -1,12 +1,10 @@
-import { getParties } from '@/lib/data/party';
-import { getPositions } from '@/lib/data/position';
+import { getParties } from '@/lib/data/parties';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import CandidateForm from '@/app/dashboard/candidates/_components/form';
 
 const CreateCandidatePage = async () => {
   const parties = await getParties();
-  const positions = await getPositions();
 
   return (
     <div className="space-y-8">
@@ -17,7 +15,7 @@ const CreateCandidatePage = async () => {
         />
         <GoBack />
       </div>
-      <CandidateForm parties={parties} positions={positions} />
+      <CandidateForm parties={parties} />
     </div>
   );
 };

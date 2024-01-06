@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { ElectionResults, SafeElection } from '@/types';
-import { IParams as ActionParams } from '@/lib/data/election';
+import { IParams as ActionParams } from '@/lib/data/elections';
 import {
   Select,
   SelectContent,

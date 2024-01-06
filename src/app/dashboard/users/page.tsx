@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getUsers } from '@/lib/data/user';
+import { getUsers } from '@/lib/data/users';
 import UsersClient from '@/app/dashboard/users/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';

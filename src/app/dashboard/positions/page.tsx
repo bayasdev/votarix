@@ -1,30 +1,33 @@
 import Link from 'next/link';
 
-import { getCandidatesWithPartyAndPositionAndElection } from '@/lib/data/candidates';
-import CandidatesClient from '@/app/dashboard/candidates/_components/client';
+import { getPositionsWithElection } from '@/lib/data/positions';
+import PositionsClient from '@/app/dashboard/positions/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/shared/icons';
 import EmptyState from '@/components/shared/empty-state';
 
-const CandidatesPage = async () => {
-  const candidates = await getCandidatesWithPartyAndPositionAndElection();
+const PositionsPage = async () => {
+  const positions = await getPositionsWithElection();
 
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <Heading title="Candidatos" subtitle="Administrar candidatos" />
+        <Heading
+          title="Dignidades"
+          subtitle="Administrar dignidades de elección popular"
+        />
         <Link
-          href="/dashboard/candidates/create"
+          href="/dashboard/positions/create"
           className={cn(buttonVariants())}
         >
           <Icons.add className="mr-2 h-4 w-4" />
-          Crear candidato
+          Crear dignidad
         </Link>
       </div>
-      {candidates && candidates.length > 0 ? (
-        <CandidatesClient candidates={candidates} />
+      {positions && positions.length > 0 ? (
+        <PositionsClient positions={positions} />
       ) : (
         <EmptyState />
       )}
@@ -32,4 +35,4 @@ const CandidatesPage = async () => {
   );
 };
 
-export default CandidatesPage;
+export default PositionsPage;

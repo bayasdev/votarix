@@ -1,7 +1,10 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import { SafeCandidate, SafeCandidateWithParty } from '@/types';
+import {
+  SafeCandidate,
+  SafeCandidateWithPartyAndPositionAndElection,
+} from '@/types';
 
 interface IParams {
   candidateId?: string;
@@ -17,7 +20,6 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
-
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
     }));
@@ -28,8 +30,8 @@ export async function getCandidates(): Promise<SafeCandidate[] | null> {
   }
 }
 
-export async function getCandidatesWithParty(): Promise<
-  SafeCandidateWithParty[] | null
+export async function getCandidatesWithPartyAndPositionAndElection(): Promise<
+  SafeCandidateWithPartyAndPositionAndElection[] | null
 > {
   try {
     const candidates = await prisma.candidate.findMany({
@@ -37,23 +39,34 @@ export async function getCandidatesWithParty(): Promise<
         createdAt: 'desc',
       },
       include: {
-        party: true,
+        party: {
+          select: {
+            name: true,
+            position: {
+              select: {
+                name: true,
+                election: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
     const safeCandidates = candidates.map((item) => ({
       ...item,
+      partyName: item.party.name,
+      positionName: item.party.position.name,
+      electionName: item.party.position.election.name,
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      party: {
-        ...item.party,
-        proposals: JSON.stringify(item.party?.proposals),
-        createdAt: item.party?.createdAt.toISOString(),
-        updatedAt: item.party?.updatedAt.toISOString(),
-      },
     }));
 
-    return safeCandidates as SafeCandidateWithParty[];
+    return safeCandidates as SafeCandidateWithPartyAndPositionAndElection[];
   } catch (error) {
     return null;
   }

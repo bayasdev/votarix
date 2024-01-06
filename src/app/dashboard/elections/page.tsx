@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getElectionsWithStatus } from '@/lib/data/election';
+import { getElectionsWithStatus } from '@/lib/data/elections';
 import ElectionsClient from '@/app/dashboard/elections/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';

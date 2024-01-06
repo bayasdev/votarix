@@ -6,7 +6,7 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 
-import { PartyProposal, SafeElection, SafeParty } from '@/types';
+import { PartyProposal, SafeParty, SafePositionWithElection } from '@/types';
 import { PartyRequest, PartyValidator } from '@/lib/validators/party';
 import { toast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
@@ -33,10 +33,10 @@ import { Textarea } from '@/components/ui/textarea';
 
 interface PartyFormProps {
   initialData?: SafeParty | null;
-  elections: SafeElection[] | null;
+  positions: SafePositionWithElection[] | null;
 }
 
-const PartyForm: React.FC<PartyFormProps> = ({ initialData, elections }) => {
+const PartyForm: React.FC<PartyFormProps> = ({ initialData, positions }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [newProposal, setNewProposal] = useState<PartyProposal>({
@@ -48,7 +48,7 @@ const PartyForm: React.FC<PartyFormProps> = ({ initialData, elections }) => {
     resolver: zodResolver(PartyValidator),
     defaultValues: {
       name: initialData?.name || '',
-      electionId: initialData?.electionId || '',
+      positionId: initialData?.positionId || '',
       image: {
         key: initialData?.imageKey || '',
         url: initialData?.imageUrl || '',
@@ -111,57 +111,55 @@ const PartyForm: React.FC<PartyFormProps> = ({ initialData, elections }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-        <div className="grid gap-6 md:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={isLoading}
-                    placeholder="Alianza Full-Stack"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="electionId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Elección</FormLabel>
-                <Select
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nombre</FormLabel>
+              <FormControl>
+                <Input
                   disabled={isLoading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder="Seleccione una elección"
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {elections?.map((item) => (
-                      <SelectItem key={item.id} value={item.id}>
-                        {item.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                  placeholder="Alianza Full-Stack"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="positionId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Dignidad de elección popular</FormLabel>
+              <Select
+                disabled={isLoading}
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue
+                      defaultValue={field.value}
+                      placeholder="Seleccione una dignidad"
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {positions?.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name} ({item.electionName})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="image"

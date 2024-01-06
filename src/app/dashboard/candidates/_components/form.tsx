@@ -209,41 +209,38 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             )}
           />
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="partyId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Partido Político</FormLabel>
-                <Select
-                  disabled={isLoading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder="Seleccione un partido"
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {parties?.map((party) => (
-                      <SelectItem key={party.id} value={party.id}>
-                        {party.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
+        <FormField
+          control={form.control}
+          name="partyId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Partido Político</FormLabel>
+              <Select
+                disabled={isLoading}
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue
+                      defaultValue={field.value}
+                      placeholder="Seleccione un partido"
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {parties?.map((party) => (
+                    <SelectItem key={party.id} value={party.id}>
+                      {party.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="image"
