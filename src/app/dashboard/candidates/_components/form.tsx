@@ -2,16 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { SubmitHandler, useForm, useFieldArray } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { CandidateType } from '@prisma/client';
 
-import {
-  CandidateProposal,
-  SafeCandidate,
-  SafeParty,
-  SafePosition,
-} from '@/types';
+import { SafeCandidate, SafeParty } from '@/types';
 import {
   CandidateRequest,
   CandidateValidator,
@@ -35,27 +31,19 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
 import { UploadDropzone } from '@/lib/uploadthing';
-import { Label } from '@/components/ui/label';
 
 interface CandidateFormProps {
   initialData?: SafeCandidate | null;
   parties: SafeParty[] | null;
-  positions: SafePosition[] | null;
 }
 
 const CandidateForm: React.FC<CandidateFormProps> = ({
   initialData,
   parties,
-  positions,
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [newProposal, setNewProposal] = useState<CandidateProposal>({
-    name: '',
-    description: '',
-  });
 
   const form = useForm<CandidateRequest>({
     resolver: zodResolver(CandidateValidator),
@@ -64,20 +52,12 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
       email: initialData?.email || '',
       document: initialData?.document || '',
       partyId: initialData?.partyId || '',
-      positionId: initialData?.positionId || '',
-      alternateCandidateName: initialData?.alternateCandidateName || '',
-      proposals: JSON.parse(initialData?.proposals || '[]'),
+      type: initialData?.type || '',
       image: {
         key: initialData?.imageKey || '',
         url: initialData?.imageUrl || '',
       },
     },
-  });
-
-  // The useFieldArray hook from react-hook-form manages the dynamic fields for the proposals array
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'proposals',
   });
 
   const onSubmit: SubmitHandler<CandidateRequest> = (data) => {
@@ -125,6 +105,17 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
         });
     }
   };
+
+  const typeOptions = [
+    {
+      label: 'Principal',
+      value: CandidateType.PRIMARY,
+    },
+    {
+      label: 'Alterno',
+      value: CandidateType.SECONDARY,
+    },
+  ];
 
   return (
     <Form {...form}>
@@ -185,16 +176,33 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           />
           <FormField
             control={form.control}
-            name="alternateCandidateName"
+            name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre del alterno</FormLabel>
+                <FormLabel>Tipo de candidato</FormLabel>
                 <FormControl>
-                  <Input
+                  <Select
                     disabled={isLoading}
-                    placeholder="Alberto Flores"
-                    {...field}
-                  />
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Seleccione un tipo"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {typeOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -234,145 +242,8 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="positionId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dignidad / Cargo</FormLabel>
-                <Select
-                  disabled={isLoading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder="Seleccione una dignidad"
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {positions?.map((position) => (
-                      <SelectItem key={position.id} value={position.id}>
-                        {position.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
-        {/* Existing proposals from initialData */}
-        {fields?.length > 0 && (
-          <>
-            <Label className="inline-flex">Propuestas del candidato</Label>
-            {fields?.map((proposal, index) => (
-              <div key={proposal.id} className="grid gap-6 lg:grid-cols-8">
-                <FormField
-                  control={form.control}
-                  name={`proposals.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem className="col-span-full lg:col-span-3">
-                      <FormLabel>Nombre de la propuesta</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder="Nombre de la propuesta"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`proposals.${index}.description`}
-                  render={({ field }) => (
-                    <FormItem className="col-span-full lg:col-span-4">
-                      <FormLabel>Descripción de la propuesta</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          disabled={isLoading}
-                          placeholder="Descripción de la propuesta"
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="button"
-                  variant="destructive"
-                  className="self-center"
-                  onClick={() => {
-                    remove(index);
-                  }}
-                >
-                  <Icons.trash className="mr-2 h-4 w-4" />
-                  Eliminar
-                </Button>
-              </div>
-            ))}
-          </>
-        )}
-        {/* New proposal inputs */}
-        <Label className="inline-flex">Crear nueva propuesta</Label>
-        <div className="grid gap-6 md:grid-cols-8">
-          <div className="col-span-full space-y-2 lg:col-span-3">
-            <Label>Nombre de la propuesta</Label>
-            <Input
-              disabled={isLoading}
-              placeholder="Nombre de la propuesta"
-              className=""
-              value={newProposal.name}
-              onChange={(e) => {
-                setNewProposal({
-                  ...newProposal,
-                  name: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="col-span-full space-y-2 lg:col-span-4">
-            <Label>Descripción de la propuesta</Label>
-            <Textarea
-              disabled={isLoading}
-              placeholder="Descripción de la propuesta"
-              className="resize-none"
-              value={newProposal.description}
-              onChange={(e) => {
-                setNewProposal({
-                  ...newProposal,
-                  description: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="col-span-full self-center lg:col-span-1">
-            <Button
-              type="button"
-              className="w-full"
-              onClick={() => {
-                append(newProposal);
-                setNewProposal({
-                  name: '',
-                  description: '',
-                });
-              }}
-            >
-              <Icons.add className="mr-2 h-4 w-4" />
-              Agregar
-            </Button>
-          </div>
-        </div>
+
         <FormField
           control={form.control}
           name="image"

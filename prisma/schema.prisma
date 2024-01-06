@@ -81,7 +81,6 @@ model User {
 
   certificates Certificate[]
   elections    Election[]
-  auditLogs    AuditLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -194,14 +193,12 @@ model AuditLog {
   entityId   String
   entityType EntityType
   entityName String?
-  userId     String
-  userEmail  String
-  userName   String
+  userId     String?
+  userEmail  String?
+  userRole   Role?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id])
 
   @@map("audit_logs")
 }

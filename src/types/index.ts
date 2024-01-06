@@ -83,7 +83,7 @@ export type SafeElectionWithStatus = SafeElection & {
   status: ElectionStatus;
 };
 
-export type CandidateProposal = {
+export type PartyProposal = {
   name?: string;
   description?: string;
 };

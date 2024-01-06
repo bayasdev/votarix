@@ -4,6 +4,7 @@ import { getPartyById } from '@/lib/data/party';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import PartyForm from '@/app/dashboard/parties/_components/form';
+import { getElections } from '@/lib/data/election';
 
 interface UpdatePartyPageProps {
   params: {
@@ -13,6 +14,8 @@ interface UpdatePartyPageProps {
 
 const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
   const party = await getPartyById(params);
+  const elections = await getElections();
+
   if (!party) return notFound();
 
   return (
@@ -24,7 +27,7 @@ const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
         />
         <GoBack />
       </div>
-      <PartyForm initialData={party} />
+      <PartyForm initialData={party} elections={elections} />
     </div>
   );
 };

@@ -20,11 +20,6 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'vote',
     },
     {
-      title: 'Dignidades',
-      href: '/dashboard/positions',
-      icon: 'squareSlash',
-    },
-    {
       title: 'Partidos Políticos',
       href: '/dashboard/parties',
       icon: 'flag',

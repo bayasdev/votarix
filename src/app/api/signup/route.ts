@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { prisma } from '@/lib/db';
 import { SignupValidator } from '@/lib/validators/auth';
 import { siteConfig } from '@/config/site';
-import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 export async function POST(request: Request) {
   try {
@@ -34,14 +33,6 @@ export async function POST(request: Request) {
 
     await prisma.user.create({
       data: { email, name, document, hashedPassword },
-    });
-
-    await createAuditLog({
-      action: 'CREATE',
-      entityId: email,
-      entityType: 'USER',
-      entityName: name,
-      customUserName: 'SIGNUP_PROCESS',
     });
 
     return new Response('Cuenta creada correctamente');

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Flag, ListChecks, User, UsersRound } from 'lucide-react';
 
 import { getElectionDataWithProposalsById } from '@/lib/data/election';
-import { CandidateProposal } from '@/types';
+import { PartyProposal } from '@/types';
 import Heading from '@/components/shared/heading';
 import GoBack from '@/components/shared/go-back';
 import EmptyState from '@/components/shared/empty-state';
@@ -105,7 +105,7 @@ const ProposalsByElectionPage: React.FC<ProposalsByElectionPageProps> = async ({
                       Propuestas
                     </div>
                     {JSON.parse(candidate.proposals).map(
-                      (proposal: CandidateProposal) => (
+                      (proposal: PartyProposal) => (
                         <div key={proposal.name}>
                           <div className="font-medium tracking-tight">
                             {proposal.name}

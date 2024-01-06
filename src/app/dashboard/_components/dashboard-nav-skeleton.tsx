@@ -10,7 +10,6 @@ export const DashboardNavSkeleton = () => {
         <Skeleton className="h-9 rounded-md px-3 py-2" />
         <Skeleton className="h-9 rounded-md px-3 py-2" />
         <Skeleton className="h-9 rounded-md px-3 py-2" />
-        <Skeleton className="h-9 rounded-md px-3 py-2" />
       </nav>
     </aside>
   );
