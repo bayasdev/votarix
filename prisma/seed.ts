@@ -2,7 +2,10 @@ import { PrismaClient, Role } from '@prisma/client';
 import { hash } from 'bcrypt';
 import dayjs from 'dayjs';
 
+import { siteConfig } from '../src/config/site';
+
 const prisma = new PrismaClient();
+
 async function main() {
   const hashedPassword = await hash('abcd1234', 12);
 
@@ -58,67 +61,60 @@ async function main() {
 
   const election1 = await prisma.election.create({
     data: {
-      name: 'Elecciones 1',
-      description:
-        'Elecciones de representantes estudiantiles al honorable consejo universitario',
+      name: 'Elección de Representantes Estudiantiles 2024',
+      description: `Elecciones de representantes estudiantiles al Honorable Consejo Universitario de la ${siteConfig.organizationName} para el periodo 2024-2026.`,
       startsAt: dayjs(new Date()).add(1, 'hour').toDate(),
       endsAt: dayjs(new Date()).add(12, 'hour').toDate(),
     },
   });
 
-  const position1 = await prisma.position.create({
-    data: {
-      name: 'Presidente',
-      electionId: election1.id,
-    },
-  });
-
   const party1 = await prisma.party.create({
     data: {
-      name: 'Partido 1',
-    },
-  });
-
-  const party2 = await prisma.party.create({
-    data: {
-      name: 'Partido 2',
+      name: 'Lista A',
+      proposals: [
+        {
+          name: 'Propuesta 1',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 2',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Propuesta 3',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+      ],
+      electionId: election1.id,
     },
   });
 
   const candidate1 = await prisma.candidate.create({
     data: {
-      name: 'Juan Pérez',
+      name: 'Andrea Rodríguez',
+      email: 'arodriguez@gmail.com',
       document: '1799999999',
-      email: 'jperez@ejemplo.com',
-      alternateCandidateName: 'Eduardo Andrade',
-      proposals: [
-        {
-          name: 'Propuesta 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-        {
-          name: 'Propuesta 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-        {
-          name: 'Propuesta 3',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-      ],
+      type: 'PRIMARY',
       partyId: party1.id,
-      positionId: position1.id,
     },
   });
 
   const candidate2 = await prisma.candidate.create({
     data: {
-      name: 'María González',
+      name: 'Marcos Salazar',
+      email: 'marcos2003@hotmail.com',
       document: '1799999998',
-      email: 'mgonzales@bayas.dev',
-      alternateCandidateName: 'Damián Chiriboga',
+      type: 'SECONDARY',
+      partyId: party1.id,
+    },
+  });
+
+  const party2 = await prisma.party.create({
+    data: {
+      name: 'Lista B',
       proposals: [
         {
           name: 'Propuesta 1',
@@ -136,8 +132,27 @@ async function main() {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         },
       ],
+      electionId: election1.id,
+    },
+  });
+
+  const candidate3 = await prisma.candidate.create({
+    data: {
+      name: 'Juan Pérez',
+      email: 'juanperez1@gmail.com',
+      document: '1799999997',
+      type: 'PRIMARY',
       partyId: party2.id,
-      positionId: position1.id,
+    },
+  });
+
+  const candidate4 = await prisma.candidate.create({
+    data: {
+      name: 'María Ordóñez',
+      email: 'marii_ordonez@outlook.com',
+      document: '1799999996',
+      type: 'SECONDARY',
+      partyId: party2.id,
     },
   });
 
@@ -145,11 +160,12 @@ async function main() {
     admin,
     voters,
     election1,
-    position1,
     party1,
-    party2,
     candidate1,
     candidate2,
+    party2,
+    candidate3,
+    candidate4,
   });
 }
 main()
