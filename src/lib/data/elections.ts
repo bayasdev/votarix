@@ -4,11 +4,11 @@ import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 
 import {
-  ElectionData,
-  ElectionDataWithProposals,
-  ElectionResults,
   SafeElection,
   SafeElectionWithStatus,
+  ElectionDataResponse,
+  ElectionResultsResponse,
+  ElectionProposalsResponse,
 } from '@/types';
 import { ElectionStatus } from '@/constants';
 
@@ -75,6 +75,7 @@ export async function getFinishedElections(): Promise<SafeElection[] | null> {
         endsAt: {
           lt: new Date(),
         },
+        isCompleted: true,
       },
       orderBy: {
         endsAt: 'desc',
@@ -173,7 +174,7 @@ export async function getElectionById(
 
 export async function getElectionDataById(
   params: IParams,
-): Promise<ElectionData | null> {
+): Promise<ElectionDataResponse | null> {
   const { electionId } = params;
 
   try {
@@ -183,15 +184,27 @@ export async function getElectionDataById(
       },
       include: {
         positions: {
-          include: {
-            candidates: {
-              include: {
-                party: true,
+          select: {
+            id: true,
+            name: true,
+            parties: {
+              select: {
+                id: true,
+                name: true,
+                imageKey: true,
+                imageUrl: true,
+                candidates: {
+                  select: {
+                    id: true,
+                    name: true,
+                    imageKey: true,
+                    imageUrl: true,
+                    type: true,
+                  },
+                },
               },
               orderBy: {
-                party: {
-                  name: 'asc',
-                },
+                name: 'asc',
               },
             },
           },
@@ -206,7 +219,7 @@ export async function getElectionDataById(
       return null;
     }
 
-    const electionData: ElectionData = {
+    const toReturn: ElectionDataResponse = {
       id: election.id,
       name: election.name,
       description: election.description,
@@ -215,47 +228,62 @@ export async function getElectionDataById(
       positions: election.positions.map((position) => ({
         id: position.id,
         name: position.name,
-        candidates: position.candidates.map((candidate) => ({
-          id: candidate.id,
-          name: candidate.name,
-          alternateCandidateName: candidate.alternateCandidateName,
-          imageUrl: candidate.imageUrl || '',
-          party: {
-            id: candidate.party.id,
-            name: candidate.party.name,
-            imageUrl: candidate.party.imageUrl || '',
-          },
+        parties: position.parties.map((party) => ({
+          id: party.id,
+          name: party.name,
+          imageKey: party.imageKey as string,
+          imageUrl: party.imageUrl as string,
+          candidates: party.candidates.map((candidate) => ({
+            id: candidate.id,
+            name: candidate.name,
+            imageKey: candidate.imageKey as string,
+            imageUrl: candidate.imageUrl as string,
+            type: candidate.type,
+          })),
         })),
       })),
     };
 
-    return electionData;
+    return toReturn;
   } catch (error) {
     return null;
   }
 }
 
-export async function getElectionDataWithProposalsById(
+export async function getElectionProposalsById(
   params: IParams,
-): Promise<ElectionDataWithProposals | null> {
+): Promise<ElectionProposalsResponse | null> {
   const { electionId } = params;
 
   try {
-    const election = await prisma.election.findUnique({
+    const data = await prisma.election.findUnique({
       where: {
         id: electionId,
       },
       include: {
         positions: {
-          include: {
-            candidates: {
-              include: {
-                party: true,
+          select: {
+            id: true,
+            name: true,
+            parties: {
+              select: {
+                id: true,
+                name: true,
+                imageKey: true,
+                imageUrl: true,
+                candidates: {
+                  select: {
+                    id: true,
+                    name: true,
+                    imageKey: true,
+                    imageUrl: true,
+                    type: true,
+                  },
+                },
+                proposals: true,
               },
               orderBy: {
-                party: {
-                  name: 'asc',
-                },
+                name: 'asc',
               },
             },
           },
@@ -266,36 +294,34 @@ export async function getElectionDataWithProposalsById(
       },
     });
 
-    if (!election) {
+    if (!data) {
       return null;
     }
 
-    const electionData: ElectionDataWithProposals = {
-      ...election,
-      id: election.id,
-      name: election.name,
-      description: election.description,
-      startsAt: election.startsAt.toISOString(),
-      endsAt: election.endsAt.toISOString(),
-      positions: election.positions.map((position) => ({
+    const toReturn: ElectionProposalsResponse = {
+      id: data.id,
+      name: data.name,
+      positions: data.positions.map((position) => ({
         id: position.id,
         name: position.name,
-        candidates: position.candidates.map((candidate) => ({
-          id: candidate.id,
-          name: candidate.name,
-          alternateCandidateName: candidate.alternateCandidateName,
-          imageUrl: candidate.imageUrl || '',
-          party: {
-            id: candidate.party.id,
-            name: candidate.party.name,
-            imageUrl: candidate.party.imageUrl || '',
-          },
-          proposals: JSON.stringify(candidate.proposals || []),
+        parties: position.parties.map((party) => ({
+          id: party.id,
+          name: party.name,
+          imageKey: party.imageKey as string,
+          imageUrl: party.imageUrl as string,
+          candidates: party.candidates.map((candidate) => ({
+            id: candidate.id,
+            name: candidate.name,
+            imageKey: candidate.imageKey as string,
+            imageUrl: candidate.imageUrl as string,
+            type: candidate.type,
+          })),
+          proposals: JSON.stringify(party.proposals || []),
         })),
       })),
     };
 
-    return electionData;
+    return toReturn;
   } catch (error) {
     return null;
   }
@@ -304,16 +330,49 @@ export async function getElectionDataWithProposalsById(
 export async function getElectionResultsById(
   params: IParams,
   showOnlyCompleted: boolean = false,
-): Promise<ElectionResults | null> {
+): Promise<ElectionResultsResponse | null> {
   const { electionId } = params;
 
   try {
-    const election = await prisma.election.findUnique({
+    const data = await prisma.election.findUnique({
       where: {
         id: electionId,
         endsAt: showOnlyCompleted ? { lte: new Date() } : undefined,
+        isCompleted: showOnlyCompleted ? true : undefined,
       },
       include: {
+        positions: {
+          select: {
+            id: true,
+            name: true,
+            parties: {
+              select: {
+                id: true,
+                name: true,
+                imageKey: true,
+                imageUrl: true,
+                candidates: {
+                  select: {
+                    id: true,
+                    name: true,
+                    imageKey: true,
+                    imageUrl: true,
+                    type: true,
+                  },
+                },
+                _count: {
+                  select: {
+                    votes: true,
+                  },
+                },
+              },
+              orderBy: {
+                name: 'asc',
+              },
+            },
+            votes: true,
+          },
+        },
         _count: {
           select: {
             certificates: true,
@@ -323,88 +382,51 @@ export async function getElectionResultsById(
       },
     });
 
-    if (!election) {
+    if (!data) {
       return null;
     }
 
-    const totalVoters = election._count?.voters || 0;
-    const totalVotes = election._count?.certificates || 0;
-    const absentVoters = totalVoters - totalVotes;
-    const absentPercentage = (absentVoters / totalVoters) * 100;
+    const totalVoters = data._count.voters || 0;
+    const totalAbsentVoters = totalVoters - (data._count.certificates || 0);
 
-    const positions = await prisma.position.findMany({
-      where: {
-        electionId: election.id,
-      },
-      include: {
-        candidates: {
-          include: {
-            _count: {
-              select: {
-                ballots: true,
-              },
-            },
-            party: true,
-          },
-          orderBy: {
-            ballots: {
-              _count: 'desc',
-            },
-          },
-        },
-        ballots: true,
-      },
-    });
-
-    const electionResults: ElectionResults = {
-      electionId: election.id,
-      electionName: election.name,
-      startsAt: election.startsAt.toISOString(),
-      endsAt: election.endsAt.toISOString(),
-      // TODO: implement
-      positions: positions.map((position) => ({
+    const electionResults: ElectionResultsResponse = {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      startsAt: data.startsAt.toISOString(),
+      endsAt: data.endsAt.toISOString(),
+      positions: data.positions.map((position) => ({
         id: position.id,
         name: position.name,
-        candidates: position.candidates.map((candidate) => ({
-          id: candidate.id,
-          name: candidate.name,
-          imageUrl: candidate.imageUrl || '',
-          party: {
-            id: candidate.party.id,
-            name: candidate.party.name,
-            imageUrl: candidate.party.imageUrl || '',
-          },
-          votes: candidate._count?.ballots || 0,
-          // percentage is relative to validVotes
-          percentage:
-            ((candidate._count?.ballots || 0) /
-              (position.ballots.filter(
-                (ballot) => !ballot.isNull && ballot.candidateId,
-              ).length || 1)) *
-            100,
+        parties: position.parties.map((party) => ({
+          id: party.id,
+          name: party.name,
+          imageKey: party.imageKey as string,
+          imageUrl: party.imageUrl as string,
+          candidates: party.candidates.map((candidate) => ({
+            id: candidate.id,
+            name: candidate.name,
+            imageKey: candidate.imageKey as string,
+            imageUrl: candidate.imageUrl as string,
+            type: candidate.type,
+          })),
+          totalVotes: party._count.votes,
+          percentage: party._count.votes / position.votes.length,
         })),
-        // validVotes where ballot.isNull = false and ballot.candidateId != null
-        validVotes: position.ballots.filter(
-          (ballot) => !ballot.isNull && ballot.candidateId,
+        totalVotes: position.votes.length,
+        // validVotes where vote.isNull === false and vote.partyId !== null
+        totalValidVotes: position.votes.filter(
+          (vote) => !vote.isNull && vote.partyId !== null,
         ).length,
-        // nullVotes where ballot.isNull = true
-        nullVotes: position.ballots.filter((ballot) => ballot.isNull).length,
-        // blankVotes where ballot.candidateId = null and ballot.isNull = false
-        blankVotes: position.ballots.filter(
-          (ballot) => !ballot.candidateId && !ballot.isNull,
+        // nullVotes where vote.isNull === true
+        totalNullVotes: position.votes.filter((vote) => vote.isNull).length,
+        // blankVotes where vote.isNull === false and vote.partyId === null
+        totalBlankVotes: position.votes.filter(
+          (vote) => !vote.isNull && vote.partyId === null,
         ).length,
       })),
       totalVoters,
-      totalVotes,
-      absentVoters,
-      absentPercentage,
-      status:
-        election.startsAt > new Date()
-          ? ElectionStatus.NOT_STARTED
-          : election.endsAt > new Date()
-            ? ElectionStatus.ONGOING
-            : ElectionStatus.FINISHED,
-      updatedAt: new Date().toISOString(),
+      totalAbsentVoters,
     };
 
     return electionResults;

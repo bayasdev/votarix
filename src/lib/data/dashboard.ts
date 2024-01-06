@@ -1,9 +1,9 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import { DashboardData } from '@/types';
+import { DashboardDataResponse } from '@/types';
 
-export async function getDashboardData(): Promise<DashboardData | null> {
+export async function getDashboardData(): Promise<DashboardDataResponse | null> {
   try {
     const totalUsers = await prisma.user.count();
     const totalElections = await prisma.election.count();

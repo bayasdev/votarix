@@ -65,7 +65,7 @@ export default async function handler(
           include: {
             _count: {
               select: {
-                ballots: true,
+                votes: true,
               },
             },
             party: true,
@@ -76,7 +76,7 @@ export default async function handler(
             },
           },
         },
-        ballots: true,
+        votes: true,
       },
     });
 
@@ -128,13 +128,13 @@ export default async function handler(
         ...uniqueParties.map((party) => {
           const votes = position.candidates
             .filter((candidate) => candidate.partyId === party.id)
-            .map((candidate) => candidate._count?.ballots || 0)
+            .map((candidate) => candidate._count?.votes || 0)
             .reduce((accumulator, currentValue) => accumulator + currentValue);
 
           return votes.toString();
         }),
-        position.ballots.filter((ballot) => ballot.isNull).length.toString(),
-        position.ballots
+        position.votes.filter((ballot) => ballot.isNull).length.toString(),
+        position.votes
           .filter((ballot) => !ballot.candidateId && !ballot.isNull)
           .length.toString(),
         totalVotes.toString(),

@@ -6,6 +6,7 @@ import {
   Party,
   Candidate,
   AuditLog,
+  CandidateType,
 } from '@prisma/client';
 
 import { Icons } from '@/components/shared/icons';
@@ -113,81 +114,103 @@ export type CertificateResponse = {
   id: string;
   electionName: string;
   voterName: string;
-  voterDocument?: string;
+  voterDocument: string;
 };
 
-export type ElectionResultsCandidate = {
-  id: string;
-  name: string;
-  imageUrl?: string;
-  party: {
-    id: string;
-    name: string;
-    imageUrl?: string;
-  };
-  votes: number;
-  percentage: number;
-};
-
-export type ElectionResultsPosition = {
-  id: string;
-  name: string;
-  candidates: ElectionResultsCandidate[];
-  validVotes: number;
-  nullVotes: number;
-  blankVotes: number;
-};
-
-export type ElectionResults = {
-  electionId: string;
-  electionName: string;
-  startsAt: string;
-  endsAt: string;
-  positions: ElectionResultsPosition[];
-  totalVoters: number;
-  totalVotes: number;
-  absentVoters: number;
-  absentPercentage: number;
-  status: ElectionStatus;
-  updatedAt: string;
-};
-
-export type ElectionDataCandidate = {
-  id: string;
-  name: string;
-  alternateCandidateName: string;
-  imageUrl?: string;
-  party: {
-    id: string;
-    name: string;
-    imageUrl?: string;
-  };
-};
-
-export type ElectionDataPosition = {
-  id: string;
-  name: string;
-  candidates: ElectionDataCandidate[];
-};
-
-export type ElectionData = {
+export type ElectionDataResponse = {
   id: string;
   name: string;
   description: string;
   startsAt: string;
   endsAt: string;
-  positions: ElectionDataPosition[];
+  positions: {
+    id: string;
+    name: string;
+    parties: {
+      id: string;
+      name: string;
+      imageKey?: string;
+      imageUrl?: string;
+      candidates: {
+        id: string;
+        name: string;
+        imageKey?: string;
+        imageUrl?: string;
+        type: CandidateType;
+      }[];
+    }[];
+  }[];
 };
 
-export type ElectionDataWithProposals = Omit<ElectionData, 'positions'> & {
-  positions: (Omit<ElectionDataPosition, 'candidates'> & {
-    candidates: (Omit<ElectionDataCandidate, 'proposals'> & {
-      proposals: string;
-    })[];
-  })[];
+export type ElectionResultsResponse = {
+  id: string;
+  name: string;
+  description: string;
+  startsAt: string;
+  endsAt: string;
+  positions: ElectionResultsPosition[];
+  totalVoters: number;
+  totalAbsentVoters: number;
 };
 
-export type DashboardData = {
+export type ElectionResultsPosition = {
+  id: string;
+  name: string;
+  parties: ElectionResultsParty[];
+  totalVotes: number;
+  totalValidVotes: number;
+  totalNullVotes: number;
+  totalBlankVotes: number;
+};
+
+export type ElectionResultsParty = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  candidates: ElectionResultsCandidate[];
+  totalVotes: number;
+  percentage: number;
+};
+
+export type ElectionResultsCandidate = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  type: CandidateType;
+};
+
+export type ElectionProposalsResponse = {
+  id: string;
+  name: string;
+  positions: ElectionProposalsPosition[];
+};
+
+export type ElectionProposalsPosition = {
+  id: string;
+  name: string;
+  parties: ElectionProposalsParty[];
+};
+
+export type ElectionProposalsParty = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  candidates: ElectionProposalsCandidate[];
+  proposals: string;
+};
+
+export type ElectionProposalsCandidate = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  type: CandidateType;
+};
+
+export type DashboardDataResponse = {
   totalUsers: number;
   totalElections: number;
   totalActiveElections: number;
