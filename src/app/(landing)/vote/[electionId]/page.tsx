@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { getElectionDataById } from '@/lib/data/elections';
 import VoteForm from '@/app/(landing)/vote/_components/form';
-import { getCanUserVote } from '@/lib/data/voters';
+import { getCanCurrentUserVote } from '@/lib/data/voters';
 import EmptyState from '@/components/shared/empty-state';
 import Heading from '@/components/shared/heading';
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 const VotePage = async ({ params }: VotePageProps) => {
-  const canUserVote = await getCanUserVote(params);
+  const canUserVote = await getCanCurrentUserVote(params);
 
   if (!canUserVote)
     return (

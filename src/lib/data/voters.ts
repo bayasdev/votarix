@@ -2,14 +2,14 @@
 
 import { prisma } from '@/lib/db';
 
-import { CertificateResponse, SafeUser, SafeUserWithHasVoted } from '@/types';
+import { SafeUser, SafeUserWithHasVoted } from '@/types';
 import { getCurrentUser } from '@/lib/session';
 
 interface IParams {
   electionId?: string;
 }
 
-export async function getCanUserVote(params: IParams): Promise<boolean> {
+export async function getCanCurrentUserVote(params: IParams): Promise<boolean> {
   const { electionId } = params;
 
   const currentUser = await getCurrentUser();
@@ -36,6 +36,7 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
         endsAt: {
           gt: new Date(),
         },
+        isCompleted: false,
         // check if user has voted
         certificates: {
           none: {
@@ -52,40 +53,6 @@ export async function getCanUserVote(params: IParams): Promise<boolean> {
     return true;
   } catch (error) {
     return false;
-  }
-}
-
-export async function getElegibleVoters(
-  params: IParams,
-): Promise<SafeUser[] | null> {
-  const { electionId } = params;
-  // where role is VOTER and not in electionId
-  try {
-    const voters = await prisma.user.findMany({
-      where: {
-        role: 'VOTER',
-        elections: {
-          none: {
-            id: electionId,
-          },
-        },
-      },
-    });
-
-    if (!voters) {
-      return null;
-    }
-
-    const safeVoters = voters.map((item) => ({
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-      updatedAt: item.updatedAt.toISOString(),
-      hashedPassword: '',
-    }));
-
-    return safeVoters;
-  } catch (error) {
-    return null;
   }
 }
 
@@ -123,11 +90,10 @@ export async function getVotersByElectionId(
 
     const safeVoters = voters.map((item) => ({
       ...item,
+      hashedPassword: '',
+      hasVoted: item._count.certificates > 0,
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      emailVerified: item.emailVerified?.toISOString() || null,
-      hashedPassword: null,
-      hasVoted: item._count.certificates > 0,
     }));
 
     return safeVoters;
@@ -136,35 +102,35 @@ export async function getVotersByElectionId(
   }
 }
 
-export async function getVoterCertificates(): Promise<
-  CertificateResponse[] | null
-> {
+export async function getElegibleVotersByElectionId(
+  params: IParams,
+): Promise<SafeUser[] | null> {
+  const { electionId } = params;
+  // where role is VOTER and not in electionId
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return null;
-    }
-
-    const certificates = await prisma.certificate.findMany({
+    const voters = await prisma.user.findMany({
       where: {
-        userId: currentUser.id,
-      },
-      include: {
-        election: true,
+        role: 'VOTER',
+        elections: {
+          none: {
+            id: electionId,
+          },
+        },
       },
     });
 
-    if (!certificates) {
+    if (!voters) {
       return null;
     }
 
-    return certificates.map((item) => ({
-      id: item.id,
-      electionName: item.election.name,
-      voterName: currentUser.name || '',
-      voterDocument: currentUser.document || '',
+    const safeVoters = voters.map((item) => ({
+      ...item,
+      hashedPassword: '',
+      createdAt: item.createdAt.toISOString(),
+      updatedAt: item.updatedAt.toISOString(),
     }));
+
+    return safeVoters;
   } catch (error) {
     return null;
   }
