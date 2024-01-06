@@ -91,6 +91,12 @@ export async function POST(request: Request, { params }: IParams) {
       skipDuplicates: true,
     });
 
+    await createAuditLog({
+      action: 'CREATE',
+      entityType: 'USER',
+      entityName: 'BULK_USERS',
+    });
+
     // connect the users to the election
 
     await prisma.election.update({
