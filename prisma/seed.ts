@@ -68,6 +68,13 @@ async function main() {
     },
   });
 
+  const position1 = await prisma.position.create({
+    data: {
+      name: 'Representante Estudiantil',
+      electionId: election1.id,
+    },
+  });
+
   const party1 = await prisma.party.create({
     data: {
       name: 'Lista A',
@@ -88,7 +95,7 @@ async function main() {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         },
       ],
-      electionId: election1.id,
+      positionId: position1.id,
     },
   });
 
@@ -132,7 +139,7 @@ async function main() {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         },
       ],
-      electionId: election1.id,
+      positionId: position1.id,
     },
   });
 

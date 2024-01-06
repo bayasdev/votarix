@@ -30,6 +30,7 @@ enum Action {
 enum EntityType {
   USER
   ELECTION
+  POSITION
   PARTY
   CANDIDATE
   BALLOT
@@ -96,7 +97,7 @@ model Election {
   endsAt      DateTime
   isCompleted Boolean  @default(false)
 
-  parties      Party[]
+  positions    Position[]
   voters       User[]
   ballots      Ballot[]
   certificates Certificate[]
@@ -121,6 +122,16 @@ model ElectionReport {
   @@map("election_reports")
 }
 
+model Position {
+  id   String @id @default(cuid())
+  name String
+
+  electionId String
+  election   Election @relation(fields: [electionId], references: [id])
+
+  parties Party[]
+}
+
 model Party {
   id        String  @id @default(cuid())
   name      String
@@ -128,8 +139,8 @@ model Party {
   imageUrl  String?
   proposals Json[]
 
-  electionId String
-  election   Election @relation(fields: [electionId], references: [id])
+  positionId String
+  position   Position @relation(fields: [positionId], references: [id])
 
   candidates Candidate[]
   ballots    Ballot[]
@@ -183,7 +194,6 @@ model Certificate {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, electionId])
   @@map("certificates")
 }
 
