@@ -3,8 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
-import { SafeElectionWithStatus } from '@/types';
-import { ElectionStatus } from '@/constants';
+import { SafeElection } from '@/types';
 import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
 import CellActions from '@/app/dashboard/elections/_components/cell-actions';
 import Link from 'next/link';
@@ -13,7 +12,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { BarChartBig, UserCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
-export const columns: ColumnDef<SafeElectionWithStatus>[] = [
+export const columns: ColumnDef<SafeElection>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -49,20 +48,21 @@ export const columns: ColumnDef<SafeElectionWithStatus>[] = [
     ),
     cell: ({ row }) => {
       return (
-        // display No iniciada, En curso, Finalizada
         <Badge
           variant={
-            row.original.status === ElectionStatus.ONGOING
-              ? 'default'
-              : row.original.status === ElectionStatus.NOT_STARTED
-                ? 'secondary'
+            dayjs().isBefore(row.original.startsAt)
+              ? 'secondary'
+              : dayjs().isBefore(row.original.endsAt) &&
+                  dayjs().isAfter(row.original.startsAt)
+                ? 'default'
                 : 'destructive'
           }
         >
-          {row.original.status === ElectionStatus.ONGOING
-            ? 'En curso'
-            : row.original.status === ElectionStatus.NOT_STARTED
-              ? 'No iniciada'
+          {dayjs().isBefore(row.original.startsAt)
+            ? 'No iniciada'
+            : dayjs().isBefore(row.original.endsAt) &&
+                dayjs().isAfter(row.original.startsAt)
+              ? 'En curso'
               : 'Finalizada'}
         </Badge>
       );

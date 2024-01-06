@@ -32,7 +32,7 @@ const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const defaultstartsAt = new Date();
+  const defaultstartsAt = dayjs().add(1, 'hour').toDate();
   const defaultendsAt = dayjs(defaultstartsAt).add(2, 'hour').toDate();
 
   const form = useForm<ElectionRequest>({

@@ -5,12 +5,10 @@ import { prisma } from '@/lib/db';
 
 import {
   SafeElection,
-  SafeElectionWithStatus,
   ElectionDataResponse,
   ElectionResultsResponse,
   ElectionProposalsResponse,
 } from '@/types';
-import { ElectionStatus } from '@/constants';
 
 export interface IParams {
   electionId?: string;
@@ -30,36 +28,6 @@ export async function getElections(): Promise<SafeElection[] | null> {
       endsAt: item.endsAt.toISOString(),
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-    }));
-
-    return safeElections;
-  } catch (error) {
-    return null;
-  }
-}
-
-export async function getElectionsWithStatus(): Promise<
-  SafeElectionWithStatus[] | null
-> {
-  try {
-    const elections = await prisma.election.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    const safeElections = elections.map((item) => ({
-      ...item,
-      startsAt: item.startsAt.toISOString(),
-      endsAt: item.endsAt.toISOString(),
-      createdAt: item.createdAt.toISOString(),
-      updatedAt: item.updatedAt.toISOString(),
-      status:
-        item.startsAt > new Date()
-          ? ElectionStatus.NOT_STARTED
-          : item.endsAt > new Date()
-            ? ElectionStatus.ONGOING
-            : ElectionStatus.FINISHED,
     }));
 
     return safeElections;

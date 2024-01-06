@@ -10,7 +10,6 @@ import {
 } from '@prisma/client';
 
 import { Icons } from '@/components/shared/icons';
-import { ElectionStatus } from '@/constants';
 
 // ui
 
@@ -60,10 +59,14 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
+// safe generic
+
 type Safe<T> = Omit<T, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };
+
+// types
 
 export type SafeUser = Safe<User>;
 
@@ -102,10 +105,6 @@ export type SafeCandidateWithPartyAndPositionAndElection = SafeCandidate & {
   partyName: string;
   positionName: string;
   electionName: string;
-};
-
-export type SafeElectionWithStatus = SafeElection & {
-  status: ElectionStatus;
 };
 
 export type SafeAuditLog = Safe<AuditLog>;

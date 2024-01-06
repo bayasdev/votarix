@@ -63,8 +63,8 @@ async function main() {
     data: {
       name: 'Elección de Representantes Estudiantiles 2024',
       description: `Elecciones de representantes estudiantiles al Honorable Consejo Universitario de la ${siteConfig.organizationName} para el periodo 2024-2026.`,
-      startsAt: dayjs(new Date()).add(1, 'hour').toDate(),
-      endsAt: dayjs(new Date()).add(12, 'hour').toDate(),
+      startsAt: dayjs().add(1, 'hour').toDate(),
+      endsAt: dayjs().add(12, 'hour').toDate(),
     },
   });
 

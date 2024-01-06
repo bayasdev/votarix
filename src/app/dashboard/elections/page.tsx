@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getElectionsWithStatus } from '@/lib/data/elections';
+import { getElections } from '@/lib/data/elections';
 import ElectionsClient from '@/app/dashboard/elections/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ import { Icons } from '@/components/shared/icons';
 import EmptyState from '@/components/shared/empty-state';
 
 const ElectionsPage = async () => {
-  const elections = await getElectionsWithStatus();
+  const elections = await getElections();
 
   return (
     <div className="space-y-8">

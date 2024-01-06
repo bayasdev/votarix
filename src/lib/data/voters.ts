@@ -80,8 +80,7 @@ export async function getElegibleVoters(
       ...item,
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      emailVerified: item.emailVerified?.toISOString() || null,
-      hashedPassword: null,
+      hashedPassword: '',
     }));
 
     return safeVoters;
