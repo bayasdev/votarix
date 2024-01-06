@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import validateDocument from '@/lib/helpers/validate-document';
+import { validateDocument } from '@/lib/helpers/validate-document';
 
 export const UserValidator = z.object({
   name: z.string().min(1, 'Ingrese su nombre'),

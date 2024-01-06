@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import { Role } from '@prisma/client';
 import { parse } from 'papaparse';
 import { hashSync } from 'bcrypt';
 
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -39,21 +41,21 @@ export async function POST(request: Request, { params }: IParams) {
       });
     }
 
-    // If election is ongoing, do not allow to modify voters
-    // check startsAt and endsAt
+    if (election.isCompleted) {
+      return new Response('No se puede editar una elección completada', {
+        status: 400,
+      });
+    }
+
+    const currentDate = new Date();
+
     if (
-      election &&
-      election.startsAt &&
-      election.endsAt &&
-      election.startsAt < new Date() &&
-      election.endsAt > new Date()
+      dayjs(currentDate).isAfter(election.startsAt) &&
+      dayjs(currentDate).isBefore(election.endsAt)
     ) {
-      return new Response(
-        'No se puede modificar el padrón en una elección en curso',
-        {
-          status: 400,
-        },
-      );
+      return new Response('No se puede editar una elección en curso', {
+        status: 400,
+      });
     }
 
     // get the file
@@ -104,23 +106,17 @@ export async function POST(request: Request, { params }: IParams) {
       },
     });
 
-    // reset election
-    // remove ballots and certificates
-
-    await prisma.ballot.deleteMany({
-      where: {
-        electionId,
-      },
-    });
-
-    await prisma.certificate.deleteMany({
-      where: {
-        electionId,
-      },
+    await createAuditLog({
+      action: 'UPDATE',
+      entityId: election.id,
+      entityType: 'ELECTION',
+      entityName: election.name,
     });
 
     return new Response(`${voters.length} registros`);
   } catch (error) {
+    console.log('[BULK_UPLOAD_ERROR]', error);
+
     return new Response('Algo salió mal', {
       status: 500,
     });

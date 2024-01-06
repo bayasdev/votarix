@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { UserValidator } from '@/lib/validators/user';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -39,8 +40,17 @@ export async function PUT(request: Request, { params }: IParams) {
       },
     });
 
+    await createAuditLog({
+      action: 'UPDATE',
+      entityId: user.id,
+      entityType: 'USER',
+      entityName: user.name,
+    });
+
     return new Response(user.id);
   } catch (error) {
+    console.log('[UPDATE_USER_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }
@@ -73,8 +83,17 @@ export async function DELETE(request: Request, { params }: IParams) {
       },
     });
 
+    await createAuditLog({
+      action: 'DELETE',
+      entityId: user.id,
+      entityType: 'USER',
+      entityName: user.name,
+    });
+
     return new Response(user.id);
   } catch (error) {
+    console.log('[DELETE_USER_ERROR]', error);
+
     return new Response('Algo salió mal', {
       status: 500,
     });

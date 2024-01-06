@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import validateDocument from '@/lib/helpers/validate-document';
+import { validateDocument } from '@/lib/helpers/validate-document';
 
 export const LoginValidator = z.object({
   email: z

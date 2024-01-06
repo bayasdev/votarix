@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { VoteValidator } from '@/lib/validators/vote';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -58,28 +59,46 @@ export async function POST(request: Request, { params }: IParams) {
 
     const body = await request.json();
 
-    const { ballots } = VoteValidator.parse(body);
+    const { ballot } = VoteValidator.parse(body);
+    const { partyId, isNull } = ballot;
 
-    const ballotsData = ballots.map((ballot) => ({
-      ...ballot,
-      electionId: electionId,
-    }));
+    // create ballot
 
-    // create ballots
-    await prisma.ballot.createMany({
-      data: ballotsData,
+    await prisma.ballot.create({
+      data: {
+        electionId: electionId as string,
+        partyId: partyId as string,
+        isNull: isNull,
+      },
+    });
+
+    // ballot id is not logged to keep anonymity
+
+    await createAuditLog({
+      action: 'CREATE',
+      entityId: electionId,
+      entityType: 'BALLOT',
     });
 
     // create certificate
-    await prisma.certificate.create({
+
+    const certificate = await prisma.certificate.create({
       data: {
         electionId: electionId,
         userId: currentUser.id,
       },
     });
 
+    await createAuditLog({
+      action: 'CREATE',
+      entityId: certificate.id,
+      entityType: 'CERTIFICATE',
+    });
+
     return new Response('Voto registrado', { status: 201 });
   } catch (error) {
+    console.log('[VOTE_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }
