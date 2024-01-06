@@ -4,30 +4,27 @@ import { getCurrentUser } from '../session';
 import { prisma } from '../db';
 
 interface Props {
-  entityId: string;
+  action: Action;
+  entityId?: string;
   entityType: EntityType;
   entityName?: string;
-  action: Action;
+  customUserName?: string;
 }
 
 export const createAuditLog = async (props: Props) => {
   try {
     const user = await getCurrentUser();
 
-    if (!user) {
-      throw new Error('Not authenticated');
-    }
-
-    const { entityId, entityType, entityName, action } = props;
+    const { action, entityId, entityType, entityName, customUserName } = props;
 
     await prisma.auditLog.create({
       data: {
         action,
-        entityId,
+        entityId: entityId || 'ID_OMITTED',
         entityType,
         entityName: entityName || 'NO_NAME_ENTITY',
-        userId: user.id,
-        userName: user?.name as string,
+        userId: user?.id as string,
+        userName: (user?.name || customUserName) as string,
         userEmail: user?.email as string,
       },
     });

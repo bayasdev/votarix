@@ -2,7 +2,7 @@
 // Devuelve true si la cédula es válida y false si no lo es
 // Autor: Victor Bayas <victorsbayas@gmail.com>
 
-export default function validateDocument(document: string): boolean {
+export function validateDocument(document: string): boolean {
   // Validamos que la cédula solo contenga 10 dígitos
   if (document.length === 10) {
     // Definimos el último dígito o tambien llamado dígito verificador
