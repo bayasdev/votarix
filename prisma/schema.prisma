@@ -95,9 +95,11 @@ model Election {
   description String
   startsAt    DateTime
   endsAt      DateTime
+  isCompleted Boolean  @default(false)
 
   parties      Party[]
   voters       User[]
+  ballots      Ballot[]
   certificates Certificate[]
   report       ElectionReport?
 
@@ -161,8 +163,11 @@ model Candidate {
 model Ballot {
   id String @id @default(cuid())
 
-  party   Party  @relation(fields: [partyId], references: [id])
-  partyId String
+  election   Election @relation(fields: [electionId], references: [id])
+  electionId String
+
+  party   Party?  @relation(fields: [partyId], references: [id])
+  partyId String?
 
   isNull Boolean @default(false)
 
