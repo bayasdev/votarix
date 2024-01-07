@@ -148,8 +148,10 @@ export type ElectionResultsResponse = {
   startsAt: string;
   endsAt: string;
   positions: ElectionResultsPosition[];
+  registeredVoters: number;
   totalVoters: number;
   totalAbsentVoters: number;
+  updatedAt: string;
 };
 
 export type ElectionResultsPosition = {

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
-import ElectionResultsViewer from '@/components/results/viewer';
+import ElectionResults from '@/components/results';
 import EmptyState from '@/components/shared/empty-state';
 import LoadingSkeleton from '@/components/shared/loading-skeleton';
 
@@ -102,7 +102,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
       {isLoading ? (
         <LoadingSkeleton />
       ) : results ? (
-        <ElectionResultsViewer data={results} />
+        <ElectionResults data={results} />
       ) : (
         <EmptyState
           subtitle="Selecciona una elección para ver sus resultados"

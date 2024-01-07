@@ -327,6 +327,9 @@ export async function getElectionResultsById(
                     imageUrl: true,
                     type: true,
                   },
+                  orderBy: {
+                    type: 'asc',
+                  },
                 },
                 _count: {
                   select: {
@@ -354,8 +357,10 @@ export async function getElectionResultsById(
       return null;
     }
 
-    const totalVoters = data._count.voters || 0;
-    const totalAbsentVoters = totalVoters - (data._count.certificates || 0);
+    const registeredVoters = data._count.voters || 0;
+    const totalVoters = data._count.certificates || 0;
+    const totalAbsentVoters =
+      registeredVoters - (data._count.certificates || 0);
 
     const electionResults: ElectionResultsResponse = {
       id: data.id,
@@ -378,8 +383,8 @@ export async function getElectionResultsById(
             imageUrl: candidate.imageUrl as string,
             type: candidate.type,
           })),
-          totalVotes: party._count.votes,
-          percentage: party._count.votes / position.votes.length,
+          totalVotes: party._count.votes || 0,
+          percentage: party._count.votes / position.votes.length || 0,
         })),
         totalVotes: position.votes.length,
         // validVotes where vote.isNull === false and vote.partyId !== null
@@ -393,8 +398,10 @@ export async function getElectionResultsById(
           (vote) => !vote.isNull && vote.partyId === null,
         ).length,
       })),
+      registeredVoters,
       totalVoters,
       totalAbsentVoters,
+      updatedAt: new Date().toISOString(),
     };
 
     return electionResults;
