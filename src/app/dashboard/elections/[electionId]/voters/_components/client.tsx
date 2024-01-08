@@ -108,6 +108,14 @@ const VotersClient: React.FC<VotersClientProps> = ({
         isLoading={isLoading}
       />
       <div className="space-y-8">
+        <Alert variant="destructive">
+          <Icons.warning className="h-4 w-4" />
+          <AlertTitle>Advertencia</AlertTitle>
+          <AlertDescription>
+            Cualquier cambio realizado en el padrón electoral siempre pondrá en
+            cero los votos y certificados asociados al proceso electoral.
+          </AlertDescription>
+        </Alert>
         {isEditingDisabled && (
           <Alert variant="destructive">
             <Icons.warning className="h-4 w-4" />
