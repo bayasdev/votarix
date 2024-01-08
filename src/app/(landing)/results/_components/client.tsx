@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { ElectionResults, SafeElection } from '@/types';
+import { ElectionResultsResponse, SafeElection } from '@/types';
 import { IParams as ActionParams } from '@/lib/data/elections';
 import {
   Select,
@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
-import ElectionResults from '@/components/results';
+import { Results } from '@/components/results';
 import EmptyState from '@/components/shared/empty-state';
 import LoadingSkeleton from '@/components/shared/loading-skeleton';
 
@@ -26,7 +26,7 @@ interface ResultsClientProps {
     params: ActionParams,
     // eslint-disable-next-line no-unused-vars
     showOnlyCompleted: boolean,
-  ) => Promise<ElectionResults | null>;
+  ) => Promise<ElectionResultsResponse | null>;
 }
 
 const ResultsClient: React.FC<ResultsClientProps> = ({
@@ -39,7 +39,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
     searchParams?.get('electionId') || '',
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState<ElectionResults | null>(null);
+  const [results, setResults] = useState<ElectionResultsResponse | null>(null);
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -102,7 +102,7 @@ const ResultsClient: React.FC<ResultsClientProps> = ({
       {isLoading ? (
         <LoadingSkeleton />
       ) : results ? (
-        <ElectionResults data={results} />
+        <Results data={results} />
       ) : (
         <EmptyState
           subtitle="Selecciona una elección para ver sus resultados"
