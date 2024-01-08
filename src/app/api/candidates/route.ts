@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import { CandidateType } from '@prisma/client';
 
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { CandidateValidator } from '@/lib/validators/candidate';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 export async function POST(request: Request) {
   try {
@@ -16,16 +18,8 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    const {
-      name,
-      email,
-      document,
-      image,
-      alternateCandidateName,
-      proposals,
-      partyId,
-      positionId,
-    } = CandidateValidator.parse(body);
+    const { name, email, document, image, partyId, type } =
+      CandidateValidator.parse(body);
 
     const candidate = await prisma.candidate.create({
       data: {
@@ -34,15 +28,26 @@ export async function POST(request: Request) {
         document,
         imageUrl: image.url,
         imageKey: image.key,
-        alternateCandidateName,
-        proposals,
-        partyId,
-        positionId,
+        party: {
+          connect: {
+            id: partyId,
+          },
+        },
+        type: type as CandidateType,
       },
+    });
+
+    await createAuditLog({
+      action: 'CREATE',
+      entityId: candidate.id,
+      entityType: 'CANDIDATE',
+      entityName: candidate.name,
     });
 
     return new Response(candidate.id, { status: 201 });
   } catch (error) {
+    console.log('[CREATE_CANDIDATE_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }

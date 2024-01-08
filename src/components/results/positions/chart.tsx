@@ -12,15 +12,15 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface VotesBreakdownChartProps {
-  validVotes: number;
-  nullVotes: number;
-  blankVotes: number;
+  totalValidVotes: number;
+  totalNullVotes: number;
+  totalBlankVotes: number;
 }
 
-const VotesBreakdownChart: React.FC<VotesBreakdownChartProps> = ({
-  validVotes,
-  nullVotes,
-  blankVotes,
+export const VotesBreakdownChart: React.FC<VotesBreakdownChartProps> = ({
+  totalValidVotes,
+  totalNullVotes,
+  totalBlankVotes,
 }) => {
   const options: ChartOptions<'doughnut'> = {
     responsive: true,
@@ -50,7 +50,7 @@ const VotesBreakdownChart: React.FC<VotesBreakdownChartProps> = ({
     datasets: [
       {
         label: 'Votos',
-        data: [validVotes, nullVotes, blankVotes],
+        data: [totalValidVotes, totalNullVotes, totalBlankVotes],
         backgroundColor: [
           'rgba(75, 192, 192, 0.2)',
           'rgba(255, 99, 132, 0.2)',
@@ -67,5 +67,3 @@ const VotesBreakdownChart: React.FC<VotesBreakdownChartProps> = ({
   };
   return <Doughnut options={options} data={chartData} />;
 };
-
-export default VotesBreakdownChart;

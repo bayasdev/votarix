@@ -37,6 +37,8 @@ export async function POST(request: Request) {
 
     return new Response('Cuenta creada correctamente');
   } catch (error) {
+    console.log('[SIGNUP_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }

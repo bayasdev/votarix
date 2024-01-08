@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getCandidateById } from '@/lib/data/candidate';
-import { getParties } from '@/lib/data/party';
-import { getPositions } from '@/lib/data/position';
+import { getCandidateById } from '@/lib/data/candidates';
+import { getParties } from '@/lib/data/parties';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import CandidateForm from '@/app/dashboard/candidates/_components/form';
@@ -16,7 +15,7 @@ interface UpdateCandidatePageProps {
 const UpdateCandidatePage = async ({ params }: UpdateCandidatePageProps) => {
   const candidate = await getCandidateById(params);
   const parties = await getParties();
-  const positions = await getPositions();
+
   if (!candidate) return notFound();
 
   return (
@@ -28,11 +27,7 @@ const UpdateCandidatePage = async ({ params }: UpdateCandidatePageProps) => {
         />
         <GoBack />
       </div>
-      <CandidateForm
-        initialData={candidate}
-        parties={parties}
-        positions={positions}
-      />
+      <CandidateForm initialData={candidate} parties={parties} />
     </div>
   );
 };

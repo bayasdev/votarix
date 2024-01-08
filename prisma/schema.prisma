@@ -11,6 +11,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  VOTER
+}
+
+enum VoteType {
+  VALID
+  NULL
+  BLANK
+}
+
+enum CandidateType {
+  PRIMARY
+  SECONDARY
+}
+
+enum Action {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum EntityType {
+  USER
+  ELECTION
+  POSITION
+  PARTY
+  CANDIDATE
+  VOTE
+  CERTIFICATE
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -28,104 +60,153 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
-  id             String        @id @default(cuid())
-  name           String
-  document       String?       @unique
-  email          String        @unique
-  emailVerified  DateTime?
-  hashedPassword String?
-  role           Role          @default(VOTER)
-  accounts       Account[]
-  certificates   Certificate[]
-  elections      Election[]
+  id                  String    @id @default(cuid())
+  name                String
+  document            String    @unique
+  email               String    @unique
+  emailVerified       DateTime?
+  role                Role      @default(VOTER)
+  hashedPassword      String
+  needsPasswordChange Boolean   @default(true)
+
+  accounts Account[]
+  sessions Session[]
+
+  certificates Certificate[]
+  elections    Election[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
 
-enum Role {
-  ADMIN
-  VOTER
+  @@map("users")
 }
 
 model Election {
-  id           String        @id @default(cuid())
-  name         String
-  description  String
-  startTime    DateTime
-  endTime      DateTime
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  startsAt    DateTime
+  endsAt      DateTime
+
   positions    Position[]
-  ballots      Ballot[]
-  certificates Certificate[]
   voters       User[]
+  votes        Vote[]
+  certificates Certificate[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("elections")
 }
 
 model Position {
-  id         String      @id @default(cuid())
-  name       String
-  election   Election    @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  id   String @id @default(cuid())
+  name String
+
   electionId String
-  candidates Candidate[]
-  ballots    Ballot[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  election   Election @relation(fields: [electionId], references: [id])
+
+  parties Party[]
+
+  votes Vote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Party {
-  id         String      @id @default(cuid())
-  name       String
-  imageKey   String?
-  imageUrl   String?
+  id        String  @id @default(cuid())
+  name      String
+  imageKey  String?
+  imageUrl  String?
+  proposals Json[]
+
+  positionId String
+  position   Position @relation(fields: [positionId], references: [id])
+
   candidates Candidate[]
+  votes      Vote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("parties")
 }
 
 model Candidate {
-  id                     String   @id @default(cuid())
-  name                   String
-  email                  String?
-  document               String?
-  imageKey               String?
-  imageUrl               String?
-  alternateCandidateName String
-  proposals              Json[]
-  party                  Party    @relation(fields: [partyId], references: [id], onDelete: Cascade)
-  partyId                String
-  position               Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
-  positionId             String
-  ballots                Ballot[]
+  id       String        @id @default(cuid())
+  name     String
+  email    String        @unique
+  document String        @unique
+  imageKey String?
+  imageUrl String?
+  type     CandidateType
+
+  party   Party  @relation(fields: [partyId], references: [id])
+  partyId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([positionId, partyId])
+  @@unique([partyId, type])
+  @@map("candidates")
 }
 
-model Ballot {
-  id          String     @id @default(cuid())
-  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  candidateId String?
-  position    Position   @relation(fields: [positionId], references: [id], onDelete: Cascade)
-  positionId  String
-  election    Election   @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  electionId  String
-  isNull      Boolean    @default(false)
+model Vote {
+  id   String   @id @default(cuid())
+  type VoteType @default(VALID)
+
+  election   Election @relation(fields: [electionId], references: [id])
+  electionId String
+
+  position   Position @relation(fields: [positionId], references: [id])
+  positionId String
+
+  party   Party?  @relation(fields: [partyId], references: [id])
+  partyId String?
+
+  @@map("votes")
 }
 
 model Certificate {
   id         String   @id @default(cuid())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
-  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  election   Election @relation(fields: [electionId], references: [id])
   electionId String
 
-  @@unique([userId, electionId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certificates")
+}
+
+model AuditLog {
+  id         String     @id @default(cuid())
+  action     Action
+  entityId   String
+  entityType EntityType
+  entityName String?
+  userId     String?
+  userEmail  String?
+  userRole   Role?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("audit_logs")
 }

@@ -1,4 +1,5 @@
 import {
+  Activity,
   AlertTriangle,
   ArrowRight,
   Check,
@@ -90,4 +91,5 @@ export const Icons = {
   twitter: Twitter,
   check: Check,
   clock: Clock,
+  activity: Activity,
 };

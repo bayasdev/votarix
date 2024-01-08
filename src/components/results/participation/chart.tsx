@@ -10,13 +10,15 @@ import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-import { ElectionResults } from '@/types';
+import { ElectionResultsResponse } from '@/types';
 
-interface VotersChartProps {
-  data: ElectionResults | null;
+interface ParticipationChartProps {
+  data: ElectionResultsResponse | null;
 }
 
-const VotersChart: React.FC<VotersChartProps> = ({ data }) => {
+export const ParticipationChart: React.FC<ParticipationChartProps> = ({
+  data,
+}) => {
   const options: ChartOptions<'doughnut'> = {
     responsive: true,
     plugins: {
@@ -45,7 +47,7 @@ const VotersChart: React.FC<VotersChartProps> = ({ data }) => {
     datasets: [
       {
         label: 'Electores',
-        data: [data?.totalVotes || 0, data?.absentVoters || 0],
+        data: [data?.totalVoters || 0, data?.totalAbsentVoters || 0],
         backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
         borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
         borderWidth: 1,
@@ -54,5 +56,3 @@ const VotersChart: React.FC<VotersChartProps> = ({ data }) => {
   };
   return <Doughnut options={options} data={chartData} />;
 };
-
-export default VotersChart;

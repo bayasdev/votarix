@@ -32,20 +32,20 @@ const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const defaultStartTime = new Date();
-  const defaultEndTime = dayjs(defaultStartTime).add(2, 'hour').toDate();
+  const defaultstartsAt = dayjs().add(1, 'hour').toDate();
+  const defaultendsAt = dayjs(defaultstartsAt).add(2, 'hour').toDate();
 
   const form = useForm<ElectionRequest>({
     resolver: zodResolver(ElectionValidator),
     defaultValues: {
       name: initialData?.name || '',
       description: initialData?.description || '',
-      startTime: initialData?.startTime
-        ? dayjs(initialData.startTime).toDate()
-        : defaultStartTime,
-      endTime: initialData?.endTime
-        ? dayjs(initialData.endTime).toDate()
-        : defaultEndTime,
+      startsAt: initialData?.startsAt
+        ? dayjs(initialData.startsAt).toDate()
+        : defaultstartsAt,
+      endsAt: initialData?.endsAt
+        ? dayjs(initialData.endsAt).toDate()
+        : defaultendsAt,
     },
   });
 
@@ -138,7 +138,7 @@ const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
         <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
-            name="startTime"
+            name="startsAt"
             render={({ field: { onChange, value, disabled } }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Fecha de inicio</FormLabel>
@@ -158,7 +158,7 @@ const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
           />
           <FormField
             control={form.control}
-            name="endTime"
+            name="endsAt"
             render={({ field: { onChange, value, disabled } }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Fecha de finalización</FormLabel>

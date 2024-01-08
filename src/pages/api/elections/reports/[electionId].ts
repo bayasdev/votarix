@@ -8,8 +8,8 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/db';
 import { siteConfig } from '@/config/site';
+import { getElectionResultsById } from '@/lib/data/elections';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -31,54 +31,11 @@ export default async function handler(
       return res.status(400).send('ID no válido');
     }
 
-    const election = await prisma.election.findUnique({
-      where: {
-        id: electionId,
-        endTime: {
-          lte: new Date(),
-        },
-      },
-      include: {
-        _count: {
-          select: {
-            certificates: true,
-            voters: true,
-          },
-        },
-      },
-    });
+    const electionResults = await getElectionResultsById({ electionId });
 
-    if (!election) {
-      return res.status(404).send('Elección no encontrada');
+    if (!electionResults) {
+      return res.status(400).send('Error al procesar los resultados');
     }
-
-    const totalVoters = election._count?.voters || 0;
-    const totalVotes = election._count?.certificates || 0;
-    const absentVoters = totalVoters - totalVotes;
-
-    const positions = await prisma.position.findMany({
-      where: {
-        electionId: election.id,
-      },
-      include: {
-        candidates: {
-          include: {
-            _count: {
-              select: {
-                ballots: true,
-              },
-            },
-            party: true,
-          },
-          orderBy: {
-            party: {
-              name: 'asc',
-            },
-          },
-        },
-        ballots: true,
-      },
-    });
 
     const resourcesDir = path.join(process.cwd(), 'public', 'resources');
     const logoPath = path.join(resourcesDir, 'logoUnibeNuevo.png');
@@ -89,7 +46,7 @@ export default async function handler(
       .locale('es')
       .format('DD [días del mes de] MMMM [de] YYYY [siendo las] HH:mm [horas]');
 
-    const electionEndTime = dayjs(election.endTime)
+    const electionendsAt = dayjs(electionResults.endsAt)
       .utc()
       .tz('America/Guayaquil')
       .locale('es')
@@ -97,56 +54,9 @@ export default async function handler(
 
     const intro = `En cumplimiento a lo que dispone la Constitución de la República del Ecuador; la Ley Orgánica de Educación Superior - LOES; y, desarrollado en el Estatuto de la ${siteConfig.organizationName} y la Normativa de Elecciones de los Representantes de los Estamentos Universitarios al Órgano del Cogobierno. En la ciudad de Quito, D.M., a ${generationDateLong}, se reune el Tribunal Electoral integrado por:`;
 
-    const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionEndTime} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
+    const introContinuation = `En conformidad y, en cumplimiento de la convocatoria al ejercicio del sufragio del ${electionendsAt} una vez que se han contabilizado el total de los votos, acorde a lo dispuesto en el reglamento, se procede a:`;
 
     const firstPoint = `1.- Verificar los escrutinios totales y levantar la presente ACTA DE RESULTADOS con los siguientes resultados:`;
-
-    const tableHeaders = [
-      'DIGNIDAD',
-      // get all the unique parties name in uppercase
-      ...positions
-        .map((position) =>
-          position.candidates.map((candidate) => candidate.party),
-        )
-        .flat()
-        .map((party) => party.name.toUpperCase())
-        .filter((value, index, self) => self.indexOf(value) === index),
-      'VOTOS NULOS',
-      'VOTOS BLANCOS',
-      'SUFRAGANTES',
-      'AUSENTES',
-      'INSCRITOS',
-    ];
-
-    const tableRows = positions.map((position) => {
-      const parties = position.candidates.map((candidate) => candidate.party);
-      const uniqueParties = [...new Set(parties)];
-
-      return [
-        position.name.toUpperCase(),
-        // get only valid votes so ballot.candidateId != null and ballot.isNull = false
-        ...uniqueParties.map((party) => {
-          const votes = position.candidates
-            .filter((candidate) => candidate.partyId === party.id)
-            .map((candidate) => candidate._count?.ballots || 0)
-            .reduce((accumulator, currentValue) => accumulator + currentValue);
-
-          return votes.toString();
-        }),
-        position.ballots.filter((ballot) => ballot.isNull).length.toString(),
-        position.ballots
-          .filter((ballot) => !ballot.candidateId && !ballot.isNull)
-          .length.toString(),
-        totalVotes.toString(),
-        absentVoters.toString(),
-        totalVoters.toString(),
-      ];
-    });
-
-    const resultsTable = {
-      headers: tableHeaders,
-      rows: tableRows,
-    };
 
     const secondPoint = `2.- Dar inicio a la fase de impugnación de resultados, acorde al cronograma establecido para el efecto.`;
 
@@ -199,7 +109,7 @@ export default async function handler(
       doc
         .font('Helvetica-Bold')
         .fontSize(12)
-        .text(election.name.toUpperCase(), {
+        .text(electionResults.name.toUpperCase(), {
           align: 'center',
           underline: true,
         });
@@ -234,8 +144,43 @@ export default async function handler(
       doc.font('Helvetica').fontSize(11).text(firstPoint, { align: 'justify' });
       doc.moveDown(1);
 
-      doc.table(resultsTable);
-      doc.moveDown(1);
+      electionResults.positions.forEach((position) => {
+        doc.font('Helvetica').fontSize(11).text(`Dignidad: ${position.name}`);
+
+        doc.moveDown(1);
+
+        const tableHeaders = [
+          ...position.parties
+            .map((party) => `VOTOS ${party.name.toUpperCase()}`)
+            .flat(),
+          'VOTOS NULOS',
+          'VOTOS BLANCOS',
+          'SUFRAGANTES',
+          'AUSENTES',
+          'EMPADRONADOS',
+        ];
+
+        const tableRows = [
+          [
+            ...position.parties
+              .map((party) => party.totalVotes.toString())
+              .flat(),
+            position.totalNullVotes.toString(),
+            position.totalBlankVotes.toString(),
+            electionResults.totalVoters.toString(),
+            electionResults.totalAbsentVoters.toString(),
+            electionResults.registeredVoters.toString(),
+          ],
+        ];
+
+        const resultsTable = {
+          headers: tableHeaders,
+          rows: tableRows,
+        };
+
+        doc.table(resultsTable);
+        doc.moveDown(1);
+      });
 
       doc
         .font('Helvetica')

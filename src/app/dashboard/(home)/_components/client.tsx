@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DashboardData } from '@/types';
+import { DashboardDataResponse } from '@/types';
 import { FileBadge, UserSquare, Users, Vote } from 'lucide-react';
 
 interface DashboardClientProps {
-  data: DashboardData | null;
+  data: DashboardDataResponse | null;
 }
 
 const DashboardClient: React.FC<DashboardClientProps> = ({ data }) => {

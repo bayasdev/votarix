@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getElectionById } from '@/lib/data/election';
+import { getElectionById } from '@/lib/data/elections';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import ElectionForm from '@/app/dashboard/elections/_components/form';

@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db';
 import { PartyValidator } from '@/lib/validators/party';
 import { utapi } from '@/app/api/uploadthing/core';
 import { isCdnUrl, getImageKeyFromUrl } from '@/lib/helpers/uploadthing';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -61,8 +62,17 @@ export async function PUT(request: Request, { params }: IParams) {
       },
     });
 
+    await createAuditLog({
+      action: 'UPDATE',
+      entityId: party.id,
+      entityType: 'PARTY',
+      entityName: party.name,
+    });
+
     return new Response(party.id);
   } catch (error) {
+    console.log('[UPDATE_PARTY_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }
@@ -115,8 +125,17 @@ export async function DELETE(request: Request, { params }: IParams) {
       },
     });
 
+    await createAuditLog({
+      action: 'DELETE',
+      entityId: party.id,
+      entityType: 'PARTY',
+      entityName: party.name,
+    });
+
     return new Response(party.id);
   } catch (error) {
+    console.log('[DELETE_PARTY_ERROR]', error);
+
     return new Response('Algo salió mal', {
       status: 500,
     });

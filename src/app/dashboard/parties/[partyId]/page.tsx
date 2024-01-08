@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 
-import { getPartyById } from '@/lib/data/party';
+import { getPartyById } from '@/lib/data/parties';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import PartyForm from '@/app/dashboard/parties/_components/form';
+import { getPositionsWithElection } from '@/lib/data/positions';
 
 interface UpdatePartyPageProps {
   params: {
@@ -13,6 +14,8 @@ interface UpdatePartyPageProps {
 
 const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
   const party = await getPartyById(params);
+  const positions = await getPositionsWithElection();
+
   if (!party) return notFound();
 
   return (
@@ -24,7 +27,7 @@ const UpdatePartyPage = async ({ params }: UpdatePartyPageProps) => {
         />
         <GoBack />
       </div>
-      <PartyForm initialData={party} />
+      <PartyForm initialData={party} positions={positions} />
     </div>
   );
 };

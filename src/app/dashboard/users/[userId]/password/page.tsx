@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getUserById } from '@/lib/data/user';
+import { getUserById } from '@/lib/data/users';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import UserPasswordForm from '@/app/dashboard/users/_components/password/form';

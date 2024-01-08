@@ -1,11 +1,15 @@
 import { z } from 'zod';
 
 export const VoteValidator = z.object({
-  ballots: z.array(
+  votes: z.array(
     z.object({
       positionId: z.string(),
-      candidateId: z.string().optional(),
-      isNull: z.boolean().optional(),
+      selection: z.array(
+        z.object({
+          partyId: z.string(),
+          isChecked: z.boolean(),
+        }),
+      ),
     }),
   ),
 });

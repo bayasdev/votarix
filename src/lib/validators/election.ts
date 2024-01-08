@@ -5,16 +5,16 @@ export const ElectionValidator = z
   .object({
     name: z.string().min(1, 'El campo es requerido'),
     description: z.string().min(1, 'El campo es requerido'),
-    startTime: z.coerce.date(),
-    endTime: z.coerce.date(),
+    startsAt: z.coerce.date(),
+    endsAt: z.coerce.date(),
   })
-  .refine((data) => dayjs(data.startTime).isBefore(dayjs(data.endTime)), {
+  .refine((data) => dayjs(data.startsAt).isBefore(dayjs(data.endsAt)), {
     message: 'La fecha de inicio debe ser antes de la fecha de finalización',
-    path: ['startTime'],
+    path: ['startsAt'],
   })
-  .refine((data) => dayjs(data.endTime).isAfter(dayjs(data.startTime)), {
+  .refine((data) => dayjs(data.endsAt).isAfter(dayjs(data.startsAt)), {
     message: 'La fecha de finalización debe ser después de la fecha de inicio',
-    path: ['endTime'],
+    path: ['endsAt'],
   });
 
 export type ElectionRequest = z.infer<typeof ElectionValidator>;

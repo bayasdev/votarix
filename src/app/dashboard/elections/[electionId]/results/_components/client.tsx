@@ -8,23 +8,23 @@ import { FileDown, Loader2, Pause } from 'lucide-react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
-import { ElectionResults } from '@/types';
+import { ElectionResultsResponse } from '@/types';
 import Heading from '@/components/shared/heading';
 import { Button } from '@/components/ui/button';
 
 import { toast } from '@/components/ui/use-toast';
-import ElectionResultsViewer from '@/components/results/viewer';
+import { Results } from '@/components/results';
 import GoBack from '@/components/shared/go-back';
 
 interface ElectionResultsClientProps {
-  data: ElectionResults | null;
+  data: ElectionResultsResponse | null;
 }
 
 const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
   data,
 }) => {
   const isFinished = useMemo(
-    () => dayjs().isAfter(dayjs(data?.endTime)),
+    () => dayjs().isAfter(dayjs(data?.endsAt)),
     [data],
   );
   const [autoRefresh, setAutoRefresh] = useState<boolean>(
@@ -42,11 +42,11 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
 
   const handleReportDownload = () => {
     axios
-      .get(`/api/elections/reports/${data?.electionId}`, {
+      .get(`/api/elections/reports/${data?.id}`, {
         responseType: 'blob',
       })
       .then((response) => {
-        saveAs(response.data, `acta_${data?.electionId}.pdf`);
+        saveAs(response.data, `acta_${data?.id}.pdf`);
       })
       .catch((error) => {
         toast({
@@ -67,7 +67,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading
-          title={data?.electionName || ''}
+          title={data?.name as string}
           subtitle={`Corte actualizado el ${dayjs(data?.updatedAt)
             .locale('es')
             .format('DD [de] MMMM [del] YYYY [a las] HH:mm')}`}
@@ -99,7 +99,7 @@ const ElectionResultsClient: React.FC<ElectionResultsClientProps> = ({
           )}
         </div>
       </div>
-      <ElectionResultsViewer data={data} />
+      <Results data={data} />
     </div>
   );
 };

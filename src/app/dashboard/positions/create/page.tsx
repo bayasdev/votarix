@@ -1,4 +1,4 @@
-import { getElections } from '@/lib/data/election';
+import { getElections } from '@/lib/data/elections';
 import GoBack from '@/components/shared/go-back';
 import Heading from '@/components/shared/heading';
 import PositionForm from '@/app/dashboard/positions/_components/form';

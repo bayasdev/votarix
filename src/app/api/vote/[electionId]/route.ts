@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { VoteValidator } from '@/lib/validators/vote';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -37,10 +38,10 @@ export async function POST(request: Request, { params }: IParams) {
           },
         },
         // check if election is ongoing
-        startTime: {
+        startsAt: {
           lt: new Date(),
         },
-        endTime: {
+        endsAt: {
           gt: new Date(),
         },
         // check if user has voted
@@ -58,28 +59,78 @@ export async function POST(request: Request, { params }: IParams) {
 
     const body = await request.json();
 
-    const { ballots } = VoteValidator.parse(body);
+    const { votes } = VoteValidator.parse(body);
 
-    const ballotsData = ballots.map((ballot) => ({
-      ...ballot,
-      electionId: electionId,
-    }));
+    // create vote
 
-    // create ballots
-    await prisma.ballot.createMany({
-      data: ballotsData,
+    votes.forEach(async (vote) => {
+      let checkedSelections = 0;
+      let checkedPartyId = '';
+
+      vote.selection.forEach(async (selection) => {
+        if (selection.isChecked) {
+          checkedSelections += 1;
+          checkedPartyId = selection.partyId;
+        }
+      });
+
+      if (checkedSelections === 0) {
+        await prisma.vote.create({
+          data: {
+            type: 'BLANK',
+            electionId: electionId,
+            positionId: vote.positionId,
+          },
+        });
+      }
+
+      if (checkedSelections === 1) {
+        await prisma.vote.create({
+          data: {
+            type: 'VALID',
+            electionId: electionId,
+            positionId: vote.positionId,
+            partyId: checkedPartyId,
+          },
+        });
+      }
+
+      if (checkedSelections > 1) {
+        await prisma.vote.create({
+          data: {
+            type: 'NULL',
+            electionId: electionId,
+            positionId: vote.positionId,
+          },
+        });
+      }
+
+      // vote id is not logged to keep anonymity
+      await createAuditLog({
+        action: 'CREATE',
+        entityType: 'VOTE',
+      });
     });
 
     // create certificate
-    await prisma.certificate.create({
+
+    const certificate = await prisma.certificate.create({
       data: {
         electionId: electionId,
         userId: currentUser.id,
       },
     });
 
+    await createAuditLog({
+      action: 'CREATE',
+      entityId: certificate.id,
+      entityType: 'CERTIFICATE',
+    });
+
     return new Response('Voto registrado', { status: 201 });
   } catch (error) {
+    console.log('[VOTE_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }

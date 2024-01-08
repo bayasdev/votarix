@@ -4,7 +4,7 @@ import Heading from '@/components/shared/heading';
 import {
   getFinishedElections,
   getElectionResultsById,
-} from '@/lib/data/election';
+} from '@/lib/data/elections';
 import ResultsClient from '@/app/(landing)/results/_components/client';
 
 export const metadata: Metadata = {

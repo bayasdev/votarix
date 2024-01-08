@@ -1,14 +1,15 @@
 import {
-  Candidate,
-  Election,
-  Party,
-  Position,
   User,
   Role,
+  Election,
+  Position,
+  Party,
+  Candidate,
+  AuditLog,
+  CandidateType,
 } from '@prisma/client';
 
 import { Icons } from '@/components/shared/icons';
-import { ElectionStatus } from '@/constants';
 
 // ui
 
@@ -58,128 +59,165 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
+// safe generic
+
 type Safe<T> = Omit<T, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string;
 };
 
-export type SafeUser = Safe<Omit<User, 'emailVerified'>> & {
-  emailVerified: string | null;
-};
+// types
+
+export type SafeUser = Safe<User>;
 
 export type SafeUserWithHasVoted = SafeUser & {
   hasVoted: boolean;
 };
 
-export type SafeParty = Safe<Party>;
-
-export type SafeCandidate = Omit<Safe<Candidate>, 'proposals'> & {
-  proposals?: string;
-};
-
-export type SafeCandidateWithParty = Omit<SafeCandidate, 'party'> & {
-  party?: SafeParty;
-};
-
-export type SafeElection = Safe<Omit<Election, 'startTime' | 'endTime'>> & {
-  startTime: string;
-  endTime: string;
-};
-
-export type SafeElectionWithStatus = SafeElection & {
-  status: ElectionStatus;
+export type SafeElection = Safe<Omit<Election, 'startsAt' | 'endsAt'>> & {
+  startsAt: string;
+  endsAt: string;
 };
 
 export type SafePosition = Safe<Position>;
 
-export type SafePositionWithElection = Omit<SafePosition, 'election'> & {
-  election?: SafeElection;
+export type SafePositionWithElection = Safe<Position> & {
+  electionName: string;
 };
 
-export type CandidateProposal = {
+export type SafeParty = Safe<Omit<Party, 'proposals'>> & {
+  proposals: string;
+};
+
+export type PartyProposal = {
   name?: string;
   description?: string;
 };
+
+export type SafePartyWithPositionAndElection = SafeParty & {
+  positionName: string;
+  electionName: string;
+};
+
+export type SafeCandidate = Safe<Candidate>;
+
+export type SafeCandidateWithPartyAndPositionAndElection = SafeCandidate & {
+  partyName: string;
+  positionName: string;
+  electionName: string;
+};
+
+export type SafeAuditLog = Safe<AuditLog>;
 
 export type CertificateResponse = {
   id: string;
   electionName: string;
   voterName: string;
-  voterDocument?: string;
+  voterDocument: string;
 };
 
-export type ElectionResultsCandidate = {
+export type ElectionDataResponse = {
   id: string;
   name: string;
-  imageUrl?: string;
-  party: {
-    id: string;
-    name: string;
-    imageUrl?: string;
-  };
-  votes: number;
-  percentage: number;
-};
-
-export type ElectionResultsPosition = {
-  id: string;
-  name: string;
-  candidates: ElectionResultsCandidate[];
-  validVotes: number;
-  nullVotes: number;
-  blankVotes: number;
-};
-
-export type ElectionResults = {
-  electionId: string;
-  electionName: string;
-  startTime: string;
-  endTime: string;
-  positions: ElectionResultsPosition[];
-  totalVoters: number;
-  totalVotes: number;
-  absentVoters: number;
-  absentPercentage: number;
-  status: ElectionStatus;
-  updatedAt: string;
-};
-
-export type ElectionDataCandidate = {
-  id: string;
-  name: string;
-  alternateCandidateName: string;
-  imageUrl?: string;
-  party: {
-    id: string;
-    name: string;
-    imageUrl?: string;
-  };
+  description: string;
+  startsAt: string;
+  endsAt: string;
+  positions: ElectionDataPosition[];
 };
 
 export type ElectionDataPosition = {
   id: string;
   name: string;
+  parties: ElectionDataParty[];
+};
+
+export type ElectionDataParty = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
   candidates: ElectionDataCandidate[];
 };
 
-export type ElectionData = {
+export type ElectionDataCandidate = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  type: CandidateType;
+};
+
+export type ElectionResultsResponse = {
   id: string;
   name: string;
   description: string;
-  startTime: string;
-  endTime: string;
-  positions: ElectionDataPosition[];
+  startsAt: string;
+  endsAt: string;
+  positions: ElectionResultsPosition[];
+  registeredVoters: number;
+  totalVoters: number;
+  totalAbsentVoters: number;
+  updatedAt: string;
 };
 
-export type ElectionDataWithProposals = Omit<ElectionData, 'positions'> & {
-  positions: (Omit<ElectionDataPosition, 'candidates'> & {
-    candidates: (Omit<ElectionDataCandidate, 'proposals'> & {
-      proposals: string;
-    })[];
-  })[];
+export type ElectionResultsPosition = {
+  id: string;
+  name: string;
+  parties: ElectionResultsParty[];
+  totalVotes: number;
+  totalValidVotes: number;
+  totalNullVotes: number;
+  totalBlankVotes: number;
 };
 
-export type DashboardData = {
+export type ElectionResultsParty = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  candidates: ElectionResultsCandidate[];
+  totalVotes: number;
+  percentage: number;
+};
+
+export type ElectionResultsCandidate = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  type: CandidateType;
+};
+
+export type ElectionProposalsResponse = {
+  id: string;
+  name: string;
+  positions: ElectionProposalsPosition[];
+};
+
+export type ElectionProposalsPosition = {
+  id: string;
+  name: string;
+  parties: ElectionProposalsParty[];
+};
+
+export type ElectionProposalsParty = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  candidates: ElectionProposalsCandidate[];
+  proposals: string;
+};
+
+export type ElectionProposalsCandidate = {
+  id: string;
+  name: string;
+  imageKey?: string;
+  imageUrl?: string;
+  type: CandidateType;
+};
+
+export type DashboardDataResponse = {
   totalUsers: number;
   totalElections: number;
   totalActiveElections: number;

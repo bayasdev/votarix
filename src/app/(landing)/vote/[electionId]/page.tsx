@@ -1,11 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getElectionDataById } from '@/lib/data/election';
-import VoteForm from '@/app/(landing)/vote/_components/form';
-import { getCanUserVote } from '@/lib/data/voters';
+import { getElectionDataById } from '@/lib/data/elections';
+import VoteForm from '@/app/(landing)/vote/_components/vote/form';
+import { getCanCurrentUserVote } from '@/lib/data/voters';
 import EmptyState from '@/components/shared/empty-state';
-import Heading from '@/components/shared/heading';
 
 interface VotePageProps {
   params: {
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 const VotePage = async ({ params }: VotePageProps) => {
-  const canUserVote = await getCanUserVote(params);
+  const canUserVote = await getCanCurrentUserVote(params);
 
   if (!canUserVote)
     return (
@@ -34,16 +33,9 @@ const VotePage = async ({ params }: VotePageProps) => {
 
   if (!electionData) return notFound();
   return (
-    <div className="container flex flex-col gap-12">
+    <div className="container flex flex-col gap-6">
       {electionData?.positions.length ? (
-        <>
-          <Heading
-            title={electionData.name}
-            subtitle={electionData.description}
-            center
-          />
-          <VoteForm electionData={electionData} />
-        </>
+        <VoteForm electionData={electionData} />
       ) : (
         <EmptyState
           title="No hay dignidades en esta elección"

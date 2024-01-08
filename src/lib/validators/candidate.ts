@@ -1,29 +1,20 @@
 import { z } from 'zod';
-// import validateDni from '@/lib/helpers/validateDni';
+// import { validateDocument } from '../helpers/validate-document';
 
 export const CandidateValidator = z.object({
   name: z.string().min(1, 'El campo es requerido'),
   email: z
     .string()
     .email('El correo electrónico ingresado no es válido')
-    .optional()
-    .or(z.literal('')),
+    .min(1, 'El campo es requerido'),
   document: z
     .string()
-    // .refine((value) => validateDni(value || ''), {
+    // .refine((value) => validateDocument(value || ''), {
     //   message: 'El número de cédula ingresado no es válido',
-    // })
-    .optional()
-    .or(z.literal('')),
+    // }),
+    .min(1, 'El campo es requerido'),
   partyId: z.string().min(1, 'El campo es requerido'),
-  positionId: z.string().min(1, 'El campo es requerido'),
-  alternateCandidateName: z.string().min(1, 'El campo es requerido'),
-  proposals: z.array(
-    z.object({
-      name: z.string().min(1, 'El campo es requerido').optional(),
-      description: z.string().min(1, 'El campo es requerido').optional(),
-    }),
-  ),
+  type: z.string().min(1, 'El campo es requerido'),
   image: z.object({
     key: z.string().optional(),
     url: z.string().optional(),

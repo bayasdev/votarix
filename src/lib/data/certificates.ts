@@ -1,11 +1,45 @@
 'use server';
 
-import { prisma } from '@/lib/db';
-
 import { CertificateResponse } from '@/types';
+import { prisma } from '../db';
+import { getCurrentUser } from '../session';
 
 interface IParams {
   certificateId?: string;
+}
+
+export async function getCurrentUserCertificates(): Promise<
+  CertificateResponse[] | null
+> {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return null;
+    }
+
+    const certificates = await prisma.certificate.findMany({
+      where: {
+        userId: currentUser.id,
+      },
+      include: {
+        election: true,
+      },
+    });
+
+    if (!certificates) {
+      return null;
+    }
+
+    return certificates.map((item) => ({
+      id: item.id,
+      electionName: item.election.name,
+      voterName: currentUser.name || '',
+      voterDocument: currentUser.document || '',
+    }));
+  } catch (error) {
+    return null;
+  }
 }
 
 export async function getCertificateById(

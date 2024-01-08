@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import validateDni from '@/lib/helpers/validateDni';
+import { validateDocument } from '@/lib/helpers/validate-document';
 
 export const LoginValidator = z.object({
   email: z
@@ -13,7 +13,7 @@ export type LoginRequest = z.infer<typeof LoginValidator>;
 
 export const SignupValidator = z.object({
   name: z.string().min(1, 'Ingrese su nombre'),
-  document: z.string().refine((value) => validateDni(value || ''), {
+  document: z.string().refine((value) => validateDocument(value || ''), {
     message: 'El número de cédula ingresado no es válido',
   }),
   email: z

@@ -5,6 +5,7 @@ import { hash } from 'bcrypt';
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { UserValidator } from '@/lib/validators/user';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 export async function POST(request: Request) {
   try {
@@ -32,8 +33,17 @@ export async function POST(request: Request) {
       },
     });
 
+    await createAuditLog({
+      action: 'CREATE',
+      entityId: user.id,
+      entityType: 'USER',
+      entityName: user.name,
+    });
+
     return new Response(user.id, { status: 201 });
   } catch (error) {
+    console.log('[CREATE_USER_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }

@@ -35,8 +35,12 @@ const VotersClient: React.FC<VotersClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const isElectionOnGoing =
-    dayjs().isAfter(dayjs(election?.startTime)) &&
-    dayjs().isBefore(dayjs(election?.endTime));
+    dayjs().isAfter(dayjs(election?.startsAt)) &&
+    dayjs().isBefore(dayjs(election?.endsAt));
+
+  const isElectionCompleted = dayjs().isAfter(dayjs(election?.endsAt));
+
+  const isEditingDisabled = isElectionOnGoing || isElectionCompleted;
 
   // disconnect voters
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
@@ -96,7 +100,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
   return (
     <>
       <AlertModal
-        description="Al modificar el padrón electoral se pondrá en cero el proceso electoral. Esta acción no se puede deshacer."
+        description="¿Está seguro que desea eliminar los votantes seleccionados? Esta acción no se puede deshacer."
         confirmText="Aceptar"
         isOpen={isDisconnectModalOpen}
         onClose={() => setIsDisconnectModalOpen(false)}
@@ -104,14 +108,16 @@ const VotersClient: React.FC<VotersClientProps> = ({
         isLoading={isLoading}
       />
       <div className="space-y-8">
-        <Alert variant="destructive">
-          <Icons.warning className="h-4 w-4" />
-          <AlertTitle>¡Atención!</AlertTitle>
-          <AlertDescription>
-            Cualquier cambio que realice en el padrón electoral pondrá en cero
-            el conteo de votos y los certificados de votación generados.
-          </AlertDescription>
-        </Alert>
+        {isEditingDisabled && (
+          <Alert variant="destructive">
+            <Icons.warning className="h-4 w-4" />
+            <AlertTitle>Edición deshabilitada</AlertTitle>
+            <AlertDescription>
+              No puede editar el padrón electoral de una elección en curso o
+              finalizada.
+            </AlertDescription>
+          </Alert>
+        )}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Heading
             title="Padrón electoral"
@@ -121,7 +127,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
             <GoBack />
             <>
               <AddVotersModal
-                electionId={election?.id || ''}
+                electionId={election?.id as string}
                 elegibleVoters={elegibleVoters}
               />
               <Button

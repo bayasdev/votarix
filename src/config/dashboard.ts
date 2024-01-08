@@ -40,9 +40,9 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'users',
     },
     {
-      title: 'Configuración',
-      href: '/dashboard/settings',
-      icon: 'settings',
+      title: 'Auditoría',
+      href: '/dashboard/audit',
+      icon: 'activity',
     },
   ],
 };

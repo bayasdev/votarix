@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { getParties } from '@/lib/data/party';
+import { getPartiesWithPositionAndElection } from '@/lib/data/parties';
 import PartiesClient from '@/app/dashboard/parties/_components/client';
 import Heading from '@/components/shared/heading';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ import { Icons } from '@/components/shared/icons';
 import EmptyState from '@/components/shared/empty-state';
 
 const PartiesPage = async () => {
-  const parties = await getParties();
+  const parties = await getPartiesWithPositionAndElection();
 
   return (
     <div className="space-y-8">

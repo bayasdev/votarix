@@ -1,10 +1,12 @@
 import { z } from 'zod';
+import { CandidateType } from '@prisma/client';
 
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
 import { CandidateValidator } from '@/lib/validators/candidate';
 import { utapi } from '@/app/api/uploadthing/core';
 import { isCdnUrl, getImageKeyFromUrl } from '@/lib/helpers/uploadthing';
+import { createAuditLog } from '@/lib/helpers/create-audit-log';
 
 interface IParams {
   params: {
@@ -58,11 +60,21 @@ export async function PUT(request: Request, { params }: IParams) {
         ...body,
         imageKey: image.key,
         imageUrl: image.url,
+        type: body.type as CandidateType,
       },
+    });
+
+    await createAuditLog({
+      action: 'UPDATE',
+      entityId: candidate.id,
+      entityType: 'CANDIDATE',
+      entityName: candidate.name,
     });
 
     return new Response(candidate.id);
   } catch (error) {
+    console.log('[UPDATE_CANDIDATE_ERROR]', error);
+
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 });
     }
@@ -115,8 +127,17 @@ export async function DELETE(request: Request, { params }: IParams) {
       },
     });
 
+    await createAuditLog({
+      action: 'DELETE',
+      entityId: candidate.id,
+      entityType: 'CANDIDATE',
+      entityName: candidate.name,
+    });
+
     return new Response(candidate.id);
   } catch (error) {
+    console.log('[DELETE_CANDIDATE_ERROR]', error);
+
     return new Response('Algo salió mal', {
       status: 500,
     });

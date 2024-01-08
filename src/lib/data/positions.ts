@@ -7,9 +7,7 @@ interface IParams {
   positionId?: string;
 }
 
-export async function getPositions(): Promise<
-  SafePositionWithElection[] | null
-> {
+export async function getPositions(): Promise<SafePosition[] | null> {
   try {
     const positions = await prisma.position.findMany({
       orderBy: {
@@ -38,21 +36,19 @@ export async function getPositionsWithElection(): Promise<
         createdAt: 'desc',
       },
       include: {
-        election: true,
+        election: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
     const safePositions = positions.map((item) => ({
       ...item,
+      electionName: item.election.name,
       createdAt: item.createdAt.toISOString(),
       updatedAt: item.updatedAt.toISOString(),
-      election: {
-        ...item.election,
-        startTime: item?.election?.startTime.toISOString(),
-        endTime: item?.election?.endTime.toISOString(),
-        createdAt: item?.election?.createdAt.toISOString(),
-        updatedAt: item?.election?.updatedAt.toISOString(),
-      },
     }));
 
     return safePositions as SafePositionWithElection[];
