@@ -117,7 +117,23 @@ export async function POST(request: Request, { params }: IParams) {
       entityName: election.name,
     });
 
-    return new Response(`${voters.length} registros`);
+    // delete all votes and certificates
+
+    await prisma.vote.deleteMany({
+      where: {
+        electionId,
+      },
+    });
+
+    await prisma.certificate.deleteMany({
+      where: {
+        electionId,
+      },
+    });
+
+    return new Response(
+      `${voters.length} votantes cargados. Padrón restablecido`,
+    );
   } catch (error) {
     console.log('[BULK_UPLOAD_ERROR]', error);
 

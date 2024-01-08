@@ -76,7 +76,21 @@ export async function POST(request: Request, { params }: IParams) {
       entityName: election.name,
     });
 
-    return new Response('Padrón actualizado', {
+    // delete all votes and certificates
+
+    await prisma.vote.deleteMany({
+      where: {
+        electionId,
+      },
+    });
+
+    await prisma.certificate.deleteMany({
+      where: {
+        electionId,
+      },
+    });
+
+    return new Response('Padrón restablecido', {
       status: 200,
     });
   } catch (error) {

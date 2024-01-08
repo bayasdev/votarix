@@ -100,7 +100,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
   return (
     <>
       <AlertModal
-        description="¿Está seguro que desea eliminar los votantes seleccionados? Esta acción no se puede deshacer."
+        description="Al modificar el padrón electoral se pondrá en cero el proceso electoral. Esta acción no se puede deshacer."
         confirmText="Aceptar"
         isOpen={isDisconnectModalOpen}
         onClose={() => setIsDisconnectModalOpen(false)}
@@ -131,7 +131,7 @@ const VotersClient: React.FC<VotersClientProps> = ({
                 elegibleVoters={elegibleVoters}
               />
               <Button
-                disabled={isElectionOnGoing || isAddVotersModalOpen}
+                disabled={isEditingDisabled || isAddVotersModalOpen}
                 onClick={() => setIsAddVotersModalOpen(true)}
               >
                 <UserPlus className="mr-2 h-4 w-4" />
