@@ -59,12 +59,12 @@ export async function POST(request: Request, { params }: IParams) {
 
     const body = await request.json();
 
-    const { ballot } = VoteValidator.parse(body);
-    const { partyId, isNull } = ballot;
+    const { vote } = VoteValidator.parse(body);
+    const { partyId, isNull } = vote;
 
-    // create ballot
+    // create vote
 
-    await prisma.ballot.create({
+    await prisma.vote.create({
       data: {
         electionId: electionId as string,
         partyId: partyId as string,
@@ -72,7 +72,7 @@ export async function POST(request: Request, { params }: IParams) {
       },
     });
 
-    // ballot id is not logged to keep anonymity
+    // vote id is not logged to keep anonymity
 
     await createAuditLog({
       action: 'CREATE',

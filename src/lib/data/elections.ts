@@ -43,7 +43,6 @@ export async function getFinishedElections(): Promise<SafeElection[] | null> {
         endsAt: {
           lt: new Date(),
         },
-        isCompleted: true,
       },
       orderBy: {
         endsAt: 'desc',
@@ -168,6 +167,9 @@ export async function getElectionDataById(
                     imageKey: true,
                     imageUrl: true,
                     type: true,
+                  },
+                  orderBy: {
+                    type: 'asc',
                   },
                 },
               },
@@ -306,7 +308,6 @@ export async function getElectionResultsById(
       where: {
         id: electionId,
         endsAt: showOnlyCompleted ? { lte: new Date() } : undefined,
-        isCompleted: showOnlyCompleted ? true : undefined,
       },
       include: {
         positions: {

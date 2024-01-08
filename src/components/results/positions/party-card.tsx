@@ -62,7 +62,7 @@ export const ResultsPartyCard: React.FC<ResultsPartyCardProps> = ({
       <div className="flex flex-col gap-2">
         <Progress value={party?.percentage} />
         <div className="self-end text-muted-foreground">
-          {party?.totalVotes} voto(s){'  '}
+          {party?.totalVotes} votos{'  '}
           <span className="font-bold text-foreground">
             {party?.percentage.toFixed(2)}%
           </span>

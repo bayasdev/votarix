@@ -4,12 +4,8 @@ export const VoteValidator = z.object({
   votes: z.array(
     z.object({
       positionId: z.string(),
-      selection: z.array(
-        z.object({
-          partyId: z.string(),
-          isChecked: z.boolean(),
-        }),
-      ),
+      partyId: z.array(z.string().optional()).optional(),
+      isNull: z.boolean().optional(),
     }),
   ),
 });

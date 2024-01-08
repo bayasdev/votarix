@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import dayjs from 'dayjs';
 
 import { getCurrentUser } from '@/lib/session';
 import { prisma } from '@/lib/db';
@@ -39,23 +38,6 @@ export async function PUT(request: Request, { params }: IParams) {
     if (!election) {
       return new Response('Elección no encontrada', {
         status: 404,
-      });
-    }
-
-    if (election.isCompleted) {
-      return new Response('No se puede editar una elección completada', {
-        status: 400,
-      });
-    }
-
-    const currentDate = new Date();
-
-    if (
-      dayjs(currentDate).isAfter(election.startsAt) &&
-      dayjs(currentDate).isBefore(election.endsAt)
-    ) {
-      return new Response('No se puede editar una elección en curso', {
-        status: 400,
       });
     }
 

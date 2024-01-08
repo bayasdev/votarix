@@ -95,31 +95,16 @@ model Election {
   description String
   startsAt    DateTime
   endsAt      DateTime
-  isCompleted Boolean  @default(false)
 
   positions    Position[]
   voters       User[]
   votes        Vote[]
   certificates Certificate[]
-  report       ElectionReport?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("elections")
-}
-
-model ElectionReport {
-  id     String @id @default(cuid())
-  report Json
-
-  electionId String   @unique
-  election   Election @relation(fields: [electionId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("election_reports")
 }
 
 model Position {

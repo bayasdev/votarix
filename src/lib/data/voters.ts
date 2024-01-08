@@ -36,7 +36,6 @@ export async function getCanCurrentUserVote(params: IParams): Promise<boolean> {
         endsAt: {
           gt: new Date(),
         },
-        isCompleted: false,
         // check if user has voted
         certificates: {
           none: {

@@ -124,7 +124,7 @@ export default async function handler(
 
       return [
         position.name.toUpperCase(),
-        // get only valid votes so ballot.candidateId != null and ballot.isNull = false
+        // get only valid votes so vote.candidateId != null and vote.isNull = false
         ...uniqueParties.map((party) => {
           const votes = position.candidates
             .filter((candidate) => candidate.partyId === party.id)
@@ -133,9 +133,9 @@ export default async function handler(
 
           return votes.toString();
         }),
-        position.votes.filter((ballot) => ballot.isNull).length.toString(),
+        position.votes.filter((vote) => vote.isNull).length.toString(),
         position.votes
-          .filter((ballot) => !ballot.candidateId && !ballot.isNull)
+          .filter((vote) => !vote.candidateId && !vote.isNull)
           .length.toString(),
         totalVotes.toString(),
         absentVoters.toString(),

@@ -43,19 +43,17 @@ export async function POST(request: Request, { params }: IParams) {
       });
     }
 
-    if (election.isCompleted) {
-      return new Response('No se puede editar una elección completada', {
+    if (
+      dayjs().isAfter(election.startsAt) &&
+      dayjs().isBefore(election.endsAt)
+    ) {
+      return new Response('No se puede editar una elección en curso', {
         status: 400,
       });
     }
 
-    const currentDate = new Date();
-
-    if (
-      dayjs(currentDate).isAfter(election.startsAt) &&
-      dayjs(currentDate).isBefore(election.endsAt)
-    ) {
-      return new Response('No se puede editar una elección en curso', {
+    if (dayjs().isAfter(election.endsAt)) {
+      return new Response('No se puede editar una elección completada', {
         status: 400,
       });
     }

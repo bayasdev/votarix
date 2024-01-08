@@ -10,13 +10,13 @@ interface CandidatePhotoProps extends AvatarProps {
 
 export function CandidatePhoto({ candidate }: CandidatePhotoProps) {
   return (
-    <Avatar className="h-32 w-32">
+    <Avatar className="h-24 w-24">
       {candidate?.imageUrl ? (
         <AvatarImage alt={candidate.name} src={candidate.imageUrl} />
       ) : (
         <AvatarFallback>
           <span className="sr-only">{candidate.name}</span>
-          <Icons.user className="h-16 w-16" />
+          <Icons.user className="h-12 w-12" />
         </AvatarFallback>
       )}
     </Avatar>
