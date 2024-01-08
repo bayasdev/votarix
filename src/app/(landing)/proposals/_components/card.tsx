@@ -1,0 +1,51 @@
+'use client';
+
+import Link from 'next/link';
+import { CalendarClock, ArrowRightCircle } from 'lucide-react';
+import dayjs from 'dayjs';
+
+import { SafeElection } from '@/types';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+
+interface ElectionCardProps {
+  election: SafeElection;
+}
+
+const ElectionCard: React.FC<ElectionCardProps> = ({ election }) => {
+  return (
+    <Card className="flex flex-col justify-between">
+      <CardHeader>
+        <CardTitle className="tracking-tight">{election.name}</CardTitle>
+        <CardDescription className="flex flex-wrap items-center gap-2">
+          <CalendarClock className="h-4 w-4" />
+          {dayjs(election.startsAt).format('DD/MM/YYYY HH:mm')}
+          {' - '}
+          {dayjs(election.endsAt).format('DD/MM/YYYY HH:mm')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>{election.description}</CardContent>
+      <CardFooter>
+        <div className="flex w-full justify-end space-x-2 pt-6">
+          <Link
+            href={`/proposals/${election.id}`}
+            className={cn(buttonVariants())}
+          >
+            <ArrowRightCircle className="mr-2 h-5 w-5" />
+            Ver propuestas
+          </Link>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default ElectionCard;

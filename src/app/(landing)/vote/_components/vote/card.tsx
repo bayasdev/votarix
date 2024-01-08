@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Check } from 'lucide-react';
 
 import { ElectionDataParty } from '@/types';
 import {
