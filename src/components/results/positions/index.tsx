@@ -54,7 +54,7 @@ export const ResultsByPosition: React.FC<ResultsByPositionProps> = ({
                 <VotesBreakdownChart
                   totalValidVotes={position.totalValidVotes}
                   totalNullVotes={position.totalNullVotes}
-                  totalBlankVotes={position.totalNullVotes}
+                  totalBlankVotes={position.totalBlankVotes}
                 />
               </div>
             </div>

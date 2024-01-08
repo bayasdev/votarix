@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { ElectionDataResponse } from '@/types';
 import { VoteRequest, VoteValidator } from '@/lib/validators/vote';
 import Heading from '@/components/shared/heading';
+import ConfirmVoteModal from '@/components/modals/confirm-vote-modal';
 import {
   Form,
   FormField,
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/form';
 import VoteCard from '@/app/(landing)/vote/_components/vote/card';
 import { Button } from '@/components/ui/button';
-import ConfirmVoteModal from '@/components/modals/confirm-vote-modal';
 import { toast } from '@/components/ui/use-toast';
 import { Alert } from '@/components/ui/alert';
 import { useTimer } from '@/hooks/use-timer';
@@ -53,8 +53,6 @@ const VoteForm: React.FC<VoteFormProps> = ({ electionData }) => {
   });
 
   const onSubmit: SubmitHandler<VoteRequest> = (data) => {
-    console.log(data);
-    return;
     setIsLoading(true);
     axios
       .post(`/api/vote/${electionData?.id}`, data)

@@ -16,6 +16,12 @@ enum Role {
   VOTER
 }
 
+enum VoteType {
+  VALID
+  NULL
+  BLANK
+}
+
 enum CandidateType {
   PRIMARY
   SECONDARY
@@ -33,7 +39,7 @@ enum EntityType {
   POSITION
   PARTY
   CANDIDATE
-  BALLOT
+  VOTE
   CERTIFICATE
 }
 
@@ -161,7 +167,8 @@ model Candidate {
 }
 
 model Vote {
-  id String @id @default(cuid())
+  id   String   @id @default(cuid())
+  type VoteType @default(VALID)
 
   election   Election @relation(fields: [electionId], references: [id])
   electionId String
@@ -171,8 +178,6 @@ model Vote {
 
   party   Party?  @relation(fields: [partyId], references: [id])
   partyId String?
-
-  isNull Boolean @default(false)
 
   @@map("votes")
 }

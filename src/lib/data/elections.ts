@@ -358,10 +358,9 @@ export async function getElectionResultsById(
       return null;
     }
 
-    const registeredVoters = data._count.voters || 0;
-    const totalVoters = data._count.certificates || 0;
-    const totalAbsentVoters =
-      registeredVoters - (data._count.certificates || 0);
+    const registeredVoters = data._count.voters;
+    const totalVoters = data._count.certificates;
+    const totalAbsentVoters = registeredVoters - totalVoters;
 
     const electionResults: ElectionResultsResponse = {
       id: data.id,
@@ -384,20 +383,19 @@ export async function getElectionResultsById(
             imageUrl: candidate.imageUrl as string,
             type: candidate.type,
           })),
-          totalVotes: party._count.votes || 0,
-          percentage: party._count.votes / position.votes.length || 0,
+          totalVotes: party._count.votes,
+          percentage:
+            (party._count.votes /
+              position.votes.filter((vote) => vote.type === 'VALID').length) *
+              100 || 0,
         })),
         totalVotes: position.votes.length,
-        // validVotes where vote.isNull === false and vote.partyId !== null
-        totalValidVotes: position.votes.filter(
-          (vote) => !vote.isNull && vote.partyId !== null,
-        ).length,
-        // nullVotes where vote.isNull === true
-        totalNullVotes: position.votes.filter((vote) => vote.isNull).length,
-        // blankVotes where vote.isNull === false and vote.partyId === null
-        totalBlankVotes: position.votes.filter(
-          (vote) => !vote.isNull && vote.partyId === null,
-        ).length,
+        totalValidVotes: position.votes.filter((vote) => vote.type === 'VALID')
+          .length,
+        totalNullVotes: position.votes.filter((vote) => vote.type === 'NULL')
+          .length,
+        totalBlankVotes: position.votes.filter((vote) => vote.type === 'BLANK')
+          .length,
       })),
       registeredVoters,
       totalVoters,

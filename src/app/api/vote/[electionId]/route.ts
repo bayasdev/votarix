@@ -59,25 +59,57 @@ export async function POST(request: Request, { params }: IParams) {
 
     const body = await request.json();
 
-    const { vote } = VoteValidator.parse(body);
-    const { partyId, isNull } = vote;
+    const { votes } = VoteValidator.parse(body);
 
     // create vote
 
-    await prisma.vote.create({
-      data: {
-        electionId: electionId as string,
-        partyId: partyId as string,
-        isNull: isNull,
-      },
-    });
+    votes.forEach(async (vote) => {
+      let checkedSelections = 0;
+      let checkedPartyId = '';
 
-    // vote id is not logged to keep anonymity
+      vote.selection.forEach(async (selection) => {
+        if (selection.isChecked) {
+          checkedSelections += 1;
+          checkedPartyId = selection.partyId;
+        }
+      });
 
-    await createAuditLog({
-      action: 'CREATE',
-      entityId: electionId,
-      entityType: 'BALLOT',
+      if (checkedSelections === 0) {
+        await prisma.vote.create({
+          data: {
+            type: 'BLANK',
+            electionId: electionId,
+            positionId: vote.positionId,
+          },
+        });
+      }
+
+      if (checkedSelections === 1) {
+        await prisma.vote.create({
+          data: {
+            type: 'VALID',
+            electionId: electionId,
+            positionId: vote.positionId,
+            partyId: checkedPartyId,
+          },
+        });
+      }
+
+      if (checkedSelections > 1) {
+        await prisma.vote.create({
+          data: {
+            type: 'NULL',
+            electionId: electionId,
+            positionId: vote.positionId,
+          },
+        });
+      }
+
+      // vote id is not logged to keep anonymity
+      await createAuditLog({
+        action: 'CREATE',
+        entityType: 'VOTE',
+      });
     });
 
     // create certificate
