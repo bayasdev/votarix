@@ -1,9 +1,9 @@
 import { columns } from '@/app/dashboard/parties/_components/columns';
 import { DataTable } from '@/components/ui/data-table';
-import { SafeParty } from '@/types';
+import { SafePartyWithPositionAndElection } from '@/types';
 
 interface PartysClientProps {
-  parties: SafeParty[] | null;
+  parties: SafePartyWithPositionAndElection[] | null;
 }
 
 const PartysClient: React.FC<PartysClientProps> = ({ parties }) => {

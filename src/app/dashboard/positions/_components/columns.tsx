@@ -19,7 +19,7 @@ export const columns: ColumnDef<SafePositionWithElection>[] = [
       <DataTableColumnHeader column={column} title="Elección" />
     ),
     cell: ({ row }) => {
-      return <span>{row.original.election?.name ?? 'Sin elección'}</span>;
+      return <span>{row.original.electionName}</span>;
     },
   },
   {

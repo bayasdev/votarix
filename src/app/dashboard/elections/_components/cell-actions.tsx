@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Copy, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import axios from 'axios';
 
-import { SafeElectionWithStatus } from '@/types';
+import { SafeElection } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import AlertModal from '@/components/modals/alert-modal';
 import { toast } from '@/components/ui/use-toast';
 
 interface CellActionsProps {
-  data: SafeElectionWithStatus;
+  data: SafeElection;
 }
 
 const CellActions: React.FC<CellActionsProps> = ({ data }) => {

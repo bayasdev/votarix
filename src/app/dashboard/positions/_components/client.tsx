@@ -1,9 +1,9 @@
 import { columns } from '@/app/dashboard/positions/_components/columns';
 import { DataTable } from '@/components/ui/data-table';
-import { SafePosition } from '@/types';
+import { SafePositionWithElection } from '@/types';
 
 interface PositionsClientProps {
-  positions: SafePosition[] | null;
+  positions: SafePositionWithElection[] | null;
 }
 
 const PositionsClient: React.FC<PositionsClientProps> = ({ positions }) => {
