@@ -339,7 +339,9 @@ export async function getElectionResultsById(
                 },
               },
               orderBy: {
-                name: 'asc',
+                votes: {
+                  _count: 'desc',
+                },
               },
             },
             votes: true,
