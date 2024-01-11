@@ -1,4 +1,4 @@
-import { Action, EntityType, Role } from '@prisma/client';
+import { Action, EntityType } from '@prisma/client';
 
 import { getCurrentUser } from '../session';
 import { prisma } from '../db';
