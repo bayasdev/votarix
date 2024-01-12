@@ -126,8 +126,6 @@ model Position {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("positions")
 }
 
 model Party {
