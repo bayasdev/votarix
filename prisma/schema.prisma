@@ -87,7 +87,7 @@ model User {
   sessions Session[]
 
   certificates Certificate[]
-  elections    Election[]    @relation("election_users")
+  elections    Election[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -103,7 +103,7 @@ model Election {
   endsAt      DateTime
 
   positions    Position[]
-  voters       User[]        @relation("election_users")
+  voters       User[]
   votes        Vote[]
   certificates Certificate[]
 
