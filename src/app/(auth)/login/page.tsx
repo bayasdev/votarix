@@ -6,6 +6,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/shared/icons';
 import { LoginForm } from '@/app/(auth)/_components/login-form';
 import { siteConfig } from '@/config/site';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Iniciar sesión',
@@ -36,7 +37,9 @@ export default function LoginPage() {
             Inicia sesión para continuar
           </p>
         </div>
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
         {siteConfig.signupAllowed && (
           <p className="px-8 text-center text-sm text-muted-foreground">
             <Link
