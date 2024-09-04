@@ -86,7 +86,7 @@ export default async function handler(
         fit: [logoWidth, logoHeight],
         align: 'center',
       });
-      doc.moveDown(1);
+      doc.moveDown(2);
 
       doc.font('Helvetica-Bold').fontSize(12).text('TRIBUNAL ELECTORAL', {
         align: 'center',

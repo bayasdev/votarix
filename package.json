@@ -44,7 +44,7 @@
     "next": "14.2.7",
     "next-auth": "^4.24.7",
     "papaparse": "^5.4.1",
-    "pdfkit": "^0.15.0",
+    "pdfkit": "0.14.0",
     "pdfkit-table": "^0.1.99",
     "prisma": "^5.19.1",
     "qrcode": "^1.5.4",
