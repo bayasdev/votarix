@@ -30,6 +30,8 @@ export const metadata = {
   description: siteConfig.description,
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
