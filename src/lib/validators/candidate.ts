@@ -1,5 +1,5 @@
 import { z } from 'zod';
-// import { validateDocument } from '../helpers/validate-document';
+// import { isCedula } from 'validator-ec';
 
 export const CandidateValidator = z.object({
   name: z.string().min(1, 'El campo es requerido'),
@@ -9,7 +9,7 @@ export const CandidateValidator = z.object({
     .min(1, 'El campo es requerido'),
   document: z
     .string()
-    // .refine((value) => validateDocument(value || ''), {
+    // .refine((value) => isCedula(value || ''), {
     //   message: 'El número de cédula ingresado no es válido',
     // }),
     .min(1, 'El campo es requerido'),

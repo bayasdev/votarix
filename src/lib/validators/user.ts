@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { validateDocument } from '@/lib/helpers/validate-document';
+import { isCedula } from 'validator-ec';
 
 export const UserValidator = z.object({
   name: z.string().min(1, 'Ingrese su nombre'),
-  document: z.string().refine((value) => validateDocument(value || ''), {
+  document: z.string().refine((value) => isCedula(value || ''), {
     message: 'El número de cédula ingresado no es válido',
   }),
   email: z
